@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Macro</title>
+    <link rel="icon" type="image/ico" href="./favicon.ico">
+
+    <link rel="manifest" href="./img/icons/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBh7dGkNs59N2UJ52CDSzU9w9lHyeGZ1T8",
+            authDomain: "mobile-dock.firebaseapp.com",
+            databaseURL: "https://mobile-dock.firebaseio.com",
+            projectId: "mobile-dock",
+            storageBucket: "mobile-dock.appspot.com",
+            messagingSenderId: "18311710680",
+            appId: "1:18311710680:web:b6de3ceda63a212f"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="./theme.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="drag-area">
+        <div id="close-button" class="material-icons  top-button electron-visible">close</div>
+    </div>
+    <div id="login-forms">
+        <div id="sign-up-form" style="display:none" class="login-area">
+            <img src="./img/icons/apple-touch-icon-152x152.png" width="100px" height="100px"/>
+
+            <div class="form-area">
+                <div class="text-label">Email</div>
+                <input id="new-email" type="email" class="text-field text-field-sm">
+            </div>
+            <div class="form-area">
+                <div class="text-label">Password</div>
+                <input id="new-password" type="password" class="text-field text-field-sm">
+            </div>
+            <div class="form-area">
+                <div class="text-label">Confirm Password</div>
+                <input id="confirm-password" type="password" class="text-field text-field-sm">
+            </div>
+            <button id="signup" class="text-button blue-border" onclick="signup()"> Sign Up</button>
+            <br>
+            <br>
+            <button class="text-button no-outline" onclick="switchToLoginForm()"> Or Login</button>
+        </div>
+        <div id="login-form" class="login-area">
+                <img src="./img/icons/apple-touch-icon-152x152.png" width="100px" height="100px"/>
+
+            <div class="form-area">
+                <div class="text-label">Email</div>
+                <input id="email" type="email" class="text-field text-field-sm">
+            </div>
+            <div class="form-area">
+                <div class="text-label">Password</div>
+                <input id="password" type="password" class="text-field text-field-sm">
+            </div>
+            <button class="text-button blue-border" onclick="login()"> Login</button>
+            <br>
+            <br>
+            <button id="login" class="text-button no-outline" onclick="switchToSignUpForm()"> Or Sign Up</button>
+        </div>
+    </div>
+</body>
+<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="utils.js"></script>
+<script src="./login.js">
+
+</script>
+<script type="text/javascript">
+    //This is the "Offline copy of pages" service worker
+
+    //Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+    if (navigator.serviceWorker.controller) {
+        console.log('[PWA Builder] active service worker found, no need to register')
+    } else {
+        //Register the ServiceWorker
+        navigator.serviceWorker.register('pwabuilder-sw.js', {
+            scope: './'
+        }).then(function (reg) {
+            console.log('Service worker has been registered for scope:' + reg.scope);
+        });
+    }
+</script>
+<script>if (window.module) module = window.module;</script>
+
+
+</html>

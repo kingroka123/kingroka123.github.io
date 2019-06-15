@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Macro</title>
+    <link rel="icon" type="image/ico" href="./favicon.ico">
+    <link rel="manifest" href="./img/icons/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBh7dGkNs59N2UJ52CDSzU9w9lHyeGZ1T8",
+            authDomain: "mobile-dock.firebaseapp.com",
+            databaseURL: "https://mobile-dock.firebaseio.com",
+            projectId: "mobile-dock",
+            storageBucket: "mobile-dock.appspot.com",
+            messagingSenderId: "18311710680",
+            appId: "1:18311710680:web:b6de3ceda63a212f"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="./theme.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="preloader">
+        <div id="preloader-content">
+            <img src="./img/icons/apple-touch-icon-114x114.png" />
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="controls">
+
+            <div id="logout-area">
+                <label id="name-display"></label>
+                <button class="text-button red-border" onclick="logout()">logout</button>
+                <button id="close-button" class="text-button no-outline material-icons electron-visible"
+                    style="display: none" onclick="hideWindow()">close</button>
+            </div>
+            <div id="edit-controls">
+                <button id="fullscreen-button" class="text-button electron-hidden" onclick="fullscreen()">hide</button>
+                <button id="edit-button" class="text-button" onclick="edit()">Macros</button>
+            </div>
+        </div>
+        <div id="exit-fullscreen" class=" material-icons" onclick="exitFull()">arrow_back </div>
+        <button id="cancel-button" class="text-button red-border red"
+            style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
+            onclick="cancelSet()">cancel</button>
+        <div id="macro-area">
+
+        </div>
+
+    </div>
+
+    <div id="edit-form" class="content" style="min-width: 640px;">
+        <div id="wizard-area" class="content" data-target="" style="display:none;">
+            <button class="text-button"
+                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">back</button>
+
+            <h3>Macro Generator</h3>
+
+            <br>
+            <br>
+            <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
+                type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
+            <div id="action-colors">
+                <div class="color-button red" onclick="selectColor(this)" data-color-selected="true"></div>
+                <div class="color-button orange" onclick="selectColor(this)"></div>
+                <div class="color-button yellow" onclick="selectColor(this)"></div>
+                <div class="color-button green" onclick="selectColor(this)"></div>
+                <div class="color-button blue" onclick="selectColor(this)"></div>
+                <div class="color-button purple" onclick="selectColor(this)"></div>
+
+            </div>
+            <h4>Actions </h4>
+            <div id="action-list">
+
+            </div>
+            <button class="text-button macro-preset red-border" onclick="newAction('key', {keys:''})">Key</button>
+            <button class="text-button macro-preset yellow-border" onclick="newAction('file', {path:''})">File</button>
+            <button class="text-button macro-preset green-border" onclick="newAction('web', {url:''})">Website</button>
+            <button class="text-button macro-preset blue-border"
+                onclick="newAction('app', {path:'', args:''})">App</button>
+            <button class="text-button macro-preset purple-border"
+                onclick="newAction('custom', {cmd: ''})">Custom</button>
+
+            <br>
+            <br>
+
+            <button id="new-macro-button" class="text-button green-border text-field-medium"
+                onclick="saveMacro();">save</button>
+
+        </div>
+        <div id="macro-list-area">
+
+            <button class="text-button" onclick="closeEdit()">close</button>
+
+            <h3>Macro List</h3>
+            <button class="text-button" onclick="newMacro()">new Macro</button>
+            <div id="macro-list">
+
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div id="long-menu" class="white-border">
+        <div id="button-pointer-up"></div>
+        <div id="button-pointer-down"></div>
+
+        <button class="text-button red-border" onclick="clearSelectedMacroButton()">clear</button>
+        <div class="color-button red" onclick="selectColor(this);setSelectedColor();" data-color-selected="true"></div>
+        <div class="color-button orange" onclick="selectColor(this);setSelectedColor();"></div>
+        <div class="color-button yellow" onclick="selectColor(this);setSelectedColor();"></div>
+        <div class="color-button green" onclick="selectColor(this);setSelectedColor();"></div>
+        <div class="color-button blue" onclick="selectColor(this);setSelectedColor();"></div>
+        <div class="color-button purple" onclick="selectColor(this);setSelectedColor();"></div>
+        <button class="text-button blue-border" onclick="setSelectedMacroButton()">move</button>
+        <button class="text-button blue-border material-icons no-outline"
+            onclick="$('#long-menu').fadeOut();">close</button>
+
+    </div>
+
+
+
+</body>
+
+<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
+<script src="utils.js"></script>
+<script>
+    var buttonSize = 1;
+    var buttonsInRow = 5;
+    var totalButtons = 20;
+    var macroButtonTemplate =
+        `
+    <button class="text-button macro-button macro-button-empty blue-border" 
+            onclick="macro(this)" 
+            data-number="{{num}}" 
+            data-target=""
+            ></button>
+    `;
+
+    for (i = 0; i < totalButtons; i++) {
+        copy = macroButtonTemplate + "";
+        copy = copy.replaceAll("{{num}}", i);
+        document.querySelector("#macro-area").insertAdjacentHTML('beforeend', copy);
+    }
+    function sizeButtons() {
+        var contentWidth = window.innerWidth * .8;
+        var contentHeight = window.innerHeight;
+        var macroButtons = document.querySelectorAll(".macro-button");
+        var buttonsCols = totalButtons / buttonsInRow;
+        var he = Math.ceil(contentHeight / (buttonsCols + 1))
+        var we = Math.ceil(contentWidth / (buttonsInRow + 1));
+        var size = Math.min(we, he);
+        buttonSize = size;
+        macroButtons.forEach(function (button) {
+
+            button.style.width = we + "px";
+            button.style.height = size + "px";
+        });
+
+        list = document.querySelector("#macro-area");
+        list.classList.add("fullscreen-list");
+
+        // var buttonH = list.clientHeight;
+        // console.log(buttonH);
+        // var h = (window.innerHeight - buttonH) / 2;
+        // list.style.padding = h + "px 0px 0px 0px";
+        var w = (buttonsInRow + 1) * we;
+        list.style.width = w + "px";
+    }
+    sizeButtons();
+    window.onresize = sizeButtons;
+    function fullscreen() {
+
+        controls = document.querySelector("#controls");
+        exitF = document.querySelector("#exit-fullscreen");
+
+        $(controls).fadeOut(function () {
+            $(exitF).fadeIn();
+        });
+    }
+    function exitFull() {
+        // list = document.querySelector("#macro-area");
+        // list.classList.remove("fullscreen-list");
+        // list.style.padding = "0px";
+        controls = document.querySelector("#controls");
+
+        exitF = document.querySelector("#exit-fullscreen");
+        $(exitF).fadeOut(function () {
+            $(controls).fadeIn();
+        });
+    }
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        fullscreen();
+        sizeButtons();
+
+    }
+    var electron = null;
+
+
+</script>
+<script src="renderer.js"></script>
+<script src="db.js"></script>
+<script src="ui.js"></script>
+<script>if (window.module) module = window.module;</script>
+
+</html>
