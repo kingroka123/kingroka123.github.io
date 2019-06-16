@@ -30,7 +30,7 @@
 
         function install() {
             if (deferredPrompt) {
-                
+
 
                 deferredPrompt.prompt();
                 console.log(deferredPrompt)
@@ -62,14 +62,50 @@
         <section id="top">
             <div class="row justify-content-md-center">
                 <div class="col-md-6 center">
-                    <h3> Download </h3>
-                    <button class="text-button blue-border" onclick="install()">
-                        Install
-                    </button>
+                    <h2> Install Macro </h2>
+                    <br>
                 </div>
             </div>
         </section>
+        <section id="windows">
+            <div class="row justify-content-md-center">
 
+
+                <div class="col-md-6 center">
+                    <h3>Windows</h3>
+                    <h4>Run the installer and log in to Macro. The Macro desktop app must be
+                        running on a computer. However, the remote and client
+                        devices do not have to be connected to the same internet connection.
+                        Consider adding macro to the start-up programs. </h4>
+                    <button class="text-button blue-border"
+                        onclick="window.location='https://github.com/kingroka123/kingroka123.github.io/releases/download/0.0.1/online_macro-1.0.0-setup.exe'">
+                        Download .0.0.1 pre-alpha
+                    </button>
+                </div>
+
+            </div>
+        </section>
+        <br>
+        <section id="other">
+            <div class="row justify-content-md-center">
+
+
+                <div class="col-md-6 center">
+                    <h3>Other Devices (Chrome Browser)</h3>
+
+                    <h4>Android/IOS: Add this page to your homescreen.
+                        Click on the newly created icon to access the app </h4>
+                    <br>
+                    <h4>
+                        All devices running Chrome (and possibly other browsers) can use Macro in the browser. 
+                        Just click login to begin.
+                    </h4>
+                    <button class="text-button   text-field-short blue-border" onclick="redirect('/login.html')"> login</button>
+
+                </div>
+                <br>
+            </div>
+        </section>
     </div>
 
 </body>
