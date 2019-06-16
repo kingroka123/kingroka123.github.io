@@ -237,7 +237,7 @@ class KeyAction extends HTMLElement {
 
     setCommand() {
         $(this).find("input").val(this.getAttribute('keys'));
-        this.setAttribute("command", "echo key & powershell .\\scriptsrc\\windows\\keypress.ps1 '" + this.getAttribute('keys') + "'")
+        this.setAttribute("command", "echo key & powershell \"$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys(\'"+ this.getAttribute('keys')+"\');\"")
     }
     connectedCallback() {
         this.innerHTML = keyAction + "";
