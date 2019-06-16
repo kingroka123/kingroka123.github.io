@@ -1,5 +1,14 @@
+@font-face {
+  font-family: 'monospacemedium';
+  src: url('/img/monospace-webfont.woff2') format('woff2'),
+       url('/img/monospace-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 * {
-  font-family:  monospace,'Courier New', Courier, sans-serif;
+  font-family: monospace;
 
   color: white;
   -webkit-user-select: none;
