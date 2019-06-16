@@ -2,7 +2,7 @@
 	"name": "Macro",
 	"short_name": "Macro",
 	"lang": "en-US",
-	"start_url": "./app.html",
+	"start_url": "/app.html",
 	"background_color": "#263238",
 	"theme_color": "#03A9F4",
 	"display": "fullscreen",
