@@ -1,5 +1,6 @@
 * {
-  font-family: "Roboto", sans-serif;
+  font-family:  monospace,'Courier New', Courier, sans-serif;
+
   color: white;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -387,11 +388,12 @@ textarea {
 }
 
 .right-side {
-  text-align: right;
+  float:right
 }
 
 .left-side {
-  text-align: left;
+ float:left;
+ margin-right: 5px;
 }
 .advanced-section {
   margin-top: 15px;
@@ -478,7 +480,7 @@ textarea {
   display: none;
 }
 
-#button-pointer-up{
+#button-pointer-up {
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
@@ -488,17 +490,16 @@ textarea {
   position: fixed;
   z-index: -1;
 }
-#button-pointer-down{
-	width: 0;
-	height: 0;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
+#button-pointer-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
   border-top: 20px solid white;
-  
+
   position: fixed;
   z-index: -1;
 }
-
 
 /* spinner */
 .spinner {
@@ -550,4 +551,87 @@ textarea {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
+}
+
+/* index */
+#navigation{
+  text-align: right;
+  margin: 15px;
+}
+#logo{
+  margin-bottom: calc(-.01 * 100vw);
+}
+
+.drop{
+  box-shadow: 0 0px 6px  3px rgba(0, 0, 0, 0.20);
+  border-radius: 4px;
+}
+.space{
+  padding: 30px;
+}
+h4{
+  color: #8eacbb;
+}
+.mleft{
+  text-align: left;
+}
+
+.mright{
+  text-align: right;
+}
+
+.center{
+  text-align: center;
+}
+
+#media-col{
+}
+
+a{
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: none;
+}
+
+a:visited{
+  text-decoration: none;
+}
+
+.fleft{
+  display:none;
+}
+
+#info{
+  margin-bottom: 100px;
+
+}
+ /* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  #media-col{
+    width: 100vw;
+  }
+  #navigation{
+    text-align: center;
+  }
+}
+
+ /* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .fleft{
+    display:block;
+  }
+
+  .fright{
+    display:none;
+  }
+  
+}
+
+ /* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+ /* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
 }

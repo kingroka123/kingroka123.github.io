@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Macro</title>
+    <link rel="icon" type="image/ico" href="./favicon.ico">
+    <link rel="manifest" href="./img/icons/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="./theme.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+        });
+
+        function install() {
+            if (deferredPrompt) {
+                
+
+                deferredPrompt.prompt();
+                console.log(deferredPrompt)
+                deferredPrompt.userChoice.then(function (choiceResult) {
+
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Your PWA has been installed');
+                    } else {
+                        console.log('User chose to not install your PWA');
+                    }
+
+                    deferredPrompt = null;
+
+                });
+
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="navigation">
+        <button class="text-button  text-field-short" onclick="redirect('/index.html')"> home</button>
+        <button class="text-button  text-field-short" onclick="redirect('/download.html')"> download</button>
+        <button class="text-button   text-field-short" onclick="redirect('/login.html')"> login</button>
+    </div>
+    <div id="info" class="container" style="margin-top: 50px;">
+        <section id="top">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6 center">
+                    <h3> Download </h3>
+                    <button class="text-button blue-border" onclick="install()">
+                        Install
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
+<script src="utils.js"></script>
+
+<script>if (window.module) module = window.module;</script>
+
+
+</html>

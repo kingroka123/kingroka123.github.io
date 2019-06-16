@@ -2,7 +2,7 @@ function moveUp(elem) {
     var parent = $(elem).parent();
     var index = elem.index();
     if (index > 0) {
-        var above = parent.children().toArray()[index -1];
+        var above = parent.children().toArray()[index - 1];
         elem.detach();
         elem.insertBefore(above);
     }
@@ -11,8 +11,8 @@ function moveDown(elem) {
     var parent = $(elem).parent();
     var index = elem.index();
     var array = parent.children().toArray();
-    if (index < array.length-1) {
-        var above = array[index +1];
+    if (index < array.length - 1) {
+        var above = array[index + 1];
         elem.detach();
         elem.insertAfter(above);
     }
@@ -21,17 +21,17 @@ function moveDown(elem) {
 
 var actionTop =
     `
-<div class="macro-list-item-top left-side">
-    <button class="text-button material-icons blue-border"
-    onclick="moveUp($(this).parent().parent().parent().parent())">arrow_drop_up</button>
-    <button class="text-button material-icons blue-border"
-    onclick="moveDown($(this).parent().parent().parent().parent())">arrow_drop_down</button>
-</div>
-<div class="macro-list-item-top right-side">
-    <button class="text-button material-icons red-border"
-    onclick="$(this).parent().parent().parent().parent().remove()">close</button>
-</div>
+    <div>
+        <button class="text-button material-icons white-border left-side"
+        onclick="moveUp($(this).parent().parent().parent().parent())">arrow_drop_up</button>
+        <button class="text-button material-icons white-border left-side"
+        onclick="moveDown($(this).parent().parent().parent().parent())">arrow_drop_down</button>
 
+        <button class="right-side text-button material-icons red-border"
+        onclick="$(this).parent().parent().parent().parent().remove()">close</button>
+        <br>
+        <br>
+    </div>
 `;
 
 class ActionTop extends HTMLElement {
@@ -301,15 +301,15 @@ function elementsFromCommand(command) {
             } else if (type == "app") {
                 var opath = fragments[0].replaceAll('"', "");
                 var oargs = fragments[1];
-                if(oargs == undefined){
+                if (oargs == undefined) {
                     oargs = "";
                 }
                 newAction("app", { path: opath, args: oargs });
-               // console.log("app action: " + opath + " args: " + oargs);
+                // console.log("app action: " + opath + " args: " + oargs);
             } else if (type == "custom") {
                 var ocmd = part;
                 newAction("custom", { cmd: ocmd });
-               // console.log("custom action: " + ocmd);
+                // console.log("custom action: " + ocmd);
             }
             type = null;
         }

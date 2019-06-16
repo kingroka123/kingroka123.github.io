@@ -8,20 +8,84 @@
     <link rel="icon" type="image/ico" href="./favicon.ico">
     <link rel="manifest" href="./img/icons/manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="./theme.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <div class="content">
-        <img src="./img/icons/apple-touch-icon-152x152.png">
-        <h1>Macro</h1>
-        <h4>Remote Shortcuts for your PC</h4>
+    <div id="navigation">
+        <button class="text-button  text-field-short" onclick="redirect('/index.html')"> home</button>
+        <button class="text-button  text-field-short" onclick="redirect('/download.html')"> download</button>
+        <button class="text-button   text-field-short" onclick="redirect('/login.html')"> login</button>
+    </div>
+    <div  id= "info" class="container" style="margin-top: 50px;">
+        <section id="top">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6 center">
+                    <img id="logo" src="./img/macro-logo.png" width="100%">
+                    <h4>Control your PC with your Phone</h4>
+                </div>
+            </div>
+        </section>
+        <section id="actions">
+            <div class="row">
+                <div class="col-md-8 mright space" style="text-align: right;">
+                    <img src="./img/generator.png" class="drop" style="width:100%;">
+                </div>
+                <div class="col-md-4 mleft space">
+                    <h3>Easily Create Macros with the Macro Generator</h3>
+                    <h4>> Create macros with multiple actions with ease.
+                        Rearrange the order of the sections to change the
+                        order each action takes place. </h4>
+                </div>
+            </div>
+        </section>
+        <section id="pads">
+            <div class="row">
+                <div class="col-md-8 mleft space fleft" style="text-align: right;">
+                    <img src="./img/pads.png" class="drop " style="width:100%;">
+                </div>
+                <div class="col-md-4 mleft space">
+                    <h3>Customize Your Dashboard</h3>
+                    <h4>> Change to position, color, and label of
+                        your macro pads to truly make your dashboard uniquely yours.
+                    </h4>
+                </div>
+                <div class="col-md-8 mleft space" style="text-align: right;">
+                    <img src="./img/pads.png" class="drop fright" style="width:100%;">
+                </div>
+            </div>
+        </section>
+        <section id="devices">
+            <div class="row">
+                <div class="col-md-8 mleft space" style="text-align: right;">
+                    <img src="./img/mockup.png" class="" style="width:100%;">
+                </div>
+                <div class="col-md-4 mleft space">
+                    <h3>Control your PC with Any Device that has a Web Browser</h3>
+                    <h4>> Macro is constructed as a <a href="https://developers.google.com/web/progressive-web-apps/"
+                            target="_blank"> progressive web app.</a>
+                        This means that you can access Macro from any device that runs Chrome.
+                    </h4>
+                </div>
+
+            </div>
+        </section>
+        <section id="cta">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6 center">
+                    <button class="text-button text-field-medium green-border" style="height: 56px;" onclick="redirect('/download.html')">Get Started!</button>
+                </div>
+            </div>
+        </section>
     </div>
 
 </body>
