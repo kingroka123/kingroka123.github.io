@@ -54,14 +54,15 @@
                     style="display: none" onclick="hideWindow()">close</button>
             </div>
             <div id="edit-controls">
-                <img style="display: inline-block; vertical-align: middle;" src="./img/icons/apple-touch-icon-152x152.png" width="44">
+                <img style="display: inline-block; vertical-align: middle;"
+                    src="./img/icons/apple-touch-icon-152x152.png" width="44">
 
                 <button id="fullscreen-button" class="text-button electron-hidden" onclick="fullscreen()">hide</button>
-                <button  id="edit-button" class="text-button" onclick="edit()">Macros</button>
+                <button id="edit-button" class="text-button" onclick="edit()">Macros</button>
             </div>
 
         </div>
-        
+
         <div id="exit-fullscreen" class=" material-icons" onclick="exitFull()">arrow_back </div>
         <button id="cancel-button" class="text-button red-border red"
             style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
@@ -224,7 +225,35 @@
     }
     var electron = null;
 
+    window.isUpdateAvailable = new Promise(function (resolve, reject) {
+        // lazy way of disabling service workers while developing
+        if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
+            // register service worker file
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => {
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            switch (installingWorker.state) {
+                                case 'installed':
+                                    if (navigator.serviceWorker.controller) {
+                                        // new update available
+                                        resolve(true);
+                                        alert("there is an update available")
+                                    } else {
+                                        // no update available
+                                        resolve(false);
+                                        alert("No update available")
 
+                                    }
+                                    break;
+                            }
+                        };
+                    };
+                })
+                .catch(err => console.error('[SW ERROR]', err));
+        }
+    });
 </script>
 <script src="renderer.js"></script>
 <script src="db.js"></script>
