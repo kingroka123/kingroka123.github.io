@@ -235,6 +235,7 @@ class KeyAction extends HTMLElement {
         this.setCommand();
     }
 
+    getBoundingClientRect
     setCommand() {
         $(this).find("input").val(this.getAttribute('keys'));
         this.setAttribute("command", "echo key & powershell \"$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys(\'"+ this.getAttribute('keys')+"\');\"")
@@ -287,7 +288,9 @@ function elementsFromCommand(command) {
             var fragments = part.match(/(?:[^\s"]+|"[^"]*")+/g);
 
             if (type == "key") {
-                var okeys = fragments[2].replaceAll("'", "");
+                var firstQuote = part.nthIndexOf("'", 1);
+                var secondQuote = part.nthIndexOf("'", 2);
+                var okeys = part.substring(firstQuote+1, secondQuote)
                 newAction("key", { keys: okeys });
                 // console.log("key action: " + okeys);
             } else if (type == "file") {

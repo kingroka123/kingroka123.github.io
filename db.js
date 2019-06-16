@@ -186,7 +186,7 @@ function saveMacro() {
     var id = document.querySelector("#wizard-area").dataset.target;
     var name = $("#wizard-action-name").val();
     var c = commandFromElements();
-    console.log(`${id} . ${name} . ${c}`)
+    // console.log(`${id} . ${name} . ${c}`)
     updateMacro(id, name, c, getColor())
     $('#wizard-area').fadeOut(function () { $('#macro-list-area').fadeIn(); });
 }
