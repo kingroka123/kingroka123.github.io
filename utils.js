@@ -71,11 +71,7 @@ function electronUI(e) {
     }
 }
 
-function linkAttr(input, target, attr) {
-    $(input).bind('input', function () {
-        $(target).attr(attr, $(input).val());
-    });
-}
+
 
 function vibrate(pattern){
     window.navigator.vibrate(pattern);
@@ -92,3 +88,10 @@ String.prototype.nthIndexOf = function(pattern, n) {
 
     return i;
 }
+
+function linkAttr(input, target, attr) {
+    $(input).bind('input', function () {
+        $(target).attr(attr, $(input).val());
+    });
+}
+

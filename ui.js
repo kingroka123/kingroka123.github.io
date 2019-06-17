@@ -238,7 +238,7 @@ class KeyAction extends HTMLElement {
     getBoundingClientRect
     setCommand() {
         $(this).find("input").val(this.getAttribute('keys'));
-        this.setAttribute("command", "echo key & powershell \"$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys(\'"+ this.getAttribute('keys')+"\');\"")
+        this.setAttribute("command", "echo key & powershell \"$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys(\'" + encode(this.getAttribute('keys')) + "\');\"")
     }
     connectedCallback() {
         this.innerHTML = keyAction + "";
@@ -248,6 +248,65 @@ class KeyAction extends HTMLElement {
     }
 }
 window.customElements.define('action-key', KeyAction);
+
+function encode(raw) {
+    var open = false;
+    var full = "";
+    for (var i = 0; i < raw.length; i++) {
+        var c = raw.charAt(i);
+        if (c == "{") {
+            if (!open) {
+                open = true;
+            }
+        }
+        if (!open) {
+            if (c == "}") {
+                full += c;
+            } else {
+                full += "{" + c + "}";
+
+            }
+        } else {
+            full += c;
+        }
+        if (c == "}") {
+            if (open) {
+                open = false;
+            }
+        }
+    }
+    return full;
+}
+
+function decode(encoded) {
+    var open = false;
+    var full = "";
+    var temp = "";
+    for (var i = 0; i < encoded.length; i++) {
+        var c = encoded.charAt(i);
+        if (c == "{" && !open) {
+            open = true;
+        } else if (c == "}" && open) {
+            open = false;
+            if (temp.length > 1) {
+                full += "{" + temp + "}"
+            } else {
+                full += temp
+            }
+            temp = "";
+            open = false;
+        } else {
+            if (open) {
+                temp += c;
+
+            } else {
+                full += c;
+            }
+        }
+    }
+
+    return full;
+}
 
 
 function newAction(type, vals) {
@@ -290,8 +349,8 @@ function elementsFromCommand(command) {
             if (type == "key") {
                 var firstQuote = part.nthIndexOf("'", 1);
                 var secondQuote = part.nthIndexOf("'", 2);
-                var okeys = part.substring(firstQuote+1, secondQuote)
-                newAction("key", { keys: okeys });
+                var okeys = part.substring(firstQuote + 1, secondQuote)
+                newAction("key", { keys: decode(okeys) });
                 // console.log("key action: " + okeys);
             } else if (type == "file") {
                 var opath = fragments[1].replaceAll('"', "");
