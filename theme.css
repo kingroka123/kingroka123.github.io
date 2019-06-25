@@ -373,7 +373,7 @@ body {
 
 textarea {
   resize: vertical;
-  height: 200px !important;
+  height: 50px !important;
 }
 
 .macro-list-item h5 {
@@ -610,6 +610,10 @@ a:visited{
   margin-bottom: 100px;
 
 }
+
+h5{
+  font-size:18px;
+}
  /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
   #media-col{
@@ -637,6 +641,7 @@ a:visited{
   .macro-button{
     font-size:16px;
   }
+ 
 }
 
  /* Extra large devices (large desktops, 1200px and up) */

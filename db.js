@@ -3,14 +3,14 @@ macroListRef = null;
 macroQueueRef = null;
 var macroEntry =
     `
-<div  class="macro-entry" data-id="{{id}}" data-command="{{command}}" data-name="{{name}}">
-    <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-id='{{id}}']" autocapitalize="none" class="macro-name text-field text-field-sm text-field-medium" data-id="{{id}}" placeholder="Name" value="{{name}}"
+<div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
+    <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" class="macro-name text-field text-field-sm text-field-medium" data-target="{{id}}" placeholder="Name" value="{{name}}"
         disabled>
    
-    <button class="text-button blue-border" onclick="setMacro(this)" data-id="{{id}}">set</button>
-    <button class="text-button yellow-border" onclick="editMacro(this)" data-id="{{id}}">edit</button>
-    <button class="text-button red-border" onclick="deleteMacro(this)" data-id="{{id}}">delete</button>
-    <button style="display: none" class="text-button save-macro-button green-border" onclick="saveMacro(this)" data-id="{{id}}">save</button>
+    <button class="text-button blue-border" onclick="setMacro(this)" data-target="{{id}}">set</button>
+    <button class="text-button yellow-border" onclick="editMacro(this)" data-target="{{id}}">edit</button>
+    <button class="text-button red-border" onclick="deleteMacro(this)" data-target="{{id}}">delete</button>
+    <button style="display: none" class="text-button save-macro-button green-border" onclick="saveMacro(this)" data-target="{{id}}">save</button>
 </div>
 `;
 
@@ -31,8 +31,8 @@ firebase.auth().onAuthStateChanged(function (user) {
             copy = copy.replaceAll("{{command}}", val.command);
 
             $("#macro-list").append(copy);
-            $(`.macro-name[data-id="${val.id}"`).trigger('onload');
-            $(`.macro-command[data-id="${val.id}"`).trigger('onload');
+            $(`.macro-name[data-target="${val.id}"`).trigger('onload');
+            $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
             macroButton = document.querySelector(`[data-number="${val.set}"`);
 
@@ -45,7 +45,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         });
         macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.val().id;
-            document.querySelector(`.macro-entry[data-id="${id}"]`).remove();
+            document.querySelector(`.macro-entry[data-target="${id}"]`).remove();
             old = document.querySelector(`button[data-target="${id}"]`);
             if (old) {
                 old.dataset.target = "";
@@ -78,7 +78,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             }
 
             //change entry element
-            macroEntryElemName = document.querySelector(`.macro-name[data-id="${val.id}"]`);
+            macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
             macroEntryElemName.value = val.name;
 
         });
@@ -166,7 +166,9 @@ function runCommand(command) {
 }
 
 function editMacro(element) {
-    var id = element.dataset.id;
+    var id =  element.dataset.target;
+    console.log(id)
+    
     macroListRef.child(`/${id}`).once("value", function (snapshot) {
         var command = snapshot.val().command;
         var name = snapshot.val().name;
@@ -175,9 +177,10 @@ function editMacro(element) {
         clearActionList();
         document.querySelector('#wizard-area').dataset.target = id;
         $("#wizard-action-name").val(name)
-        $('#macro-list-area').fadeOut(function () { $('#wizard-area').fadeIn(); });
+        $('#macro-list-area').fadeOut(function () { $('#wizard-area').fadeIn(function(){$("#edit-form").fadeIn();}); });
         elementsFromCommand(command);
         setColor(color);
+        
     });
 
 }
@@ -256,9 +259,6 @@ $(".macro-button").mouseup(function () {
         longPress(macroButton);
 
     }, 500);
-
-
-
 });
 var pressTimer;
 $('.macro-button')
@@ -277,6 +277,10 @@ $('.macro-button')
             }, 500);
 
         }
+    })
+    .contextmenu(function(e){
+        e.preventDefault();
+        longPress(this)
     });
 function longPress(macroButton) {
     showLongMenuFor(macroButton)
@@ -367,10 +371,11 @@ function setSelectedColor() {
     macroListRef.child(`/${id}`).update({ color: c });
 }
 
-function editSelectedMacro(){
-    
+function editSelectedMacroButton(){
+     editMacro( $(selectedMacroButton).get(0))
+     $('#long-menu').fadeOut()
+
 }
 
 $(document.body).on("mousedown touchstart", function () {
-
 });

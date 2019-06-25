@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="./theme.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
 </head>
 
 <body>
@@ -54,24 +54,29 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-6 center">
                     <h3>Step 2. Install on Remote Devices</h3>
-
+                    <br>
                     <h4> <em style="color: white;">
                             Android/IOS:
-                        </em> Add this page to your homescreen.
-                        Click on the newly created icon to access the app </h4>
+                        </em> </h4>
+               
+                    <button class="text-button   text-field-short blue-border" onclick="install()">
+                       Install
+                    </button>
+                    <br>
                     <br>
                     <h4>
                         <em style="color: white;">
                             Other:
                         </em>
+                        <br>
                         Any device running Chrome 70 and above (and most other up to date browsers) can use Macro as a
                         remote device.
                         Just click login to begin.
                     </h4>
+                    <br>
                     <button class="text-button   text-field-short blue-border" onclick="redirect('/login.html')">
                         login</button>
-                    <button class="text-button   text-field-short blue-border" onclick="install()">
-                        install</button>
+
 
                 </div>
                 <br>
@@ -89,7 +94,7 @@
         e.preventDefault();
         // Stash the event so it can be triggered later.
         deferredPrompt = e;
-      
+
     });
 
     async function install() {

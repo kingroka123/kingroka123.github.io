@@ -59,7 +59,7 @@
                     src="./img/icons/apple-touch-icon-152x152.png" width="44">
 
                 <button id="fullscreen-button" class="text-button electron-hidden" onclick="fullscreen()">hide</button>
-                <button id="edit-button" class="text-button" onclick="edit()">Macros</button>
+                <button id="edit-button" class="text-button" onclick="edit()"> Manage Macros</button>
             </div>
 
         </div>
@@ -75,13 +75,16 @@
     </div>
 
     <div id="edit-form" class="content" style="min-width: 640px;">
+        <button class="text-button" onclick="closeEdit()">X</button>
+
         <div id="wizard-area" class="content" data-target="" style="display:none;">
             <button class="text-button"
-                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">back</button>
+                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">Macro List</button>
+                <br>
+                <br>
+            <h1>Macro Wizard</h1>
 
-            <h3>Macro Generator</h3>
-
-            <br>
+            
             <br>
             <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
                 type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
@@ -94,7 +97,7 @@
                 <div class="color-button purple" onclick="selectColor(this)"></div>
 
             </div>
-            <h4>Actions </h4>
+            <h2>Actions </h2>
             <div id="action-list">
 
             </div>
@@ -114,10 +117,9 @@
 
         </div>
         <div id="macro-list-area">
+<br><br>
 
-            <button class="text-button" onclick="closeEdit()">close</button>
-
-            <h3>Macro List</h3>
+            <h1>Macro List</h1>
             <button class="text-button" onclick="newMacro()">new Macro</button>
             <div id="macro-list">
 
@@ -138,7 +140,8 @@
         <div class="color-button blue" onclick="selectColor(this);setSelectedColor();"></div>
         <div class="color-button purple" onclick="selectColor(this);setSelectedColor();"></div>
         <button class="text-button blue-border" onclick="setSelectedMacroButton()">move</button>
-        <button class="text-button blue-border material-icons no-outline"
+        <button class="text-button yellow-border" onclick="editSelectedMacroButton()">edit</button>
+        <button class="text-button  material-icons no-outline"
             onclick="$('#long-menu').fadeOut();">close</button>
 
     </div>
@@ -240,11 +243,11 @@
                                     if (navigator.serviceWorker.controller) {
                                         // new update available
                                         resolve(true);
-                                        //alert("there is an update available")
+                                        alert("there is an update available")
                                     } else {
                                         // no update available
                                         resolve(false);
-                                       // alert("No update available")
+                                        alert("No update available")
 
                                     }
                                     break;

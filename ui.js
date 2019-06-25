@@ -46,8 +46,9 @@ window.customElements.define('action-top', ActionTop);
 var customAction =
     `
     <div class=" list-group-item macro-list-item purple-border">
-    <action-top></action-top>
     <h5>Custom Action</h5>
+    <br>
+    <action-top></action-top>
     <br>
     <textarea autocomplete="new-password" autocapitalize="none" type="text"
         class="text-field"></textarea>
@@ -85,9 +86,10 @@ window.customElements.define('action-custom', CustomAction);
 var appAction =
     `
 <div class="macro-list-item blue-border">
+    <h5>Application Action</h5>
+    <br>
     <action-top></action-top>
 
-    <h5>Application Action</h5>
     <br>
     <input autocomplete="new-password" autocapitalize="none" type="text"
         class="text-field text-field-sm" placeholder="Application Path" value="" data-path></input>
@@ -134,8 +136,9 @@ window.customElements.define('action-app', AppAction);
 var webAction =
     `
 <div class="macro-list-item green-border">
-    <action-top></action-top>
     <h5>Web Action</h5>
+    <br>
+    <action-top></action-top>
     <br>
     <input autocomplete="new-password" autocapitalize="none" "type="text"
     class="text-field text-field-sm" placeholder="URL" ></input>
@@ -178,9 +181,10 @@ window.customElements.define('action-web', WebAction);
 var fileAction =
     `
 <div class="macro-list-item yellow-border">
-    <action-top></action-top>
     <h5>File Action</h5>
     <br>
+    <action-top></action-top>
+   <br>
     <input autocomplete="new-password" autocapitalize="none" "type="text"
         class="text-field text-field-sm" placeholder="File Absolute Path" ></input>
     <br>
@@ -215,9 +219,10 @@ window.customElements.define('action-file', FileAction);
 var keyAction =
     `
 <div class="macro-list-item red-border">
-    <action-top></action-top>
     <h5>Keyboard Action</h5>
     <br>
+    <action-top></action-top>
+    <br>    
     <input autocomplete="new-password" autocapitalize="none" "type="text"
         class="text-field text-field-sm" placeholder="Keys" ></input>
     <br>
