@@ -18,38 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="./theme.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script>
-        let deferredPrompt = null;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-        });
-
-        function install() {
-            if (deferredPrompt) {
-
-
-                deferredPrompt.prompt();
-                console.log(deferredPrompt)
-                deferredPrompt.userChoice.then(function (choiceResult) {
-
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Your PWA has been installed');
-                    } else {
-                        console.log('User chose to not install your PWA');
-                    }
-
-                    deferredPrompt = null;
-
-                });
-
-
-            }
-        }
-    </script>
+    
 </head>
 
 <body>
@@ -95,11 +64,14 @@
                         <em style="color: white;">
                             Other:
                         </em>
-                        Any device running Chrome 70 and above (and most other up to date browsers) can use Macro as a remote device.
+                        Any device running Chrome 70 and above (and most other up to date browsers) can use Macro as a
+                        remote device.
                         Just click login to begin.
                     </h4>
                     <button class="text-button   text-field-short blue-border" onclick="redirect('/login.html')">
                         login</button>
+                    <button class="text-button   text-field-short blue-border" onclick="install()">
+                        install</button>
 
                 </div>
                 <br>
@@ -108,6 +80,38 @@
     </div>
 
 </body>
+
+<script>
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+       alert("hello")
+    });
+
+    async function install() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            console.log(deferredPrompt)
+            deferredPrompt.userChoice.then(function (choiceResult) {
+
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Your PWA has been installed');
+                } else {
+                    console.log('User chose to not install your PWA');
+                }
+
+                deferredPrompt = null;
+
+            });
+
+
+        }
+    }
+</script>
 
 <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
 

@@ -240,11 +240,11 @@
                                     if (navigator.serviceWorker.controller) {
                                         // new update available
                                         resolve(true);
-                                        alert("there is an update available")
+                                        //alert("there is an update available")
                                     } else {
                                         // no update available
                                         resolve(false);
-                                        alert("No update available")
+                                       // alert("No update available")
 
                                     }
                                     break;
@@ -255,6 +255,8 @@
                 .catch(err => console.error('[SW ERROR]', err));
         }
     });
+
+    
 </script>
 <script src="renderer.js"></script>
 <script src="db.js"></script>
