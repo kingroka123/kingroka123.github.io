@@ -41,7 +41,7 @@
                 <div class="bounce2"></div>
                 <div class="bounce3"></div>
             </div>
-            
+
         </div>
     </div>
 
@@ -79,12 +79,13 @@
 
         <div id="wizard-area" class="content" data-target="" style="display:none;">
             <button class="text-button"
-                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">Macro List</button>
-                <br>
-                <br>
+                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">Macro
+                List</button>
+            <br>
+            <br>
             <h1>Macro Wizard</h1>
 
-            
+
             <br>
             <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
                 type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
@@ -117,7 +118,7 @@
 
         </div>
         <div id="macro-list-area">
-<br><br>
+            <br><br>
 
             <h1>Macro List</h1>
             <button class="text-button" onclick="newMacro()">new Macro</button>
@@ -141,8 +142,7 @@
         <div class="color-button purple" onclick="selectColor(this);setSelectedColor();"></div>
         <button class="text-button blue-border" onclick="setSelectedMacroButton()">move</button>
         <button class="text-button yellow-border" onclick="editSelectedMacroButton()">edit</button>
-        <button class="text-button  material-icons no-outline"
-            onclick="$('#long-menu').fadeOut();">close</button>
+        <button class="text-button  material-icons no-outline" onclick="$('#long-menu').fadeOut();">close</button>
 
     </div>
 
@@ -229,37 +229,7 @@
     }
     var electron = null;
 
-    window.isUpdateAvailable = new Promise(function (resolve, reject) {
-        // lazy way of disabling service workers while developing
-        if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
-            // register service worker file
-            navigator.serviceWorker.register('pwabuilder-sw.js')
-                .then(reg => {
-                    reg.onupdatefound = () => {
-                        const installingWorker = reg.installing;
-                        installingWorker.onstatechange = () => {
-                            switch (installingWorker.state) {
-                                case 'installed':
-                                    if (navigator.serviceWorker.controller) {
-                                        // new update available
-                                        resolve(true);
-                                        alert("there is an update available")
-                                    } else {
-                                        // no update available
-                                        resolve(false);
-                                        alert("No update available")
 
-                                    }
-                                    break;
-                            }
-                        };
-                    };
-                })
-                .catch(err => console.error('[SW ERROR]', err));
-        }
-    });
-
-    
 </script>
 <script src="renderer.js"></script>
 <script src="db.js"></script>
