@@ -208,7 +208,7 @@ function updateMacro(idd, n, c, ncolor) {
 
 function deleteMacro(element) {
     if (confirm("Are you sure you want to delete?")) {
-        id = element.dataset.id;
+        id = element.dataset.target;
         macroListRef.child(id).remove();
     }
 }
@@ -224,7 +224,7 @@ function newMacro() {
 
 function setMacro(element) {
 
-    id = element.dataset.id;
+    id = element.dataset.target;
     set = true;
     target = id;
     // $("#controls").fadeOut();
