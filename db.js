@@ -71,7 +71,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 // change set macro
                 macrob = document.querySelector(`[data-number="${number}"]`);
                 macrob.dataset.target = val.id;
-                name = val.name.substring(0, 10);
+                name = val.name;
                 macrob.innerHTML = name;
                 changeMacroButtonColor(macrob, val.color);
                 $(macrob).removeClass("macro-button-empty");

@@ -22,12 +22,20 @@
 </head>
 
 <body>
-    <div id="navigation">
-        <button class="text-button " onclick="redirect('/index.html')"> home</button>
-        <button class="text-button  " onclick="redirect('/download.html')"> download</button>
-        <button class="text-button   " onclick="redirect('/login.html')"> login</button>
-    </div>
-    <div id="info" class="container" style="margin-top: 50px;">
+    <section id="navigation">
+        <div class="container justify-content-center">
+            <div class="mleft" style="width: 5%; float: left;">
+                <img style="width: 50px; " src="./img/icons/apple-touch-icon-152x152.png">
+            </div>
+            <div class="mright" style="width: 95%; float: right">
+                <button class="text-button  no-outline" onclick="redirect('/index.html')"> home</button>
+                <button class="text-button no-outline" onclick="redirect('/download.html')"> download</button>
+                <button class="text-button   no-outline" onclick="redirect('/login.html')"> login</button>
+            </div>
+        </div>
+    </section>
+    
+    <div id="info" class="container" style=" padding-top: 150px;">
         <section id="top">
             <div class="row justify-content-md-center">
                 <div class="col-md-6 center">
@@ -58,9 +66,9 @@
                     <h4> <em style="color: white;">
                             Android/IOS:
                         </em> </h4>
-               
+
                     <button class="text-button   text-field-short blue-border" onclick="install()">
-                       Install
+                        Install
                     </button>
                     <br>
                     <br>
@@ -83,7 +91,6 @@
             </div>
         </section>
     </div>
-
 </body>
 
 <script>
