@@ -11,8 +11,6 @@ function hideWindow() {
   mainWindow.hide();
 }
 
-
-
 function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
@@ -24,8 +22,6 @@ function electron(user) {
       snapshot.ref.remove();
     });
     
-   
-
     input = document.querySelector("#close-button");
    
     input.addEventListener("click", function (event) {

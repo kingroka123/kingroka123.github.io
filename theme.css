@@ -367,6 +367,8 @@ body {
   border-radius: 4px;
   margin-bottom: 15px;
   text-align: center;
+  border-radius: 8px;
+  border-width: 4px;
 }
 
 textarea {
@@ -632,6 +634,9 @@ a:visited{
 
  /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+  .macro-button{
+    font-size:16px;
+  }
 }
 
  /* Extra large devices (large desktops, 1200px and up) */

@@ -41,7 +41,11 @@ String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+function vibrate(pattern){
+    window.navigator.vibrate(pattern);
+    console.log("vibrate: " + pattern)
 
+}
 
 function addEnterBind(element) {
     if (element.dataset && element.dataset.enterbind) {
@@ -55,6 +59,24 @@ function addEnterBind(element) {
         });
     }
 }
+String.prototype.nthIndexOf = function(pattern, n) {
+    var i = -1;
+
+    while (n-- && i++ < this.length) {
+        i = this.indexOf(pattern, i);
+        if (i < 0) break;
+    }
+
+    return i;
+}
+
+function linkAttr(input, target, attr) {
+    $(input).bind('input', function () {
+        $(target).attr(attr, $(input).val());
+    });
+}
+
+
 document.querySelectorAll("[data-enterbind]").forEach(
     function (element) {
         addEnterBind(element);
@@ -73,25 +95,6 @@ function electronUI(e) {
 
 
 
-function vibrate(pattern){
-    window.navigator.vibrate(pattern);
-    console.log("vibrate: " + pattern)
 
-}
-String.prototype.nthIndexOf = function(pattern, n) {
-    var i = -1;
 
-    while (n-- && i++ < this.length) {
-        i = this.indexOf(pattern, i);
-        if (i < 0) break;
-    }
-
-    return i;
-}
-
-function linkAttr(input, target, attr) {
-    $(input).bind('input', function () {
-        $(target).attr(attr, $(input).val());
-    });
-}
 

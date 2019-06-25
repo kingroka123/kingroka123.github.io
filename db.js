@@ -211,7 +211,6 @@ function deleteMacro(element) {
 }
 
 function newMacro() {
-
     clearActionList();
     var newID = ID();
     $('#wizard-area').get(0).dataset.target = newID;
