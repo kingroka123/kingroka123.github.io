@@ -1,3 +1,4 @@
+
 var cmd = require('node-cmd');
 const remote = require('electron').remote;
 var macroQueue;

@@ -31,14 +31,15 @@
 
     <link rel="stylesheet" type="text/css" href="./theme.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 
 <body>
 
-        <div class="window-bar electron-visible">
-            <button class="text-button no-outline material-icons top-button" onclick="hideWindow()">close</button>
-        </div>
-  
+    <div class="window-bar electron-visible">
+        <button class="text-button no-outline material-icons top-button" onclick="hideWindow()">close</button>
+    </div>
+
     <div id="login-forms">
         <div id="sign-up-form" style="display:none" class="login-area">
             <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer" onclick="redirect('/')"
@@ -85,8 +86,25 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="utils.js"></script>
-<script src="renderer.js"></script>
+<script>
+    if (window && window.process && window.process.type) {
+        electronUI(true);
 
+        input = document.querySelector("#close-button");
+        input.style.display = "inline-block";
+        var remote = require('electron').remote;
+
+        mainWindow = remote.getCurrentWindow();
+
+        console.log("login electron!!")
+        input = document.querySelector("#close-button")
+        input.addEventListener("click", function (event) {
+            hideWindow();
+        });
+    } else {
+        electronUI(false)
+    }
+</script>
 <script src="./login.js">
 
 </script>

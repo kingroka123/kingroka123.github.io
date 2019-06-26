@@ -84,7 +84,9 @@ function hideWindow() {
     mainWindow.hide();
 }
 var mainWindow;
+
 window.onload = function () {
+   
     var input = document.querySelector("#password");
     input.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
@@ -124,22 +126,7 @@ window.onload = function () {
             signup();
         }
     });
-    // if (window && window.process && window.process.type) {
-    //     input = document.querySelector("#close-button");
-    //     input.style.display="inline-block";
-    //     var remote = require('electron').remote;
-
-    //     mainWindow = remote.getCurrentWindow();
-
-    //     console.log("login electron!!")
-    //     input = document.querySelector("#close-button")
-    //     input.addEventListener("click", function (event) {
-    //         hideWindow();
-    //     });
-    //     electronUI(true);
-    // }else{
-    //     electronUI(false)
-    // }
+    
 
 
 }
