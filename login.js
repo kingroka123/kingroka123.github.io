@@ -124,22 +124,22 @@ window.onload = function () {
             signup();
         }
     });
-    if (window && window.process && window.process.type) {
-        input = document.querySelector("#close-button");
-        input.style.display="inline-block";
-        var remote = require('electron').remote;
+    // if (window && window.process && window.process.type) {
+    //     input = document.querySelector("#close-button");
+    //     input.style.display="inline-block";
+    //     var remote = require('electron').remote;
 
-        mainWindow = remote.getCurrentWindow();
+    //     mainWindow = remote.getCurrentWindow();
 
-        console.log("login electron!!")
-        input = document.querySelector("#close-button")
-        input.addEventListener("click", function (event) {
-            hideWindow();
-        });
-        electronUI(true);
-    }else{
-        electronUI(false)
-    }
+    //     console.log("login electron!!")
+    //     input = document.querySelector("#close-button")
+    //     input.addEventListener("click", function (event) {
+    //         hideWindow();
+    //     });
+    //     electronUI(true);
+    // }else{
+    //     electronUI(false)
+    // }
 
 
 }

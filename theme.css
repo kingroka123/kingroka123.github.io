@@ -15,10 +15,6 @@
 }
 
 .top-button {
-  color: white;
-  cursor: pointer;
-  font-size: 24px;
-  margin: 3px;
   -webkit-app-region: no-drag;
 }
 

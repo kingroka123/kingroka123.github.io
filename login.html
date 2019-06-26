@@ -35,10 +35,10 @@
 
 <body>
 
-    <div class=" electron-visible window-bar">
-        <button class="text-button no-outline material-icons" onclick="hideWindow()">close</button>
-    </div>
-
+        <div class="window-bar electron-visible">
+            <button class="text-button no-outline material-icons top-button" onclick="hideWindow()">close</button>
+        </div>
+  
     <div id="login-forms">
         <div id="sign-up-form" style="display:none" class="login-area">
             <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer" onclick="redirect('/')"
@@ -85,6 +85,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="utils.js"></script>
+<script src="renderer.js"></script>
+
 <script src="./login.js">
 
 </script>
