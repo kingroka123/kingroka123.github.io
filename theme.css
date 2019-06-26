@@ -581,8 +581,18 @@ textarea {
 
 /* index */
 #navigation{
-  margin: 15px;
- 
+ position: fixed;
+ width: 100vw;
+ z-index: 1;
+ background: #263238;
+ padding: 5px;
+}
+#cta{
+  height: 300px;
+  padding-top: calc(50vh - 225px);
+}
+#top{
+  height: 100vh;
 }
 #logo{
   margin-bottom: calc(-.01 * 100vw);
@@ -682,23 +692,25 @@ h5{
 #description {
   background: white;
   color: black;
-  margin-top: 250px;
-  clip-path: polygon(0 0, 1920px 100px, 1920px 100%, 0% 100%);
+  clip-path: polygon(0 0, 100vw 100px, 100vw 100%, 0% 100%);
+  -webkit-clip-path: polygon(0 0, 100vw 100px, 100vw 100%, 0% 100%);
+
   width: 100%;
   min-height: 120px;
-  padding-top: 50px; 
+  padding-top:50px; 
+  margin-top: calc(-50vh + 150px);
 }
 
 #description h1{
   color:#404044;
 }
-#description h3{
+#description h2{
+  color:#404044;
+}
+#description *{
   color:black;
 }
 
-#description div{
-  color: black;
-}
 .feature-icon{
   margin: 15px;
   font-size: 48px !important;
