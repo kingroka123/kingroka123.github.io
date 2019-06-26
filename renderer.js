@@ -2,6 +2,7 @@ var cmd = require('node-cmd');
 const remote = require('electron').remote;
 var macroQueue;
 var mainWindow = remote.getCurrentWindow();
+var contents = mainWindow.webContents;
 
 function close() {
   mainWindow.close();
@@ -14,7 +15,6 @@ function hideWindow() {
 function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
-    var contents = mainWindow.webContents;
     console.log(contents)
     macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
     macroQueue.on("child_added", function (snapshot) {
