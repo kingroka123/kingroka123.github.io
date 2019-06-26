@@ -1,5 +1,3 @@
-
-
 * {
   font-family: monospace;
 
@@ -15,7 +13,6 @@
   -webkit-app-region: drag;
   text-align: right;
 }
-
 
 .top-button {
   color: white;
@@ -164,7 +161,7 @@ h2 {
 
   color: white;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
   border-width: 4px;
   border-radius: 8px;
@@ -306,9 +303,7 @@ html {
 }
 
 #logout-area {
-  position: fixed;
-  right: 5px;
-  top: 5px;
+  float: right;
 }
 
 #logout-area label {
@@ -318,21 +313,39 @@ html {
   /* background: white !important; */
 }
 
-#edit-controls {
-  position: fixed;
-  left: 5px;
-  top: 5px;
+.controls {
+  float: left;
+  vertical-align: center;
 }
 
-#controls {
-  height: 46px;
-  position: fixed;
-  top: 0px;
-  left: 0px;
+.window-bar{
   width: 100%;
-  /* box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.283); */
+  background: #03a9f4;
+  text-align: right;
   -webkit-app-region: drag;
+
+}
+.window-bar *{
+  background: none !important;
+}
+
+#controls-container {
+  width: 75%;
+  text-align: center;
+  margin: auto;
+  padding-top: 10px;
+}
+#controls {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.1);
   z-index: 4;
+  background: #324149;
+  margin: auto;
+  padding-bottom: 5px;
+  vertical-align: center;
+  top: 0px;
 }
 #controls button {
   background: #263238;
@@ -393,12 +406,12 @@ textarea {
 }
 
 .right-side {
-  float:right
+  float: right;
 }
 
 .left-side {
- float:left;
- margin-right: 5px;
+  float: left;
+  margin-right: 5px;
 }
 .advanced-section {
   margin-top: 15px;
@@ -455,14 +468,14 @@ textarea {
   border-color: white;
 }
 
-.red-font{
+.red-font {
   color: #f44336 !important;
 }
 .purple-font {
   color: #673ab7 !important;
 }
 
-.blue-font{
+.blue-font {
   color: #03a9f4 !important;
 }
 
@@ -526,7 +539,12 @@ textarea {
   position: fixed;
   z-index: -1;
 }
-
+.view {
+  width: 100%;
+  padding-top: 50px;
+  background: #263238 !important;
+  display: none;
+}
 /* spinner */
 .spinner {
   margin: 15px auto 0;
@@ -580,113 +598,110 @@ textarea {
 }
 
 /* index */
-#navigation{
- position: fixed;
- width: 100vw;
- z-index: 1;
- background: #263238;
- padding: 5px;
+#navigation {
+  position: fixed;
+  width: 100vw;
+  z-index: 1;
+  background: #263238;
+  padding: 5px;
 }
-#cta{
+#cta {
   height: 300px;
   padding-top: calc(50vh - 225px);
 }
-#top{
+#top {
   height: 100vh;
 }
-#logo{
-  margin-bottom: calc(-.01 * 100vw);
+#logo {
+  margin-bottom: calc(-0.01 * 100vw);
 }
 
-.drop{
-  box-shadow: 0 0px 18px  4px rgba(0, 0, 0, 0.20);
+.drop {
+  box-shadow: 0 0px 18px 4px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
-.space{
+.space {
   padding: 30px;
 }
-h4{
+h4 {
   color: #8eacbb;
 }
-.mleft{
+.mleft {
   text-align: left;
 }
 
-.mright{
+.mright {
   text-align: right;
 }
 
-.center{
+.center {
   text-align: center;
 }
 
-#media-col{
+#media-col {
 }
 
-a{
+a {
   text-decoration: none;
 }
-a:hover{
-  text-decoration: none;
-}
-
-a:visited{
+a:hover {
   text-decoration: none;
 }
 
-.fleft{
-  display:none;
+a:visited {
+  text-decoration: none;
 }
 
-#info{
-
-
+.fleft {
+  display: none;
 }
 
-h5{
-  font-size:18px;
+#info {
 }
- /* Small devices (landscape phones, 576px and up) */
+
+h5 {
+  font-size: 18px;
+}
+/* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
-  #screenshot{
+  #screenshot {
     width: 90vw !important;
   }
-  #navigation{
+  #navigation {
     text-align: center;
-    
   }
-  h1{
+  h1 {
     font-size: 28px;
   }
-
 }
 
- /* Medium devices (tablets, 768px and up) */
+/* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  .fleft{
-    display:block;
+  .fleft {
+    display: block;
   }
 
-  .fright{
-    display:none;
+  .fright {
+    display: none;
   }
-  
+  #controls-container {
+    width: 90%;
+  }
 }
 
- /* Large devices (desktops, 992px and up) */
+/* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .macro-button{
-    font-size:16px;
+  .macro-button {
+    font-size: 16px;
   }
  
 }
 
- /* Extra large devices (large desktops, 1200px and up) */
+/* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
 }
 
 .vertical-center {
- 
 }
 
 #description {
@@ -697,39 +712,39 @@ h5{
 
   width: 100%;
   min-height: 120px;
-  padding-top:50px; 
+  padding-top: 50px;
   margin-top: calc(-50vh + 150px);
 }
 
-#description h1{
-  color:#404044;
+#description h1 {
+  color: #404044;
 }
-#description h2{
-  color:#404044;
+#description h2 {
+  color: #404044;
 }
-#description *{
-  color:black;
+#description * {
+  color: black;
 }
 
-.feature-icon{
+.feature-icon {
   margin: 15px;
   font-size: 48px !important;
   border-radius: 50%;
   background: rgba(204, 206, 216, 0.945);
   padding: 30px;
-  color:#404044 !important;
+  color: #404044 !important;
 }
-.feature{
+.feature {
   margin: 30px 0;
 }
-.feature h3{
+.feature h3 {
   font-size: 22px;
 }
 
-.feature h4{
+.feature h4 {
   font-size: 18px;
 }
- .row{
-   width: 100% !important;
-   margin:0px;
- }
+.row {
+  width: 100% !important;
+  margin: 0px;
+}

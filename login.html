@@ -34,12 +34,15 @@
 </head>
 
 <body>
-    <div id="drag-area">
-        <div id="close-button" class="material-icons  top-button electron-visible">close</div>
+
+    <div class="window-bar electron-visible" style="display: none">
+        <button class="text-button no-outline material-icons" onclick="hideWindow()">close</button>
     </div>
+
     <div id="login-forms">
         <div id="sign-up-form" style="display:none" class="login-area">
-            <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer" onclick="redirect('/')" width="100px" height="100px"/>
+            <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer" onclick="redirect('/')"
+                width="100px" height="100px" />
 
             <div class="form-area">
                 <div class="text-label">Email</div>
@@ -59,7 +62,8 @@
             <button class="text-button no-outline" onclick="switchToLoginForm()"> Or Login</button>
         </div>
         <div id="login-form" class="login-area">
-                <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer" onclick="redirect('/index.html')" width="100px" height="100px"/>
+            <img src="./img/icons/apple-touch-icon-152x152.png" style="cursor: pointer"
+                onclick="redirect('/index.html')" width="100px" height="100px" />
 
             <div class="form-area">
                 <div class="text-label">Email</div>

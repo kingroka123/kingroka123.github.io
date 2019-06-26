@@ -45,47 +45,58 @@
         </div>
     </div>
 
-    <div class="content">
-        <div id="controls">
+    <div id="controls">
+        <div class="window-bar electron-visible">
+           
+            <button class="text-button no-outline material-icons"
+                onclick="hideWindow()">close</button>
+        </div>
 
+        <div id="controls-container">
             <div id="logout-area">
                 <label id="name-display"></label>
                 <button class="text-button red-border" onclick="logout()">logout</button>
-                <button id="close-button" class="text-button no-outline material-icons electron-visible"
-                    style="display: none" onclick="hideWindow()">close</button>
+
             </div>
-            <div id="edit-controls">
+
+            <div id="dashboard-controls" class="controls">
                 <img style="display: inline-block; vertical-align: middle;"
                     src="./img/icons/apple-touch-icon-152x152.png" width="44">
 
                 <button id="fullscreen-button" class="text-button electron-hidden" onclick="fullscreen()">hide</button>
-                <button id="edit-button" class="text-button" onclick="edit()"> Manage Macros</button>
+                <button id="edit-button" class="text-button" onclick="switchView('list')"> Manage Macros</button>
             </div>
+            <div id="list-controls" style="display: none" class="controls">
+                <img style="display: inline-block; vertical-align: middle;"
+                    src="./img/icons/apple-touch-icon-152x152.png" width="44">
 
+                <button class="text-button" onclick="backView()">back</button>
+
+            </div>
+            <div id="edit-controls" style="display: none" class="controls">
+                <img style="display: inline-block; vertical-align: middle;"
+                    src="./img/icons/apple-touch-icon-152x152.png" width="44">
+
+                <button class="text-button" onclick="backView()">back</button>
+
+            </div>
         </div>
-
-        <div id="exit-fullscreen" class=" material-icons" onclick="exitFull()">arrow_back </div>
-        <button id="cancel-button" class="text-button red-border red"
-            style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
-            onclick="cancelSet()">cancel</button>
-        <div id="macro-area">
-
-        </div>
-
     </div>
 
-    <div id="edit-form" class="content" style="min-width: 640px;">
-        <button class="text-button" onclick="closeEdit()">X</button>
+    <div id="exit-fullscreen" class=" material-icons" onclick="exitFull()">arrow_back </div>
+    <button id="cancel-button" class="text-button red-border red"
+        style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
+        onclick="cancelSet()">cancel</button>
 
-        <div id="wizard-area" class="content" data-target="" style="display:none;">
-            <button class="text-button"
-                onclick="$('#wizard-area').fadeOut(function(){ clearActionList(); $('#macro-list-area').fadeIn();});">Macro
-                List</button>
-            <br>
-            <br>
+
+    <div id="dashboard" class="content">
+
+    </div>
+    <div id="edit" class="content view" style="min-width: 640px;">
+
+
+        <div id="wizard-area" class="content" data-target="">
             <h1>Macro Wizard</h1>
-
-
             <br>
             <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
                 type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
@@ -117,18 +128,16 @@
                 onclick="saveMacro();">save</button>
 
         </div>
-        <div id="macro-list-area">
-            <br><br>
 
-            <h1>Macro List</h1>
-            <button class="text-button" onclick="newMacro()">new Macro</button>
-            <div id="macro-list">
-
-            </div>
-        </div>
         <br>
     </div>
+    <div id="list" class="content view">
+        <h1>Macro List</h1>
+        <button class="text-button" onclick="newMacro()">new Macro</button>
+        <div id="macro-list">
 
+        </div>
+    </div>
     <div id="long-menu" class="white-border">
         <div id="button-pointer-up"></div>
         <div id="button-pointer-down"></div>
@@ -173,7 +182,7 @@
     for (i = 0; i < totalButtons; i++) {
         copy = macroButtonTemplate + "";
         copy = copy.replaceAll("{{num}}", i);
-        document.querySelector("#macro-area").insertAdjacentHTML('beforeend', copy);
+        document.querySelector("#dashboard").insertAdjacentHTML('beforeend', copy);
     }
     function sizeButtons() {
         var contentWidth = window.innerWidth * .8;
@@ -190,7 +199,7 @@
             button.style.height = size + "px";
         });
 
-        list = document.querySelector("#macro-area");
+        list = document.querySelector("#dashboard");
         list.classList.add("fullscreen-list");
 
         // var buttonH = list.clientHeight;
@@ -212,7 +221,7 @@
         });
     }
     function exitFull() {
-        // list = document.querySelector("#macro-area");
+        // list = document.querySelector("#dashboard");
         // list.classList.remove("fullscreen-list");
         // list.style.padding = "0px";
         controls = document.querySelector("#controls");

@@ -383,3 +383,27 @@ function elementsFromCommand(command) {
     });
 }
 
+var views = ["edit", "dashboard", "list"];
+var viewHistory = ["dashboard"];
+function switchView(newView, pushHistory = true) {
+    views.forEach(function (view) {
+        if (view != newView && $("#" + view).is(":visible")) {
+            if (viewHistory[viewHistory.length - 1] != view && pushHistory) {
+                viewHistory.push(view);
+            }
+            $("#" + view).fadeOut(function () {
+                $("#" + newView).fadeIn();
+            });
+            $("#" + view +"-controls").fadeOut(function () {
+                $("#" + newView +"-controls").fadeIn();
+            });
+        }
+    });
+}
+
+function backView() {
+    if (viewHistory.length > 0) {
+        switchView(viewHistory.pop(), false);
+        console.log(viewHistory)
+    }
+}

@@ -34,7 +34,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             $(`.macro-name[data-target="${val.id}"`).trigger('onload');
             $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
-            macroButton = document.querySelector(`[data-number="${val.set}"`);
+            macroButton = document.querySelector(`.macro-button[data-number="${val.set}"`);
 
             if (macroButton) {
                 macroButton.dataset.target = val.id;
@@ -58,7 +58,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         macroListRef.on("child_changed", function (snapshot) {
             val = snapshot.val();
             number = val.set;
-            old = document.querySelector(`button[data-target="${val.id}"]`);
+            old = document.querySelector(`.macro-button[data-target="${val.id}"]`);
             // oldColor = 
             // remove from old macro button
 
@@ -121,11 +121,12 @@ function logout() {
 }
 
 function edit() {
-    $("#edit-form").fadeIn();
+    switchView("edit")
 }
 
 function closeEdit() {
-    $("#edit-form").fadeOut();
+    backView("edit")
+
 }
 let set = false;
 var longMove = false;
@@ -150,6 +151,10 @@ function macro(element) {
         }
     } else {
         // element.dataset.target = target;
+        old = document.querySelector(`.macro-button[data-target="${target}"]`);
+        if (old && element.dataset.target) {
+            macroListRef.child(element.dataset.target).update({ set: old.dataset.number });
+        }
         macroListRef.child(target).update({ set: element.dataset.number });
         cancelSet();
         if (longMove) {
@@ -166,9 +171,9 @@ function runCommand(command) {
 }
 
 function editMacro(element) {
-    var id =  element.dataset.target;
+    var id = element.dataset.target;
     console.log(id)
-    
+
     macroListRef.child(`/${id}`).once("value", function (snapshot) {
         var command = snapshot.val().command;
         var name = snapshot.val().name;
@@ -177,10 +182,10 @@ function editMacro(element) {
         clearActionList();
         document.querySelector('#wizard-area').dataset.target = id;
         $("#wizard-action-name").val(name)
-        $('#macro-list-area').fadeOut(function () { $('#wizard-area').fadeIn(function(){$("#edit-form").fadeIn();}); });
+        switchView("edit")
         elementsFromCommand(command);
         setColor(color);
-        
+
     });
 
 }
@@ -191,7 +196,7 @@ function saveMacro() {
     var c = commandFromElements();
     // console.log(`${id} . ${name} . ${c}`)
     updateMacro(id, name, c, getColor())
-    $('#wizard-area').fadeOut(function () { $('#macro-list-area').fadeIn(); });
+    switchView("list")
 }
 
 function updateMacro(idd, n, c, ncolor) {
@@ -218,7 +223,7 @@ function newMacro() {
     var newID = ID();
     $('#wizard-area').get(0).dataset.target = newID;
     console.log(newID)
-    $('#macro-list-area').fadeOut(function () { $('#wizard-area').fadeIn(); });
+    switchView("edit")
 }
 
 
@@ -228,7 +233,7 @@ function setMacro(element) {
     set = true;
     target = id;
     // $("#controls").fadeOut();
-    $("#edit-form").fadeOut();
+    $("#edit").fadeOut();
     document.querySelector("#cancel-button").style.display = "inline-block";
 
 }
@@ -278,10 +283,21 @@ $('.macro-button')
 
         }
     })
-    .contextmenu(function(e){
+    .contextmenu(function (e) {
         e.preventDefault();
         longPress(this)
     });
+
+$(document).mouseup(function (e) {
+    var container = $("#long-menu");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.fadeOut();
+    }
+});
+
+
 function longPress(macroButton) {
     showLongMenuFor(macroButton)
 }
@@ -349,7 +365,7 @@ function showLongMenuFor(macroButton) {
 
 function clearSelectedMacroButton() {
     clearMacro(selectedMacroButton);
-    //   $('#long-menu').fadeOut()
+    $('#long-menu').fadeOut()
 }
 
 function setSelectedMacroButton() {
@@ -357,7 +373,7 @@ function setSelectedMacroButton() {
     target = $(selectedMacroButton).get(0).dataset.target;
     if (target) {
         // $("#controls").fadeOut();
-        $("#edit-form").fadeOut();
+        $("#edit").fadeOut();
         document.querySelector("#cancel-button").style.display = "inline-block";
         set = true;
         longMove = true;
@@ -371,9 +387,9 @@ function setSelectedColor() {
     macroListRef.child(`/${id}`).update({ color: c });
 }
 
-function editSelectedMacroButton(){
-     editMacro( $(selectedMacroButton).get(0))
-     $('#long-menu').fadeOut()
+function editSelectedMacroButton() {
+    editMacro($(selectedMacroButton).get(0))
+    $('#long-menu').fadeOut()
 
 }
 
