@@ -139,19 +139,20 @@
                 <div id="micro-presets" class="">
 
                 </div>
-                <button class="text-button" onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
+                <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button" onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
                 <div id="edit-micro" style="width: 90%; margin: auto; margin-top: 30px;">
                     <div style="border-width: 4px; border-color: white;border-bottom: solid;"></div>
+                    <h2>Micro Manager</h2>
+
                     <button class="text-button" onclick="hideMicroManager()"
                         style="margin-bottom: 15px; margin-top: 15px;">close</button>
                     <br>
                     <button id="new-macro-button" class="text-button orange-border text-field-medium"
                         style="margin-top: 50px; margin-bottom: 30px;"
-                        onclick="clearMicroTemplateForm(); hideMicroManager()">cancel</button>
+                        onclick=" hideMicroManager()">cancel</button>
                     <button id="new-macro-button" class="text-button green-border text-field-medium"
                         style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
                         micro</button>
-                    <h2>Micro Manager</h2>
                     <div id="template-color">
                         <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
                         </div>
@@ -190,7 +191,7 @@
                     <br>
                     <button id="new-macro-button" class="text-button orange-border text-field-medium"
                         style="margin-top: 50px; margin-bottom: 30px;"
-                        onclick="clearMicroTemplateForm(); hideMicroManager()">cancel</button>
+                        onclick=" hideMicroManager()">cancel</button>
                     <button id="new-macro-button" class="text-button green-border text-field-medium"
                         style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
                         micro</button>

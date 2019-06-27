@@ -83,7 +83,7 @@ function updateSearch() {
     if (val.startsWith("tag:")) {
         val = val.substring(4);
     }
-    $(".macro-preset").filter(function () {
+    $(`.micro-button-container`).filter(function () {
         $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1 || $(this).data("tag").toLowerCase().indexOf(val) > -1)
     });
 

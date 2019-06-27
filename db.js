@@ -18,16 +18,20 @@ var macroEntry = `
 `;
 
 var globalMicroButton = `
+<span data-templateID="{{templateID}}" data-tag="{{templateTags}}" class="micro-button-container">
     <button class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addGlobalMicro('{{templateID}}')"
     data-tag="{{templateTags}}">{{templateName}}</button>
+</span>
 `;
 
 var personalMicroButton = `
+<span data-templateID="{{templateID}}" data-tag="{{templateTags}}" class="micro-button-container">
     <button style="margin-right: -35px;" class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addPersonalMicro('{{templateID}}')"
     data-tag="{{templateTags}}">{{templateName}} 
     </button>
     <div data-templateID="{{templateID}}" class=" inline text-button little-icon-button" onclick="editPersonalMicroTemplate('{{templateID}}')"> <i class="material-icons"> edit </i> </div>
-`;
+</span>
+    `;
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -47,14 +51,14 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateName}}", template.title)
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
-                
-            $(`button.macro-preset[data-templateID='${template.id}']`).replaceWith(elem);
+
+            $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
         });
 
         microTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
 
-            $(`button.macro-preset[data-templateID='${template.id}']`).remove();
+            $(`.micro-button-container[data-templateID='${template.id}']`).remove();
         });
 
         microTemplatesRef.on("child_added", function (snapshot) {
@@ -76,17 +80,15 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateName}}", template.title)
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
-                $(`.little-icon-button[data-templateID='${template.id}']`).remove();
+            $(`.micro-button-container[data-templateID='${template.id}']`).remove();
 
-            $(`button.macro-preset[data-templateID='${template.id}']`).replaceWith(elem);
 
         });
 
         personalMicroTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
 
-            $(`button.macro-preset[data-templateID='${template.id}']`).remove();
-            $(`.little-icon-button[data-templateID='${template.id}']`).remove();
+            $(`.micro-button-container[data-templateID='${template.id}']`).remove();
 
         });
 
