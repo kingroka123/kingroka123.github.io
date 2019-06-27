@@ -52,8 +52,8 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
 
-            $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
-        });
+                $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
+            });
 
         microTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
@@ -80,7 +80,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateName}}", template.title)
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
-            $(`.micro-button-container[data-templateID='${template.id}']`).remove();
+            $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
 
 
         });
