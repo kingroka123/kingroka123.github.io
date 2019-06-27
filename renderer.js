@@ -19,7 +19,7 @@ function electron(user) {
     macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
     macroQueue.on("child_added", function (snapshot) {
       // console.log(snapshot.val());
-      cmd.run(snapshot.val())
+      cmd.get(snapshot.val(), console.log)
       snapshot.ref.remove();
     });
     

@@ -1,10 +1,11 @@
+
 cuser = null;
 macroListRef = null;
 macroQueueRef = null;
-microTemplatesRef = firebase.database().ref("micros/global");;
+microTemplatesRef = firebase.database().ref("micros/global");
+personalMicroTemplatesRef = null;
 
-var macroEntry =
-    `
+var macroEntry = `
 <div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
     <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" class="macro-name text-field text-field-sm text-field-medium" data-target="{{id}}" placeholder="Name" value="{{name}}"
         disabled>
@@ -16,6 +17,18 @@ var macroEntry =
 </div>
 `;
 
+var globalMicroButton = `
+    <button class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addGlobalMicro('{{templateID}}')"
+    data-tag="{{templateTags}}">{{templateName}}</button>
+`;
+
+var personalMicroButton = `
+    <button style="margin-right: -35px;" class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addPersonalMicro('{{templateID}}')"
+    data-tag="{{templateTags}}">{{templateName}} 
+    </button>
+    <div data-templateID="{{templateID}}" class=" inline text-button little-icon-button" onclick="editPersonalMicroTemplate('{{templateID}}')"> <i class="material-icons"> edit </i> </div>
+`;
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         var email = user.email;
@@ -23,8 +36,70 @@ firebase.auth().onAuthStateChanged(function (user) {
         cuser = user;
         macroListRef = firebase.database().ref("macrolist/" + user.uid);
         macroQueueRef = firebase.database().ref("macroqueue/" + user.uid);
+        personalMicroTemplatesRef = firebase.database().ref("micros/" + user.uid);;
 
         document.querySelector("#name-display").innerHTML = email;
+        /* global templates */
+        microTemplatesRef.on("child_changed", function (snapshot) {
+            var template = snapshot.val();
+            var elem = globalMicroButton
+                .replaceAll("{{templateID}}", template.id)
+                .replaceAll("{{templateName}}", template.title)
+                .replaceAll("{{templateBorder}}", template.border)
+                .replaceAll("{{templateTags}}", template.tags);
+                
+            $(`button.macro-preset[data-templateID='${template.id}']`).replaceWith(elem);
+        });
+
+        microTemplatesRef.on("child_removed", function (snapshot) {
+            var template = snapshot.val();
+
+            $(`button.macro-preset[data-templateID='${template.id}']`).remove();
+        });
+
+        microTemplatesRef.on("child_added", function (snapshot) {
+            var template = snapshot.val();
+            var elem = globalMicroButton
+                .replaceAll("{{templateID}}", template.id)
+                .replaceAll("{{templateName}}", template.title)
+                .replaceAll("{{templateBorder}}", template.border)
+                .replaceAll("{{templateTags}}", template.tags);
+            $("#micro-presets").append(elem);
+        });
+
+        /* personal templates */
+
+        personalMicroTemplatesRef.on("child_changed", function (snapshot) {
+            var template = snapshot.val();
+            var elem = personalMicroButton
+                .replaceAll("{{templateID}}", template.id)
+                .replaceAll("{{templateName}}", template.title)
+                .replaceAll("{{templateBorder}}", template.border)
+                .replaceAll("{{templateTags}}", template.tags);
+                $(`.little-icon-button[data-templateID='${template.id}']`).remove();
+
+            $(`button.macro-preset[data-templateID='${template.id}']`).replaceWith(elem);
+
+        });
+
+        personalMicroTemplatesRef.on("child_removed", function (snapshot) {
+            var template = snapshot.val();
+
+            $(`button.macro-preset[data-templateID='${template.id}']`).remove();
+            $(`.little-icon-button[data-templateID='${template.id}']`).remove();
+
+        });
+
+        personalMicroTemplatesRef.on("child_added", function (snapshot) {
+            var template = snapshot.val();
+            var elem = personalMicroButton
+                .replaceAll("{{templateID}}", template.id)
+                .replaceAll("{{templateName}}", template.title)
+                .replaceAll("{{templateBorder}}", template.border)
+                .replaceAll("{{templateTags}}", template.tags);
+            $("#micro-presets").append(elem);
+        });
+
 
         macroListRef.on("child_added", function (snapshot) {
             copy = macroEntry + " ";
@@ -141,8 +216,9 @@ function macro(element) {
 
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
-                    snapshot.val().micros.forEach(function(micro){
-                      getCommand(micro, runCommand);
+                    cmdTarget = snapshot.val().micros.length;
+                    snapshot.val().micros.forEach(function (micro) {
+                        getCommand(micro, condense);
                         vibrate(100);
                     })
                 });
@@ -165,11 +241,25 @@ function macro(element) {
         }
     }
 }
+var cmdTemp = "";
+var cmds = 0;
+var cmdTarget = 0;
+function condense(c) {
+    cmdTemp += c + " & ";
+    cmds++;
+    if (cmds >= cmdTarget) {
+        runCommand(cmdTemp);
+        cmdTemp = "";
+        cmds = 0;
+        cmdTarget = 0;
+    }
+
+}
 
 function runCommand(command) {
     if (command) {
         macroQueueRef.update({ [ID()]: command });
-       // console.log(command)
+        // console.log(command)
     }
 }
 
@@ -190,7 +280,7 @@ function saveMacro() {
     backView();
 }
 
-function updateMacro(macro){
+function updateMacro(macro) {
     macroListRef.child(macro.id).update(macro);
 }
 

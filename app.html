@@ -1,3 +1,10 @@
+<!-- 
+    DANGER: DO NOT TOUCH ANYTHING!
+    Changing some of these elements will result 
+    in odd behavior!
+ -->
+
+
 <!DOCTYPE html>
 <html>
 
@@ -111,12 +118,12 @@
 
             </div>
             <div id="action-list">
-
-               
-
             </div>
-
-            <div id="micros" class="red-border">
+            <button id="new-macro-button" class="text-button green-border text-field-medium"
+                style="margin-bottom: 30px;" onclick="saveMacro();">save
+                macro</button>
+            <div id="micros">
+                
                 <h2>Micros </h2>
 
                 <input autocomplete="new-password" autocapitalize="none" id="macro-preset-search" type="text"
@@ -127,32 +134,85 @@
                 <div>
                     <span>tags: </span>
                     <button class="text-button" onclick="setSearch(this)">common</button>
-                    <button class="text-button" onclick="setSearch(this)">web</button>
-                    <button class="text-button" onclick="setSearch(this)">git</button>
+                    <button class="text-button" onclick="setSearch(this)">personal</button>
                 </div>
-                <div id="micros-presets" class="">
-                    <button class="text-button macro-preset red-border" onclick="newAction('keymicro')"
-                        data-tag="common">Key</button>
-                    <button class="text-button macro-preset yellow-border" onclick="newAction('filemicro')"
-                        data-tag="common">File</button>
-                    <button class="text-button macro-preset green-border" onclick="newAction('websitemicro')"
-                        data-tag="common web">Website</button>
-                    <button class="text-button macro-preset blue-border" onclick="newAction('appmicro')"
-                        data-tag="common">App</button>
-            
-                
+                <div id="micro-presets" class="">
+
+                </div>
+                <button class="text-button" onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
+                <div id="edit-micro" style="width: 90%; margin: auto; margin-top: 30px;">
+                    <div style="border-width: 4px; border-color: white;border-bottom: solid;"></div>
+                    <button class="text-button" onclick="hideMicroManager()"
+                        style="margin-bottom: 15px; margin-top: 15px;">close</button>
+                    <br>
+                    <button id="new-macro-button" class="text-button orange-border text-field-medium"
+                        style="margin-top: 50px; margin-bottom: 30px;"
+                        onclick="clearMicroTemplateForm(); hideMicroManager()">cancel</button>
+                    <button id="new-macro-button" class="text-button green-border text-field-medium"
+                        style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
+                        micro</button>
+                    <h2>Micro Manager</h2>
+                    <div id="template-color">
+                        <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
+                        </div>
+                        <div class="color-button orange" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button yellow" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button green" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button blue" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button purple" onclick="selectTemplateColor(this)"></div>
+                    </div>
+                    <div class="form-area" style="margin-top: 30px;">
+                        <div class="text-label">Template ID</div>
+                        <input id="edit-template-id" autocomplete="new-password" autocapitalize="none" type="text"
+                            class="text-field text-field-sm" placeholder="will be generated..." disabled>
+                    </div>
+                    <div class="form-area" style="margin-top: 15px;">
+                        <div class="text-label">Template Name</div>
+                        <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text"
+                            class="text-field text-field-sm">
+                    </div>
+                    <div class="form-area" style="margin-top: 15px;">
+                        <div class="text-label">Template Tags</div>
+                        <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text"
+                            class="text-field text-field-sm">
+                    </div>
+                    <div class="form-area" style="margin-top: 15px;">
+                        <div class="text-label">Template Command</div>
+                        <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none"
+                            type="text" class="text-field"></textarea>
+                    </div>
+                    <h2>Inputs</h2>
+                    <div id="edit-micro-inputs">
+
+                    </div>
+                    <button class="text-button no-outline material-icons" onclick="addInputToForm()">
+                        add</button>
+                    <br>
+                    <button id="new-macro-button" class="text-button orange-border text-field-medium"
+                        style="margin-top: 50px; margin-bottom: 30px;"
+                        onclick="clearMicroTemplateForm(); hideMicroManager()">cancel</button>
+                    <button id="new-macro-button" class="text-button green-border text-field-medium"
+                        style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
+                        micro</button>
+                    <br>
+                    <button id="new-macro-button" class="text-button red-border"
+                        style="margin-top: 50px; margin-bottom: 30px;" onclick="deleteSelectedTemplate();">delete
+                        template</button>
                 </div>
             </div>
             <br>
             <br>
 
-            <button id="new-macro-button" class="text-button green-border text-field-medium"
-                onclick="saveMacro();">save</button>
 
         </div>
 
         <br>
     </div>
+    <div id="micromanage" class="content view">
+        <h1>Micro Manager</h1>
+
+    </div>
+
     <div id="list" class="content view">
         <h1>Macro List</h1>
         <button class="text-button" onclick="newMacro()">new Macro</button>
@@ -185,6 +245,7 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 
 <script src="utils.js"></script>
