@@ -43,8 +43,6 @@ String.prototype.replaceAll = function (search, replacement) {
 };
 function vibrate(pattern){
     window.navigator.vibrate(pattern);
-    console.log("vibrate: " + pattern)
-
 }
 
 function addEnterBind(element) {
@@ -70,12 +68,6 @@ String.prototype.nthIndexOf = function(pattern, n) {
     return i;
 }
 
-function linkAttr(input, target, attr) {
-    $(input).bind('input', function () {
-        $(target).attr(attr, $(input).val());
-    });
-}
-
 
 document.querySelectorAll("[data-enterbind]").forEach(
     function (element) {
@@ -90,6 +82,8 @@ function electronUI(e) {
     } else {
         $(".electron-visible").hide();
         $(".electron-hidden").show();
+        $(".electron-shift").removeClass("electron-shift");
+
     }
 }
 

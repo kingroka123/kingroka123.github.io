@@ -1,3 +1,13 @@
+:root {
+  --main-bg-color: #263238;
+  --color-red: #f44336;
+  --color-purple: #673ab7;
+  --color-blue: #03a9f4;
+  --color-green: #4caf50;
+  --color-yellow: #ffeb3b;
+  --color-orange: #ff8f00;
+}
+
 * {
   font-family: monospace;
 
@@ -42,7 +52,7 @@ h4 {
   border: 2px solid rgba(255, 255, 255, 1);
 
   padding: 12px 16px 14px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   background: none;
   font-weight: 400;
   color: white;
@@ -120,7 +130,7 @@ h2 {
   border-radius: 4px;
   font-size: 36px;
   padding: 0 14px;
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 0.0892857143em;
   text-decoration: none;
@@ -133,7 +143,7 @@ h2 {
 }
 .text-button:hover {
   background: white;
-  color: #263238;
+  color: var(--main-bg-color);
   border-color: white;
 }
 
@@ -161,6 +171,7 @@ h2 {
   white-space: nowrap;
   border-width: 4px;
   border-radius: 8px;
+  font-size: 1rem;
 }
 .macro-button:hover {
   border-color: white;
@@ -251,7 +262,7 @@ html {
 }
 
 #edit-form {
-  background: #263238;
+  background: var(--main-bg-color);
   width: 100%;
   height: 100%;
   z-index: 5;
@@ -288,11 +299,9 @@ html {
 
 #exit-fullscreen {
   position: fixed;
-  top: 5px;
-  left: 5px;
+  padding: 10px;
   z-index: 3;
   margin: 0;
-  padding: 0px;
   cursor: pointer;
   display: none;
   color: white;
@@ -314,18 +323,27 @@ html {
   vertical-align: center;
 }
 
-.window-bar{
+.window-bar {
   width: 100%;
-  background: #03a9f4;
+  background: var(--color-blue);
   text-align: right;
   -webkit-app-region: drag;
   display: none;
-
+  position: fixed;
 }
-.window-bar *{
+#topper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 4;
+}
+.window-bar * {
   background: none !important;
 }
-
+.electron-shift {
+  top: 36px !important;
+}
 #controls-container {
   width: 75%;
   text-align: center;
@@ -345,7 +363,7 @@ html {
   top: 0px;
 }
 #controls button {
-  background: #263238;
+  background: var(--main-bg-color);
 }
 
 #controls button:hover {
@@ -353,12 +371,13 @@ html {
 }
 
 body {
-  background: #263238;
+  background: var(--main-bg-color);
 }
 
 .macro-preset {
   width: 100px;
   height: 100px;
+  margin: 10px;
 }
 #wizard-area {
   margin-bottom: 100px;
@@ -420,45 +439,45 @@ textarea {
 }
 
 .red {
-  background: #f44336 !important;
+  background: var(--color-red) !important;
 }
 .purple {
-  background: #673ab7 !important;
+  background: var(--color-purple) !important;
 }
 
 .blue {
-  background: #03a9f4 !important;
+  background: var(--color-blue) !important;
 }
 
 .green {
-  background: #4caf50 !important;
+  background: var(--color-green) !important;
 }
 .yellow {
-  background: #ffeb3b !important;
+  background: var(--color-yellow) !important;
 }
 .orange {
-  background: #ff5722 !important;
+  background: var(--color-orange) !important;
 }
 
 .red-border {
-  border-color: #f44336;
+  border-color: var(--color-red);
 }
 .purple-border {
-  border-color: #673ab7;
+  border-color: var(--color-purple);
 }
 
 .blue-border {
-  border-color: #03a9f4;
+  border-color: var(--color-blue);
 }
 
 .green-border {
-  border-color: #4caf50;
+  border-color: var(--color-green);
 }
 .yellow-border {
-  border-color: #ffeb3b;
+  border-color: var(--color-yellow);
 }
 .orange-border {
-  border-color: #ff5722;
+  border-color: var(--color-orange);
 }
 
 .white-border {
@@ -466,28 +485,28 @@ textarea {
 }
 
 .red-font {
-  color: #f44336 !important;
+  color: var(--color-red) !important;
 }
 .purple-font {
-  color: #673ab7 !important;
+  color: var(--color-purple) !important;
 }
 
 .blue-font {
-  color: #03a9f4 !important;
+  color: var(--color-blue) !important;
 }
 
 .green-font {
-  color: #4caf50 !important;
+  color: var(--color-green) !important;
 }
 .yellow-font {
-  color: #ffeb3b !important;
+  color: var(--color-yellow) !important;
 }
 .orange-font {
-  color: #ff5722 !important;
+  color: var(--color-orange) !important;
 }
 
 #preloader {
-  background: #263238 !important;
+  background: var(--main-bg-color) !important;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -512,7 +531,7 @@ textarea {
   z-index: 5;
   top: 50px;
   border: solid 2px;
-  background: #263238 !important;
+  background: var(--main-bg-color) !important;
   display: none;
 }
 
@@ -539,7 +558,7 @@ textarea {
 .view {
   width: 100%;
   padding-top: 100px;
-  background: #263238 !important;
+  background: var(--main-bg-color) !important;
   display: none;
 }
 /* spinner */
@@ -599,12 +618,15 @@ textarea {
   position: fixed;
   width: 100vw;
   z-index: 1;
-  background: #263238;
+  background: var(--main-bg-color);
   padding: 5px;
+}
+#navigation button{
+  font-size: .9rem;
 }
 #cta {
   height: 300px;
-  padding-top: calc(50vh - 225px);
+  padding-top: calc(50vh - 250px);
 }
 #top {
   height: 100vh;
@@ -670,6 +692,10 @@ h5 {
   h1 {
     font-size: 28px;
   }
+  #navigation button{
+    font-size: .9rem;
+  }
+   
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -684,18 +710,26 @@ h5 {
   #controls-container {
     width: 90%;
   }
+  #cta{
+    padding-top: calc(50vh - 125px);
+
+   }
+
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   .macro-button {
-    font-size: 16px;
+    font-size: 1.25rem;
   }
- 
+  #navigation button{
+    font-size: 1.2em;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+  
 }
 
 .vertical-center {
@@ -744,4 +778,56 @@ h5 {
 .row {
   width: 100% !important;
   margin: 0px;
+}
+
+
+#micros{
+  border: solid 4px;
+  max-width : 700px;
+  margin:auto;
+  border-radius: 8px;
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+#micros input{
+  margin-bottom: 15px;
+}
+
+#micros-presets{
+  margin:auto;
+
+  max-height: 300px;
+  
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+height: 8px;
+width: 8px;
+margin-right: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--main-bg-color); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4f5b62  ; 
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #4f5b62
+ ; 
+}
+
+.micro-input{
+  margin: 10px 5px !important;
 }

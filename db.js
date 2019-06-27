@@ -1,6 +1,8 @@
 cuser = null;
 macroListRef = null;
 macroQueueRef = null;
+microTemplatesRef = firebase.database().ref("micros/global");;
+
 var macroEntry =
     `
 <div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
@@ -21,6 +23,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         cuser = user;
         macroListRef = firebase.database().ref("macrolist/" + user.uid);
         macroQueueRef = firebase.database().ref("macroqueue/" + user.uid);
+
         document.querySelector("#name-display").innerHTML = email;
 
         macroListRef.on("child_added", function (snapshot) {
@@ -138,11 +141,10 @@ function macro(element) {
 
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
-                    if (snapshot.val().command && snapshot.val().command.trim().length > 0) {
-                        runCommand(snapshot.val().command);
+                    snapshot.val().micros.forEach(function(micro){
+                      getCommand(micro, runCommand);
                         vibrate(100);
-
-                    }
+                    })
                 });
             }
             document.activeElement.blur();
@@ -167,48 +169,29 @@ function macro(element) {
 function runCommand(command) {
     if (command) {
         macroQueueRef.update({ [ID()]: command });
+       // console.log(command)
     }
 }
 
 function editMacro(element) {
     var id = element.dataset.target;
-    console.log(id)
-
     macroListRef.child(`/${id}`).once("value", function (snapshot) {
-        var command = snapshot.val().command;
-        var name = snapshot.val().name;
-        var color = snapshot.val().color;
-        if (!color) color = "blue";
         clearActionList();
         document.querySelector('#wizard-area').dataset.target = id;
-        $("#wizard-action-name").val(name)
+        $("#wizard-action-name").val(snapshot.val().name)
         switchView("edit")
-        elementsFromCommand(command);
-        setColor(color);
-
+        generateMacroHTML(snapshot.val())
     });
 
 }
 
 function saveMacro() {
-    var id = document.querySelector("#wizard-area").dataset.target;
-    var name = $("#wizard-action-name").val();
-    var c = commandFromElements();
-    // console.log(`${id} . ${name} . ${c}`)
-    updateMacro(id, name, c, getColor())
-    switchView("list")
+    updateMacro(getMacroFromHTML())
+    backView();
 }
 
-function updateMacro(idd, n, c, ncolor) {
-
-    macroListRef.child(idd).update(
-        {
-            name: n,
-            command: c,
-            id: idd,
-            color: ncolor
-        }
-    );
+function updateMacro(macro){
+    macroListRef.child(macro.id).update(macro);
 }
 
 function deleteMacro(element) {
@@ -232,8 +215,7 @@ function setMacro(element) {
     id = element.dataset.target;
     set = true;
     target = id;
-    // $("#controls").fadeOut();
-    $("#edit").fadeOut();
+    switchView("dashboard")
     document.querySelector("#cancel-button").style.display = "inline-block";
 
 }
@@ -242,8 +224,6 @@ function cancelSet() {
     target = "";
     set = false;
     document.querySelector("#cancel-button").style.display = "none";
-
-
 }
 
 function clearMacro(element) {
