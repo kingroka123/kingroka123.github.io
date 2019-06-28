@@ -352,23 +352,17 @@ html {
 .electron-shift {
   top: 36px !important;
 }
-#controls-container {
-  width: 75%;
-  text-align: center;
-  margin: auto;
-  padding-top: 10px;
-}
+
 #controls {
-  position: fixed;
+  
   width: 100%;
-  text-align: center;
-  box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.1);
+
   z-index: 4;
-  background: #324149;
   margin: auto;
   padding-bottom: 5px;
-  vertical-align: center;
+ 
   top: 0px;
+ 
 }
 #controls button {
   background: var(--main-bg-color);
@@ -389,7 +383,7 @@ body {
 }
 #wizard-area {
   margin-bottom: 100px;
-  width: 85%;
+  width: 95%;
 }
 .macro-preset:hover {
   background: none !important;
@@ -563,11 +557,32 @@ textarea {
   position: fixed;
   z-index: -1;
 }
+
+.side-bar{
+  height: 100vh;
+  width: 33%;
+  position: fixed;
+  background: var(--main-bg-color);
+  box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  left: 0px;
+  top: 0px;
+  overflow: auto;
+}
+
+.sidebar-content{
+  padding: 0 15px;
+
+}
+
+.sidebar-top{
+
+}
+
+
 .view {
   width: 100%;
   padding-top: 100px;
-  background: var(--main-bg-color) !important;
-  display: none;
 }
 /* spinner */
 .spinner {
@@ -714,9 +729,7 @@ h5 {
   .fright {
     display: none;
   }
-  #controls-container {
-    width: 90%;
-  }
+
   #cta {
     padding-top: calc(50vh - 125px);
   }

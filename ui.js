@@ -49,9 +49,9 @@ function clearActionList() {
     $("#action-list").empty();
     $("#wizard-action-name").val("")
 }
-var views = ["edit", "dashboard", "list", "micromanage"];
+var views = ["edit", "list"];
 
-var viewHistory = ["dashboard"];
+var viewHistory = ["list"];
 function switchView(newView, pushHistory = true) {
     views.forEach(function (view) {
         if (view != newView && $("#" + view).is(":visible")) {
@@ -73,7 +73,7 @@ function backView() {
         switchView(viewHistory.pop(), false);
     }
 }
-switchView("edit")
+switchView("list")
 $("#macro-preset-search").on('input', function () {
     updateSearch()
 });

@@ -7,7 +7,8 @@ personalMicroTemplatesRef = null;
 
 var macroEntry = `
 <div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
-    <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" class="macro-name text-field text-field-sm text-field-medium" data-target="{{id}}" placeholder="Name" value="{{name}}"
+    <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" 
+    class="macro-name text-field text-field-sm text-field-short" data-target="{{id}}" placeholder="Name" value="{{name}}"
         disabled>
    
     <button class="text-button blue-border" onclick="setMacro(this)" data-target="{{id}}">set</button>
