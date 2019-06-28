@@ -67,17 +67,18 @@
         onclick="cancelSet()">cancel</button>
 
 
-    <div id="dashboard" class="content">
+    <div id="dashboard" class="">
 
     </div>
     <div class="side-bar electron-shift">
-        <div id="controls" style="white-space: nowrap; ">
+        <div id="controls" class="sidebar-top" style="white-space: nowrap; ">
 
-<!-- there must be not whitespace between these divs -->
-            <div class="" style="display: inline-block; width: 50%; white-space: normal;" >
+            <!-- there must be not whitespace between these divs -->
+            <div class="" style="display: inline-block; width: 50%; white-space: normal;">
                 <img style="vertical-align: middle;" src="./img/icons/apple-touch-icon-152x152.png" width="44">
                 <button class="text-button" onclick="backView()">back</button>
-            </div><div class="" style="display: inline-block; text-align: right;width: 50%; white-space: normal;">
+            </div>
+            <div class="" style="display: inline-block; text-align: right;width: 50%; white-space: normal;">
                 <label style="font-size: 1.2rem; color: white" id="name-display"></label>
                 <button class="text-button red-border" onclick="logout()">logout</button>
             </div>
@@ -268,7 +269,6 @@
         });
 
         list = document.querySelector("#dashboard");
-        list.classList.add("fullscreen-list");
 
         // var buttonH = list.clientHeight;
         // console.log(buttonH);
@@ -277,8 +277,45 @@
         var w = (buttonsInRow + 1) * we;
         list.style.width = w + "px";
     }
-    sizeButtons();
-    window.onresize = sizeButtons;
+    // sizeButtons();
+    // window.onresize = sizeButtons;
+
+
+    function setDashboard() {
+        var bw = 150;
+        var bh = 120;
+        var dw = (bw + 10) * (buttonsInRow);
+        var dh = (bh + 10) * totalButtons / (buttonsInRow);
+        var macroButtons = document.querySelectorAll(".macro-button");
+        macroButtons.forEach(function (button) {
+
+            button.style.width = bw + "px";
+            button.style.height = bh + "px";
+        });
+        var list = document.querySelector("#dashboard");
+        list.style.width = dw + "px";
+        list.style.height = dh + "px";
+
+        var scale = window.innerWidth / dw;
+        var paddingFactor = .95;
+        if (dh * scale > window.innerHeight) {
+            scale = window.innerHeight / dh;
+            console.log("big")
+
+        }
+        console.log("dahsboard: " + dw * scale + ", " + dh * scale)
+
+        scale *= paddingFactor;
+        list.style.transform = "scale(" + scale + ")";
+        list.style.left = ((window.innerWidth - dw * scale) / 2) + "px";
+        list.style.top = ((window.innerHeight - dh * scale) / 2) + "px";
+
+
+    }
+
+    setDashboard();
+    window.onresize = setDashboard;
+
     function fullscreen() {
 
         controls = document.querySelector("#controls");
@@ -306,6 +343,7 @@
     }
     var electron = null;
 
+    $(document).ready(setDashboard)
 
 </script>
 <script type="text/javascript">

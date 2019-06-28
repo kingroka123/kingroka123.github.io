@@ -168,9 +168,8 @@ h2 {
   outline: none;
 }
 .macro-button {
-  height: 100px;
-  width: 100px;
-  margin: 5px;
+  height: 192px;
+  width: 192px;
   box-shadow: 0 6px 6px rgba(0, 0, 0, 0.65);
 
   color: white;
@@ -179,7 +178,9 @@ h2 {
   white-space: nowrap;
   border-width: 4px;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  margin: 5px;
+
 }
 .macro-button:hover {
   border-color: white;
@@ -196,14 +197,7 @@ h2 {
   border-color: rgba(255, 255, 255, 0.45) !important;
   background: none;
 }
-.fullscreen-list {
-  margin: 0;
-  position: absolute;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 #macro-area {
   /* text-align: center;
   margin-top: 50px;
@@ -354,15 +348,13 @@ html {
 }
 
 #controls {
-  
   width: 100%;
 
   z-index: 4;
   margin: auto;
   padding-bottom: 5px;
- 
+
   top: 0px;
- 
 }
 #controls button {
   background: var(--main-bg-color);
@@ -558,32 +550,40 @@ textarea {
   z-index: -1;
 }
 
-.side-bar{
+.side-bar {
   height: 100vh;
   width: 33%;
   position: fixed;
   background: var(--main-bg-color);
-  box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0px 1px 3px rgba(0, 0, 0, 0.45);
   z-index: 1;
   left: 0px;
   top: 0px;
   overflow: auto;
+  display: none;
 }
 
-.sidebar-content{
+.sidebar-content {
   padding: 0 15px;
-
 }
 
-.sidebar-top{
-
+.sidebar-top {
+  position: fixed;
 }
-
 
 .view {
   width: 100%;
   padding-top: 100px;
+  
 }
+
+#dashboard {
+  font-size: 0;
+  transform-origin: left top;
+
+  position: fixed;
+}
+
 /* spinner */
 .spinner {
   margin: 15px auto 0;
@@ -740,9 +740,7 @@ h5 {
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .macro-button {
-    font-size: 1.25rem;
-  }
+
   #navigation button {
     font-size: 1.2em;
   }
@@ -859,12 +857,11 @@ select::-ms-expand {
   margin: 4px 0px !important;
 }
 
-
-#edit-micro{
-  display:none;
+#edit-micro {
+  display: none;
 }
 
-.little-icon-button{
+.little-icon-button {
   padding: 0 !important;
   width: 36px;
   height: 36px;
@@ -879,8 +876,9 @@ select::-ms-expand {
   cursor: pointer;
   z-index: 1;
 }
-.little-icon-button i{
+.little-icon-button i {
   font-size: 18px;
-  position:relative;
+  position: relative;
   top: calc(50% - 9px); /* 50% - 3/4 of icon height */
 }
+
