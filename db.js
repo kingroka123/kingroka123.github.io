@@ -4,6 +4,7 @@ macroListRef = null;
 macroQueueRef = null;
 microTemplatesRef = firebase.database().ref("micros/global");
 personalMicroTemplatesRef = null;
+var dontMacro = false;
 
 var macroEntry = `
 <div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
@@ -53,8 +54,8 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
 
-                $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
-            });
+            $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
+        });
 
         microTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
@@ -214,9 +215,8 @@ var longMove = false;
 let target = "";
 function macro(element) {
     if (!set) {
-        if (!$("#long-menu").is(":visible")) {
+        if (!dontMacro) {
             t = element.dataset.target;
-
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
                     cmdTarget = snapshot.val().micros.length;
@@ -226,9 +226,6 @@ function macro(element) {
                     })
                 });
             }
-            document.activeElement.blur();
-        } else {
-            showLongMenuFor(element)
         }
     } else {
         // element.dataset.target = target;
@@ -238,11 +235,10 @@ function macro(element) {
         }
         macroListRef.child(target).update({ set: element.dataset.number });
         cancelSet();
-        if (longMove) {
-            showLongMenuFor(element)
-            longMove = false;
-        }
+
     }
+    dontMacro = false;
+
 }
 var cmdTemp = "";
 var cmds = 0;
@@ -327,17 +323,6 @@ function clearMacro(element) {
     }
 }
 
-$(".macro-button").mouseup(function () {
-    clearTimeout(pressTimer);
-
-}).mousedown(function () {
-    var macroButton = this;
-    pressTimer = window.setTimeout(function () {
-        //clearMacro(macroButton);
-        longPress(macroButton);
-
-    }, 500);
-});
 var pressTimer;
 $('.macro-button')
     .on({
@@ -351,28 +336,34 @@ $('.macro-button')
             var macroButton = this;
             pressTimer = window.setTimeout(function () {
                 //clearMacro(macroButton);
-                longPress(macroButton);
+                longPress(macroButton, e);
             }, 500);
 
         }
-    })
-    .contextmenu(function (e) {
-        e.preventDefault();
-        longPress(this)
     });
+$(window).contextmenu(function (e) {
+    e.preventDefault();
+    if ($(e.target).hasClass('macro-button')) {
+        longPress(e.target, e)
+    }
+});
 
 $(document).mouseup(function (e) {
+    document.activeElement.blur();
+
     var container = $("#long-menu");
 
     // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
-        container.fadeOut();
+        hideLongMenu();
+
+    } else {
     }
 });
 
 
-function longPress(macroButton) {
-    showLongMenuFor(macroButton)
+function longPress(macroButton, e) {
+    showLongMenuFor(macroButton, e)
 }
 
 function selectColor(element) {
@@ -392,13 +383,11 @@ function setColor(color) {
 }
 
 var selectedMacroButton;
-function showLongMenuFor(macroButton) {
-
+function showLongMenuFor(macroButton, e) {
     var id = $(macroButton).get(0).dataset.target;
+
     if (!id) return;
-    if (!$("#long-menu").is(":visible")) {
-        vibrate(200);
-    }
+
     macroListRef.child(`/${id}`).once("value", function (snapshot) {
         var color = snapshot.val().color;
         if (!color) color = "blue";
@@ -407,42 +396,53 @@ function showLongMenuFor(macroButton) {
     });
 
     selectedMacroButton = macroButton;
-    $("#long-menu").fadeIn();
-    $(macroButton).blur();
-    var left = $(macroButton).get(0).getBoundingClientRect().left;
-    var top = $(macroButton).get(0).getBoundingClientRect().top;
-    var width = $("#long-menu").get(0).getBoundingClientRect().width;
-    var height = $(macroButton).get(0).getBoundingClientRect().height;
-    var x = (left - width / 4);
-    x = x.clamp(5, window.innerWidth - width - 5);
-    var y = 0;
-    if (top < window.innerHeight / 2) {
-        y = (top + height) + 20;
-        $("#button-pointer-up").show();
-        $("#button-pointer-down").hide();
-    } else {
-        y = (top - $("#long-menu").get(0).getBoundingClientRect().height) - 20;
-        $("#button-pointer-up").hide();
-        $("#button-pointer-down").show();
+
+
+    if (e) {
+        var width = $("#long-menu").get(0).getBoundingClientRect().width;
+        var height = $("#long-menu").get(0).getBoundingClientRect().height;
+        console.log("w: " + width)
+        var x = 0;
+        var y = 0;
+
+        var xx = (e.clientX > window.innerWidth / 2);
+        var yy = (e.clientY > window.innerHeight / 2);
+        if (xx) {
+            x = e.clientX - width;
+        } else {
+            x = e.clientX;
+        }
+        if (yy) {
+            y = e.clientY - height;
+        } else {
+            y = e.clientY;
+        }
+
+        document.querySelector("#long-menu").style.left = x + "px";
+        document.querySelector("#long-menu").style.top = y + "px";
     }
-    $("#long-menu").get(0).style.left = x + "px";
-    $("#long-menu").get(0).style.top = y + "px";
+    $("#long-menu").finish();
+    $("#long-menu").css('visibility', 'visible')
 
-    width = $(macroButton).get(0).getBoundingClientRect().width;
-    $("#button-pointer-up").get(0).style.left = (left + width / 2 - 5) + "px";
-    $("#button-pointer-up").get(0).style.top = (y - 20) + "px";
+    vibrate(200);
+    document.activeElement.blur();
 
-    $("#button-pointer-down").get(0).style.left = (left + width / 2 - 5) + "px";
-    $("#button-pointer-down").get(0).style.top = (y + $("#long-menu").get(0).getBoundingClientRect().height) + "px";
 }
 
 function clearSelectedMacroButton() {
     clearMacro(selectedMacroButton);
-    $('#long-menu').fadeOut()
+    hideLongMenu()
+}
+
+function hideLongMenu() {
+    if ($("#long-menu").css('visibility') == "visible")
+        dontMacro = true;
+    $("#long-menu").css('visibility', 'hidden')
+
+
 }
 
 function setSelectedMacroButton() {
-
     target = $(selectedMacroButton).get(0).dataset.target;
     if (target) {
         // $("#controls").fadeOut();
@@ -450,7 +450,7 @@ function setSelectedMacroButton() {
         document.querySelector("#cancel-button").style.display = "inline-block";
         set = true;
         longMove = true;
-        $('#long-menu').fadeOut()
+        hideLongMenu()
     }
 }
 
@@ -462,8 +462,7 @@ function setSelectedColor() {
 
 function editSelectedMacroButton() {
     editMacro($(selectedMacroButton).get(0))
-    $('#long-menu').fadeOut()
-
+    hideLongMenu()
 }
 
 $(document.body).on("mousedown touchstart", function () {

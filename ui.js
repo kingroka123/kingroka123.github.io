@@ -49,23 +49,39 @@ function clearActionList() {
     $("#action-list").empty();
     $("#wizard-action-name").val("")
 }
-var views = ["edit", "list"];
+var views = ["edit", "list", "settings"];
 
 var viewHistory = ["list"];
-function switchView(newView, pushHistory = true) {
+function switchView(newView) {
     views.forEach(function (view) {
         if (view != newView && $("#" + view).is(":visible")) {
-            if (viewHistory[viewHistory.length - 1] != view && pushHistory) {
-                viewHistory.push(view);
-            }
-            $("#" + view).fadeOut(function () {
-                $("#" + newView).fadeIn();
-            });
-            $("#" + view + "-controls").fadeOut(function () {
-                $("#" + newView + "-controls").fadeIn();
-            });
+            $("#" + view).hide();
+            $("#" + newView).show();
         }
     });
+}
+
+function openDrawerTo(view) {
+    if (isDrawerOpen()) {
+        closeDrawer(view);
+    } else {
+        switchView(view);
+    }
+
+    $("#drawer").animate({ left: 0 }, 300, 'linear')
+}
+
+function closeDrawer(view) {
+    $("#drawer").animate({ left: -$("#drawer").width() - 100 }, 300, 'linear', function () {
+        switchView(view);
+
+    });
+
+}
+closeDrawer();
+
+function isDrawerOpen() {
+    return $("#drawer").position().left >= -.5;
 }
 
 function backView() {
@@ -506,3 +522,15 @@ var sortable = Sortable.create(el, {
     ghostClass: "blur",
     animation: 150,
 });
+
+function toolTips() {
+    $(".tool-tip").each(function () {
+        var tip = $(this);
+        var target = $(tip.data("target"));
+        var y = target.position().top - 2;
+        tip.css({ top: y + "px" })
+        target.hover(function () { tip.css({ visibility: "visible" }) }, function () { tip.css({ visibility: "hidden" }) })
+    });
+}
+
+// $(window).ready(toolTips);
