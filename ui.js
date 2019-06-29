@@ -63,40 +63,46 @@ function swapDrawerContent(newView) {
     lastView = newView;
 }
 
-function switchView(view, closedCallback, openCallback) {
-    $("#drawer").stop();
-
+function switchView(view) {
+    
     var toggle = view == lastView;
     if (isDrawerOpen()) {
-        closeDrawer(view, closedCallback);
+        closeDrawer(view, function () { if(!toggle) {switchView(view)} });
     } else {
         swapDrawerContent(view);
-    }
-    if (!toggle || !isDrawerOpen()) {
-        $("#drawer").animate({ right: window.innerWidth - $("#drawer").outerWidth() }, 225, 'linear', function(){
-            if(openCallback){
-                openCallback();
-            }
-        })
-        
+        openDrawer()
     }
 }
 
+function openDrawer(callback) {
+
+    $("#drawer").animate({ right: window.innerWidth - $("#drawer").outerWidth() }, 225, 'linear', function () {
+        if (callback) {
+            openCallback();
+        }
+    })
+}
+
 function closeDrawer(view, callback) {
-    $("#drawer").stop();
+    
     $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
-        swapDrawerContent(view);
-        if(callback){
+        if (callback) {
             callback();
         }
     });
 }
 
+$(window).resize(function () {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
+    } else {
+        $("#drawer").css({ right: window.innerWidth });
+    }
+})
 
 
 function isDrawerOpen() {
-    return $("#drawer").position().left >= -.5;
+    return $("#drawer").position().left >= -$("#drawer").width();;
 }
 
 
@@ -461,11 +467,11 @@ function savePersonalTemplate() {
 
 function showMicroManager(callback) {
     switchView("edit-micro")
-    if(callback){callback();}
+    if (callback) { callback(); }
 }
 function hideMicroManager(callback) {
     switchView("edit");
-    if(callback){callback();}
+    if (callback) { callback(); }
 
 }
 function editGlobalMicroTemplate(templateID) {
@@ -542,7 +548,7 @@ function toolTips() {
     });
 }
 
- $(window).ready(toolTips);
+$(window).ready(toolTips);
 
 closeDrawer();
 clearActionList();

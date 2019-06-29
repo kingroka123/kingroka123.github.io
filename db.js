@@ -25,15 +25,21 @@ var globalMicroButton = `
     data-tag="{{templateTags}}">{{templateName}}</button>
 </span>
 `;
-
+var editMicroButton =
+ `<div data-templateID="{{templateID}}" 
+       class=" inline text-button little-icon-button" 
+       onclick="editPersonalMicroTemplate('{{templateID}}')"> 
+        <i class="material-icons"> edit </i> 
+  </div>`;
 var personalMicroButton = `
 <span data-templateID="{{templateID}}" data-tag="{{templateTags}}" class="micro-button-container">
     <button style="margin-right: -35px;" class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addPersonalMicro('{{templateID}}')"
     data-tag="{{templateTags}}">{{templateName}} 
     </button>
-    <div data-templateID="{{templateID}}" class=" inline text-button little-icon-button" onclick="editPersonalMicroTemplate('{{templateID}}')"> <i class="material-icons"> edit </i> </div>
+    ${editMicroButton}
 </span>
     `;
+
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
