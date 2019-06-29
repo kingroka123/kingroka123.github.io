@@ -588,7 +588,7 @@ textarea {
 }
 
 .tool-bar .bottom {
-  position: fixed;
+  position: absolute;
   bottom: 0px;
 }
 
@@ -614,6 +614,7 @@ textarea {
   width: 100%;
   padding-top: 30px;
 }
+
 
 #dashboard {
   font-size: 0;

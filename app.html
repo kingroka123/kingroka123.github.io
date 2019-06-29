@@ -14,7 +14,9 @@
     <title>Macro</title>
     <link rel="icon" type="image/ico" href="./favicon.ico">
     <link rel="manifest" href="./img/icons/manifest.json">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
@@ -251,7 +253,8 @@
             data-target=""
             ></button>
     `;
-
+    var viewPortHeight = $(window).height();
+    console.log(viewPortHeight);
     for (i = 0; i < totalButtons; i++) {
         copy = macroButtonTemplate + "";
         copy = copy.replaceAll("{{num}}", i);
@@ -277,7 +280,6 @@
         var paddingFactor = .95;
         if (dh * scale > window.innerHeight) {
             scale = window.innerHeight / dh;
-            console.log("big")
 
         }
         // console.log("dahsboard: " + dw * scale + ", " + dh * scale)
@@ -296,7 +298,6 @@
     }
 
     setDashboard();
-    $(window).resize(setDashboard);
 
     function fullscreen() {
 
@@ -320,6 +321,13 @@
     }
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         fullscreen();
+        $(window).resize(function () {
+            $("html").css({ height: viewPortHeight +"px !important"});
+             $(".side-bar").css({ height: viewPortHeight });
+
+        })
+    }else{
+        $(window).resize(setDashboard);
 
     }
     var electron = null;

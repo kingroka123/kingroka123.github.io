@@ -92,9 +92,7 @@ function closeDrawer(view, callback) {
     });
 }
 
-$(window).resize(function () {
-    $("#drawer").css({ right: window.innerWidth });
-})
+
 
 
 function isDrawerOpen() {
