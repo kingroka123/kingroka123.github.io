@@ -62,7 +62,15 @@ function swapDrawerContent(newView) {
     $("#" + newView).show();
     lastView = newView;
 }
+function closeToolbar(){
+    $('.tool-bar').hide();
+    $('#close-toolbar').hide();
+}
+function openToolbar(){
+    $('.tool-bar').show();
+    $('#close-toolbar').show();
 
+}
 function switchView(view) {
     
     var toggle = view == lastView;
@@ -75,7 +83,7 @@ function switchView(view) {
 }
 
 function openDrawer(callback) {
-
+    openToolbar();
     $("#drawer").animate({ right: window.innerWidth - $("#drawer").outerWidth() }, 225, 'linear', function () {
         if (callback) {
             openCallback();
@@ -92,15 +100,7 @@ function closeDrawer(callback) {
     });
 }
 
-function closeToolbar(){
-    $('.tool-bar').hide();
-    $('#close-toolbar').hide();
-}
-function openToolbar(){
-    $('.tool-bar').show();
-    $('#close-toolbar').show();
 
-}
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     closeToolbar();
 }
