@@ -26,7 +26,7 @@ var globalMicroButton = `
 </span>
 `;
 var editMicroButton =
- `<div data-templateID="{{templateID}}" 
+    `<div data-templateID="{{templateID}}" 
        class=" inline text-button little-icon-button" 
        onclick="editPersonalMicroTemplate('{{templateID}}')"> 
         <i class="material-icons"> edit </i> 
@@ -297,15 +297,13 @@ function deleteMacro(element) {
 }
 
 function newMacro() {
-    switchView("edit", function(){
-        console.log("adasd")
-
+    closeDrawer(function () {
         clearActionList();
         switchView("edit");
-    })
+    });
 }
 
-function setNewMacroID(){
+function setNewMacroID() {
     var newID = ID();
     $('#wizard-area').get(0).dataset.target = newID;
 }
@@ -314,7 +312,7 @@ function setMacro(element) {
     id = element.dataset.target;
     set = true;
     target = id;
-    switchView("dashboard")
+    closeDrawer();
     document.querySelector("#cancel-button").style.display = "inline-block";
 
 }
@@ -362,13 +360,13 @@ $(document).mouseup(function (e) {
 
     var container = $("#long-menu");
     var drawer = $("#drawer");
-
+    var toolbar = $(".tool-bar");
     // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
     }
-    if (!drawer.is(e.target) && drawer.has(e.target).length === 0) {
-       closeDrawer();
+    if (!drawer.is(e.target) && drawer.has(e.target).length === 0 && !toolbar.is(e.target) && toolbar.has(e.target).length === 0) {
+        closeDrawer();
     }
 });
 

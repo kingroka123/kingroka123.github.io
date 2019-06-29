@@ -83,6 +83,7 @@ function electronUI(e) {
         $(".electron-visible").hide();
         $(".electron-hidden").show();
         $(".electron-shift").removeClass("electron-shift");
+        $(".electron-height").removeClass("electron-height");
 
     }
 }

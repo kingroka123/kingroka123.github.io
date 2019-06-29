@@ -1,5 +1,8 @@
 :root {
   --main-bg-color: #263238;
+  --drawer-bg-color: #102027;
+  --toolbar-bg-color: #102027;
+
   --color-red: #f44336;
   --color-purple: #673ab7;
   --color-blue: #03a9f4;
@@ -7,6 +10,7 @@
   --color-yellow: #ffeb3b;
   --color-orange: #ff8f00;
   --toolbar-width: 3.5rem;
+  --window-bar-height: 25px;
 }
 
 * {
@@ -299,6 +303,12 @@ html {
   -webkit-app-region: drag;
   display: none;
   position: fixed;
+  height: var(--window-bar-height);
+}
+
+.window-bar .text-button{
+  font-size: 1rem !important; 
+  height: var(--window-bar-height) !important;
 }
 #topper {
   position: fixed;
@@ -311,8 +321,14 @@ html {
   background: none !important;
 }
 .electron-shift {
-  top: 36px !important;
+  top: var(--window-bar-height) !important;
+  
 }
+
+.electron-height{
+  height: calc(100vh - var(--window-bar-height)) !important;
+}
+
 
 #controls {
   width: 100%;
@@ -521,8 +537,8 @@ textarea {
   width: 40%;
   min-width: 500px;;
   position: fixed;
-  background: var(--main-bg-color);
-  z-index: 1;
+  background: var(--drawer-bg-color);
+  z-index: 2;
   right: 100vw;
   top: 0px;
   overflow: auto;
@@ -530,15 +546,31 @@ textarea {
   padding-left: var(--toolbar-width);
 }
 
+.toolbar-controls{
+  position: fixed;
+  top: calc(50vh - 2.5rem);
+  font-size: 2.5rem !important;
+  color: white;
+  z-index: 1;
+  cursor: pointer;
+  left: 0px;
+}
+
+#close-toolbar{
+  left: var(--toolbar-width);
+}
+
+
 .tool-bar {
   width: var(--toolbar-width) !important;
   left: 0px !important;
   border-right: solid 2px rgba(0, 0, 0, 0.15);
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   padding-left: 0;
   padding-top: 5px;
   min-width: 0px;;
+  background: var(--toolbar-bg-color);
 
 }
 
@@ -857,7 +889,7 @@ select::-ms-expand {
   
   font-size: 0px;
   display:  inline-grid;
-  grid-template-columns: 100px 100px 100px;
+  grid-template-columns: 100px 100px 100px 100px;
   grid-gap: 10px;
 }
 .macro-preset {

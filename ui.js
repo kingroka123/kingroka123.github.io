@@ -67,7 +67,7 @@ function switchView(view) {
     
     var toggle = view == lastView;
     if (isDrawerOpen()) {
-        closeDrawer(view, function () { if(!toggle) {switchView(view)} });
+        closeDrawer(function () { if(!toggle) {switchView(view)} });
     } else {
         swapDrawerContent(view);
         openDrawer()
@@ -83,7 +83,7 @@ function openDrawer(callback) {
     })
 }
 
-function closeDrawer(view, callback) {
+function closeDrawer(callback) {
     
     $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
         if (callback) {
@@ -92,6 +92,18 @@ function closeDrawer(view, callback) {
     });
 }
 
+function closeToolbar(){
+    $('.tool-bar').hide();
+    $('#close-toolbar').hide();
+}
+function openToolbar(){
+    $('.tool-bar').show();
+    $('#close-toolbar').show();
+
+}
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    closeToolbar();
+}
 $(window).resize(function () {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
