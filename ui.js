@@ -22,10 +22,9 @@ function moveDown(elem) {
 var actionTop =
     `
     <div>
-        <button class="text-button material-icons white-border left-side"
-        onclick="moveUp($(this).parent().parent().parent().parent())">arrow_drop_up</button>
-        <button class="text-button material-icons white-border left-side"
-        onclick="moveDown($(this).parent().parent().parent().parent())">arrow_drop_down</button>
+        <button class=" handle text-button material-icons no-outline left-side"
+        onclick="">reorder</button>
+
 
         <button class="right-side text-button material-icons red-border"
         onclick="$(this).parent().parent().parent().parent().remove()">close</button>
@@ -544,6 +543,14 @@ function setTemplateColor(color) {
 
 var el = document.getElementById('edit-micro-inputs');
 var sortable = Sortable.create(el, {
+    easing: "cubic-bezier(0.47, 0, 0.745, 0.715)", // Easing for animation. Defaults to null. See for examples.
+    handle: ".handle",
+    ghostClass: "blur",
+    animation: 150,
+});
+
+el = document.getElementById('action-list');
+Sortable.create(el, {
     easing: "cubic-bezier(0.47, 0, 0.745, 0.715)", // Easing for animation. Defaults to null. See for examples.
     handle: ".handle",
     ghostClass: "blur",
