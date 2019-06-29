@@ -207,7 +207,7 @@ function edit() {
 }
 
 function closeEdit() {
-    backView("edit")
+    switchView('list')
 
 }
 let set = false;
@@ -215,7 +215,7 @@ var longMove = false;
 let target = "";
 function macro(element) {
     if (!set) {
-        if (!dontMacro) {
+        if (!dontMacro && !isDrawerOpen()) {
             t = element.dataset.target;
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
@@ -276,7 +276,7 @@ function editMacro(element) {
 
 function saveMacro() {
     updateMacro(getMacroFromHTML())
-    backView();
+    switchView('list')
 }
 
 function updateMacro(macro) {
@@ -291,14 +291,18 @@ function deleteMacro(element) {
 }
 
 function newMacro() {
-    clearActionList();
-    var newID = ID();
-    $('#wizard-area').get(0).dataset.target = newID;
-    console.log(newID)
-    switchView("edit")
+    switchView("edit", function(){
+        console.log("adasd")
+
+        clearActionList();
+        switchView("edit");
+    })
 }
 
-
+function setNewMacroID(){
+    var newID = ID();
+    $('#wizard-area').get(0).dataset.target = newID;
+}
 function setMacro(element) {
 
     id = element.dataset.target;
@@ -349,15 +353,16 @@ $(window).contextmenu(function (e) {
 });
 
 $(document).mouseup(function (e) {
-    document.activeElement.blur();
 
     var container = $("#long-menu");
+    var drawer = $("#drawer");
 
     // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
-
-    } else {
+    }
+    if (!drawer.is(e.target) && drawer.has(e.target).length === 0) {
+       closeDrawer();
     }
 });
 

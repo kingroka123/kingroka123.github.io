@@ -48,47 +48,60 @@ window.customElements.define('action-top', ActionTop);
 function clearActionList() {
     $("#action-list").empty();
     $("#wizard-action-name").val("")
+    setNewMacroID()
 }
-var views = ["edit", "list", "settings"];
+var views = ["edit", "list", "settings", "edit-micro"];
 
-var viewHistory = ["list"];
-function switchView(newView) {
+var lastView = ""
+function swapDrawerContent(newView) {
     views.forEach(function (view) {
         if (view != newView && $("#" + view).is(":visible")) {
             $("#" + view).hide();
-            $("#" + newView).show();
+        }
+    });
+    $("#" + newView).show();
+    lastView = newView;
+}
+
+function switchView(view, closedCallback, openCallback) {
+    $("#drawer").stop();
+
+    var toggle = view == lastView;
+    if (isDrawerOpen()) {
+        closeDrawer(view, closedCallback);
+    } else {
+        swapDrawerContent(view);
+    }
+    if (!toggle || !isDrawerOpen()) {
+        $("#drawer").animate({ right: window.innerWidth - $("#drawer").outerWidth() }, 225, 'linear', function(){
+            if(openCallback){
+                openCallback();
+            }
+        })
+        
+    }
+}
+
+function closeDrawer(view, callback) {
+    $("#drawer").stop();
+    $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
+        swapDrawerContent(view);
+        if(callback){
+            callback();
         }
     });
 }
 
-function openDrawerTo(view) {
-    if (isDrawerOpen()) {
-        closeDrawer(view);
-    } else {
-        switchView(view);
-    }
+$(window).resize(function () {
+    $("#drawer").css({ right: window.innerWidth });
+})
 
-    $("#drawer").animate({ left: 0 }, 300, 'linear')
-}
-
-function closeDrawer(view) {
-    $("#drawer").animate({ left: -$("#drawer").width() - 100 }, 300, 'linear', function () {
-        switchView(view);
-
-    });
-
-}
-closeDrawer();
 
 function isDrawerOpen() {
     return $("#drawer").position().left >= -.5;
 }
 
-function backView() {
-    if (viewHistory.length > 0) {
-        switchView(viewHistory.pop(), false);
-    }
-}
+
 switchView("list")
 $("#macro-preset-search").on('input', function () {
     updateSearch()
@@ -449,15 +462,13 @@ function savePersonalTemplate() {
 }
 
 function showMicroManager(callback) {
-    $('#edit-micro').slideDown('slow');
+    switchView("edit-micro")
+    if(callback){callback();}
 }
 function hideMicroManager(callback) {
-    $('#edit-micro').slideUp('slow', function () {
-        clearMicroTemplateForm();
-        if (callback) {
-            callback();
-        }
-    });
+    switchView("edit");
+    if(callback){callback();}
+
 }
 function editGlobalMicroTemplate(templateID) {
     microTemplatesRef.child(templateID).once("value", function (snapshot) {
@@ -533,4 +544,7 @@ function toolTips() {
     });
 }
 
-// $(window).ready(toolTips);
+ $(window).ready(toolTips);
+
+closeDrawer();
+clearActionList();

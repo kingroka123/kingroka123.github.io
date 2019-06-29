@@ -218,11 +218,7 @@ h2 {
   padding: 15px;
 }
 
-#name-display {
-  margin-right: 5px;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.75);
-}
+
 .content {
   width: 80%;
   margin: auto;
@@ -343,6 +339,9 @@ body {
   width: 100px;
   height: 100px;
   margin: 10px;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0;
 }
 #wizard-area {
   margin-bottom: 100px;
@@ -526,11 +525,12 @@ textarea {
 
 .side-bar {
   height: 100vh;
-  width: 33%;
+  width: 40%;
+  min-width: 500px;;
   position: fixed;
   background: var(--main-bg-color);
   z-index: 1;
-  left: var(--toolbar-width);
+  right: 100vw;
   top: 0px;
   overflow: auto;
   border-right: solid 2px rgba(0, 0, 0, 0.25);
@@ -545,6 +545,8 @@ textarea {
   text-align: center;
   padding-left: 0;
   padding-top: 5px;
+  min-width: 0px;;
+
 }
 
 .tool-bar div {
@@ -565,7 +567,7 @@ textarea {
   z-index: 3;
   border: solid 2px rgba(0, 0, 0, 0.15);
   border-left: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   padding-right: 15px;
   border-bottom-left-radius: 0;
@@ -579,6 +581,7 @@ textarea {
   overflow: hidden;
   text-overflow: clip;
   visibility: hidden;
+  color: white;
 }
 .tool-bar div:hover {
   color: white !important;
@@ -609,7 +612,7 @@ textarea {
 
 .view {
   width: 100%;
-  padding-top: 100px;
+  padding-top: 30px;
 }
 
 #dashboard {

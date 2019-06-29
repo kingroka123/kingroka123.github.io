@@ -67,36 +67,30 @@
     <div id="dashboard" class="">
 
     </div>
-    <div class="tool-tip" data-target="#add_macro_toolbar"> New Macro</div>
-    <div class="tool-tip" data-target="#edit_macro_toolbar"> Place Macros</div>
-    <div class="tool-tip" data-target="#settings_macro_toolbar"> Settings</div>
+    <div class="tool-tip" id="name-display" data-target="#logout"></div>
+
 
     <div class="side-bar tool-bar electron-shift">
-        <div><img style="vertical-align: middle; " src="./img/icons/apple-touch-icon-152x152.png" width="44"></div>
-        <div onclick="openDrawerTo('list')" id="add_macro_toolbar"><i class="material-icons">add</i></div>
-        <div onclick="openDrawerTo('edit')" id="edit_macro_toolbar"><i class="material-icons">touch_app</i></div>
+        <div id="logout"><img style="vertical-align: middle; " src="./img/icons/apple-touch-icon-152x152.png"
+                width="44"></div>
+        <div onclick="switchView('list')" id="add_macro_toolbar"><i class="material-icons">add</i></div>
+        <div onclick="switchView('edit')" id="edit_macro_toolbar"><i class="material-icons">touch_app</i></div>
 
-        <div onclick="openDrawerTo('settings')" id="settings_macro_toolbar"><i class="material-icons">settings</i></div>
+        <div onclick="switchView('settings')" id="settings_macro_toolbar"><i class="material-icons">settings</i></div>
 
         <div onclick="logout()" class="bottom"><i class="material-icons">exit_to_app</i></div>
     </div>
     <div id="drawer" class="side-bar electron-shift">
-        <div id="controls" class="sidebar-top" style="white-space: nowrap; ">
 
-            <!-- there must be not whitespace between these divs -->
-            <!-- <div class="" style="display: inline-block; width: 50%; white-space: normal;">
-                <img style="vertical-align: middle;" src="./img/icons/apple-touch-icon-152x152.png" width="44">
-                <button class="text-button" onclick="backView()">back</button>
-            </div> -->
-            <div class="" style="display: inline-block; text-align: right;width: 50%; white-space: normal;">
-                <label style="font-size: 1.2rem; color: white" id="name-display"></label>
-                <button class="text-button red-border" onclick="logout()">logout</button>
-            </div>
-        </div>
         <div class="sidebar-content">
             <div id="edit" class="content view">
                 <div id="wizard-area" class="content" data-target="">
+
                     <h1>Macro Wizard</h1>
+
+                    <br>
+                    <button class="text-button" onclick="newMacro()">new Macro</button>
+                    <br>
                     <br>
                     <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
                         type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
@@ -132,69 +126,7 @@
                         </div>
                         <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button"
                             onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
-                        <div id="edit-micro" style="width: 90%; margin: auto; margin-top: 30px;">
-                            <div style="border-width: 4px; border-color: white;border-bottom: solid;"></div>
-                            <h2>Micro Manager</h2>
 
-                            <button class="text-button" onclick="hideMicroManager()"
-                                style="margin-bottom: 15px; margin-top: 15px;">close</button>
-                            <br>
-                            <button id="new-macro-button" class="text-button orange-border text-field-medium"
-                                style="margin-top: 50px; margin-bottom: 30px;"
-                                onclick="hideMicroManager()">cancel</button>
-                            <button id="new-macro-button" class="text-button green-border"
-                                style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
-                                micro</button>
-                            <div id="template-color">
-                                <div class="color-button red" onclick="selectTemplateColor(this)"
-                                    data-color-selected="true">
-                                </div>
-                                <div class="color-button orange" onclick="selectTemplateColor(this)"></div>
-                                <div class="color-button yellow" onclick="selectTemplateColor(this)"></div>
-                                <div class="color-button green" onclick="selectTemplateColor(this)"></div>
-                                <div class="color-button blue" onclick="selectTemplateColor(this)"></div>
-                                <div class="color-button purple" onclick="selectTemplateColor(this)"></div>
-                            </div>
-                            <div class="form-area" style="margin-top: 30px;">
-                                <div class="text-label">Template ID</div>
-                                <input id="edit-template-id" autocomplete="new-password" autocapitalize="none"
-                                    type="text" class="text-field text-field-sm" placeholder="will be generated..."
-                                    disabled>
-                            </div>
-                            <div class="form-area" style="margin-top: 15px;">
-                                <div class="text-label">Template Name</div>
-                                <input id="edit-template-name" autocomplete="new-password" autocapitalize="none"
-                                    type="text" class="text-field text-field-sm">
-                            </div>
-                            <div class="form-area" style="margin-top: 15px;">
-                                <div class="text-label">Template Tags</div>
-                                <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none"
-                                    type="text" class="text-field text-field-sm">
-                            </div>
-                            <div class="form-area" style="margin-top: 15px;">
-                                <div class="text-label">Template Command</div>
-                                <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none"
-                                    type="text" class="text-field"></textarea>
-                            </div>
-                            <h2>Inputs</h2>
-                            <div id="edit-micro-inputs">
-
-                            </div>
-                            <button class="text-button no-outline material-icons" onclick="addInputToForm()">
-                                add</button>
-                            <br>
-                            <button id="new-macro-button" class="text-button orange-border text-field-medium"
-                                style="margin-top: 50px; margin-bottom: 30px;"
-                                onclick=" hideMicroManager()">cancel</button>
-                            <button id="new-macro-button" class="text-button green-border"
-                                style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
-                                micro</button>
-                            <br>
-                            <button id="new-macro-button" class="text-button red-border"
-                                style="margin-top: 50px; margin-bottom: 30px;"
-                                onclick="deleteSelectedTemplate();">delete
-                                template</button>
-                        </div>
                     </div>
                     <br>
                     <br>
@@ -205,10 +137,67 @@
 
             </div>
 
+            <div id="edit-micro" class="content view">
+                <h1>Micro Manager</h1>
+
+                <button class="text-button" onclick="hideMicroManager()"
+                    style="margin-bottom: 15px; margin-top: 15px;">close</button>
+                <br>
+                <button id="new-macro-button" class="text-button orange-border text-field-medium"
+                    style="margin-top: 50px; margin-bottom: 30px;" onclick="hideMicroManager()">cancel</button>
+                <button id="new-macro-button" class="text-button green-border"
+                    style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
+                    micro</button>
+                <div id="template-color">
+                    <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
+                    </div>
+                    <div class="color-button orange" onclick="selectTemplateColor(this)"></div>
+                    <div class="color-button yellow" onclick="selectTemplateColor(this)"></div>
+                    <div class="color-button green" onclick="selectTemplateColor(this)"></div>
+                    <div class="color-button blue" onclick="selectTemplateColor(this)"></div>
+                    <div class="color-button purple" onclick="selectTemplateColor(this)"></div>
+                </div>
+                <div class="form-area" style="margin-top: 30px;">
+                    <div class="text-label">Template ID</div>
+                    <input id="edit-template-id" autocomplete="new-password" autocapitalize="none" type="text"
+                        class="text-field text-field-sm" placeholder="will be generated..." disabled>
+                </div>
+                <div class="form-area" style="margin-top: 15px;">
+                    <div class="text-label">Template Name</div>
+                    <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text"
+                        class="text-field text-field-sm">
+                </div>
+                <div class="form-area" style="margin-top: 15px;">
+                    <div class="text-label">Template Tags</div>
+                    <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text"
+                        class="text-field text-field-sm">
+                </div>
+                <div class="form-area" style="margin-top: 15px;">
+                    <div class="text-label">Template Command</div>
+                    <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none" type="text"
+                        class="text-field"></textarea>
+                </div>
+                <h2>Inputs</h2>
+                <div id="edit-micro-inputs">
+
+                </div>
+                <button class="text-button no-outline material-icons" onclick="addInputToForm()">
+                    add</button>
+                <br>
+                <button id="new-macro-button" class="text-button orange-border text-field-medium"
+                    style="margin-top: 50px; margin-bottom: 30px;" onclick=" hideMicroManager()">cancel</button>
+                <button id="new-macro-button" class="text-button green-border"
+                    style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();">save
+                    micro</button>
+                <br>
+                <button id="new-macro-button" class="text-button red-border"
+                    style="margin-top: 50px; margin-bottom: 30px;" onclick="deleteSelectedTemplate();">delete
+                    template</button>
+            </div>
+
 
             <div id="list" class="content view">
                 <h1>Macro List</h1>
-                <button class="text-button" onclick="newMacro()">new Macro</button>
                 <div id="macro-list">
 
                 </div>
@@ -303,10 +292,11 @@
         var longmenu = document.querySelector("#long-menu");
         longmenu.style.transform = "scale(" + contextScale + ")";
 
+
     }
 
     setDashboard();
-    window.onresize = setDashboard;
+    $(window).resize(setDashboard);
 
     function fullscreen() {
 
