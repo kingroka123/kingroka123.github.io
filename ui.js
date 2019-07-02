@@ -61,20 +61,20 @@ function swapDrawerContent(newView) {
     $("#" + newView).show();
     lastView = newView;
 }
-function closeToolbar(){
+function closeToolbar() {
     $('.tool-bar').hide();
     $('#close-toolbar').hide();
 }
-function openToolbar(){
+function openToolbar() {
     $('.tool-bar').show();
     $('#close-toolbar').show();
 
 }
 function switchView(view) {
-    
+
     var toggle = view == lastView;
     if (isDrawerOpen()) {
-        closeDrawer(function () { if(!toggle) {switchView(view)} });
+        closeDrawer(function () { if (!toggle) { switchView(view) } });
     } else {
         swapDrawerContent(view);
         openDrawer()
@@ -91,7 +91,7 @@ function openDrawer(callback) {
 }
 
 function closeDrawer(callback) {
-    
+
     $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
         if (callback) {
             callback();
@@ -354,6 +354,7 @@ function saveMicroTemplateGlobal(template) {
         template.tags += " common";
     if (!template.id)
         template.id = ID();
+
     microTemplatesRef.child(template.id).update(template);
 }
 
@@ -362,6 +363,7 @@ function saveMicroTemplatePersonal(template) {
         template.tags += " personal";
     if (!template.id)
         template.id = ID();
+
     personalMicroTemplatesRef.child(template.id).update(template);
 }
 
@@ -370,7 +372,12 @@ function getMacroFromHTML() {
     micros = [];
     microList.children().each(function () {
         micro = getMicroFromHTML(this);
+        console.log(micro)
+        micro.values.forEach(function(value, i){
+            micro.values[i] =value; 
+        })  
         micros.push(micro);
+       
     });
     return new Macro($("#wizard-area").get(0).dataset.target, $("#wizard-action-name").val(), getColor(), micros);
 }

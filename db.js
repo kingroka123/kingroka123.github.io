@@ -2,6 +2,7 @@
 cuser = null;
 macroListRef = null;
 macroQueueRef = null;
+macroDashboardsRef = null;
 microTemplatesRef = firebase.database().ref("micros/global");
 personalMicroTemplatesRef = null;
 var dontMacro = false;
@@ -48,9 +49,23 @@ firebase.auth().onAuthStateChanged(function (user) {
         cuser = user;
         macroListRef = firebase.database().ref("macrolist/" + user.uid);
         macroQueueRef = firebase.database().ref("macroqueue/" + user.uid);
+        macroDashboardsRef = firebase.database().ref("dashboards/" + user.uid);
+
         personalMicroTemplatesRef = firebase.database().ref("micros/" + user.uid);;
 
         document.querySelector("#name-display").innerHTML = email;
+
+        /* Dashboards */
+        macroDashboardsRef.on("child_changed", (snapshot) => {
+            var dashboard = snapshot.val();
+            dashboard.buttons.forEach((button, index) => {
+                console.log(button)
+                macroButton = document.querySelector(`.macro-button[data-number="${button.index}"`);
+                macroButton.dataset.target = button.id;
+            });
+        });
+
+
         /* global templates */
         microTemplatesRef.on("child_changed", function (snapshot) {
             var template = snapshot.val();
@@ -114,25 +129,37 @@ firebase.auth().onAuthStateChanged(function (user) {
         macroListRef.on("child_added", function (snapshot) {
             copy = macroEntry + " ";
             val = snapshot.val();
-            copy = copy.replaceAll("{{id}}", val.id);
-            copy = copy.replaceAll("{{name}}", val.name);
-            copy = copy.replaceAll("{{command}}", val.command);
 
-            $("#macro-list").append(copy);
-            $(`.macro-name[data-target="${val.id}"`).trigger('onload');
-            $(`.macro-command[data-target="${val.id}"`).trigger('onload');
+            function dothings() {
+                copy = copy.replaceAll("{{id}}", val.id);
+                copy = copy.replaceAll("{{name}}", val.name);
+                copy = copy.replaceAll("{{command}}", val.command);
 
-            macroButton = document.querySelector(`.macro-button[data-number="${val.set}"`);
+                $("#macro-list").append(copy);
+                $(`.macro-name[data-target="${val.id}"`).trigger('onload');
+                $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
-            if (macroButton) {
-                macroButton.dataset.target = val.id;
-                macroButton.innerHTML = val.name;
-                $(macroButton).removeClass("macro-button-empty");
-                changeMacroButtonColor(macroButton, val.color)
+                macroButton = document.querySelector(`.macro-button[data-number="${val.set}"`);
+
+                if (macroButton) {
+                    macroButton.dataset.target = val.id;
+                    macroButton.innerHTML = val.name;
+                    $(macroButton).removeClass("macro-button-empty");
+                    changeMacroButtonColor(macroButton, val.color)
+                }
+            }
+
+            if (val.encrypted) {
+                decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
+                    val = decrypted;
+                    dothings();
+                })
+            } else {
+                dothings();
             }
         });
         macroListRef.on("child_removed", function (snapshot) {
-            id = snapshot.val().id;
+            id = snapshot.ref.getKey();
             document.querySelector(`.macro-entry[data-target="${id}"]`).remove();
             old = document.querySelector(`button[data-target="${id}"]`);
             if (old) {
@@ -145,29 +172,40 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         macroListRef.on("child_changed", function (snapshot) {
             val = snapshot.val();
-            number = val.set;
-            old = document.querySelector(`.macro-button[data-target="${val.id}"]`);
-            // oldColor = 
-            // remove from old macro button
+            function dothings() {
+                number = val.set;
+                old = document.querySelector(`.macro-button[data-target="${val.id}"]`);
+                // oldColor = 
+                // remove from old macro button
 
-            if (old) {
-                old.dataset.target = "";
-                old.innerHTML = " ";
-                $(old).addClass("macro-button-empty");
+                if (old) {
+                    old.dataset.target = "";
+                    old.innerHTML = " ";
+                    $(old).addClass("macro-button-empty");
+                }
+                if (number > -1) {
+                    // change set macro
+                    macrob = document.querySelector(`[data-number="${number}"]`);
+                    macrob.dataset.target = val.id;
+                    name = val.name;
+                    macrob.innerHTML = name;
+                    changeMacroButtonColor(macrob, val.color);
+                    $(macrob).removeClass("macro-button-empty");
+                }
+
+                //change entry element
+                macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
+                macroEntryElemName.value = val.name;
             }
-            if (number > -1) {
-                // change set macro
-                macrob = document.querySelector(`[data-number="${number}"]`);
-                macrob.dataset.target = val.id;
-                name = val.name;
-                macrob.innerHTML = name;
-                changeMacroButtonColor(macrob, val.color);
-                $(macrob).removeClass("macro-button-empty");
+            if (val.encrypted) {
+                decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
+                    val = decrypted;
+                    dothings();
+                })
+            } else {
+                dothings();
             }
 
-            //change entry element
-            macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
-            macroEntryElemName.value = val.name;
 
         });
 
@@ -182,6 +220,15 @@ firebase.auth().onAuthStateChanged(function (user) {
 
     }
 });
+
+function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
+    macroDashboardsRef.child(ID()).set({
+        name: name,
+        cols: cols,
+        rows: rows,
+        buttons: [{ index: 0, id: "sasdasd" }]
+    })
+}
 
 
 function changeMacroButtonColor(element, color) {
@@ -203,6 +250,7 @@ function logout() {
         // Sign-out successful.
         console.log("signed out");
         redirect("./login.html");
+        deleteCookie('passphrase')
     }, function (error) {
         // An error happened.
     });
@@ -225,11 +273,27 @@ function macro(element) {
             t = element.dataset.target;
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
-                    cmdTarget = snapshot.val().micros.length;
-                    snapshot.val().micros.forEach(function (micro) {
-                        getCommand(micro, condense);
-                        vibrate(100);
-                    })
+                    var macro = snapshot.val();
+                    function dostuff() {
+                        
+                        cmdTarget = macro.micros.length;
+                        macro.micros.forEach(function (micro) {
+
+                            getCommand(micro, condense);
+                            
+                        })
+                    }
+                    if (macro.encrypted) {
+                        decryptMacro(t).then((decrypted) => {
+                            macro = decrypted;
+                            dostuff();
+                        });
+                    } else {
+                        dostuff();
+
+            
+                    }
+                    vibrate(100);
                 });
             }
         }
@@ -270,18 +334,33 @@ function runCommand(command) {
 
 function editMacro(element) {
     var id = element.dataset.target;
-    macroListRef.child(`/${id}`).once("value", function (snapshot) {
+    macroListRef.child(`/${id}`).once("value", (snapshot) => {
         clearActionList();
         document.querySelector('#wizard-area').dataset.target = id;
-        $("#wizard-action-name").val(snapshot.val().name)
+
         switchView("edit")
-        generateMacroHTML(snapshot.val())
+        var val = snapshot.val();
+        console.log(id)
+        if (val.encrypted) {
+            decryptMacro(id).then((decrypted) => {
+                generateMacroHTML(decrypted);
+                $("#wizard-action-name").val(decrypted.name)
+            });
+        } else {
+            generateMacroHTML(val);
+            $("#wizard-action-name").val(val.name)
+
+        }
+
+
     });
 
 }
 
 function saveMacro() {
-    updateMacro(getMacroFromHTML())
+   var macro = getMacroFromHTML();
+    macro.encrypted = false;
+    macroListRef.child(macro.id).update(macro);
     switchView('list')
 }
 
@@ -476,3 +555,4 @@ function editSelectedMacroButton() {
 
 $(document.body).on("mousedown touchstart", function () {
 });
+

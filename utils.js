@@ -7,7 +7,7 @@ var ID = function () {
 function redirect(ext) {
     window.location.replace(ext);
 }
-function setCookie(cname, cvalue, exdays, path) {
+function setCookie(cname, cvalue, exdays = 1, path = window.location.pathname) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
@@ -41,7 +41,7 @@ String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
-function vibrate(pattern){
+function vibrate(pattern) {
     window.navigator.vibrate(pattern);
 }
 
@@ -57,7 +57,7 @@ function addEnterBind(element) {
         });
     }
 }
-String.prototype.nthIndexOf = function(pattern, n) {
+String.prototype.nthIndexOf = function (pattern, n) {
     var i = -1;
 
     while (n-- && i++ < this.length) {
@@ -88,8 +88,46 @@ function electronUI(e) {
     }
 }
 
+async function encryt(obj) {
+    $.get("http://localhost:5000/mobile-dock/us-central1/encrypt")
+}
 
 
+function encryptObj(object, passphrase) {
+    var temp = {};
+    if (object) {
+        for (var property in object) {
+        //    console.log(property + ", " + object[property])
+            temp[property] = CryptoJS.AES.encrypt(object[property], passphrase).toString();
+        }
+    }
+   // console.log(temp)
+    return object;
+}
+
+async function decryptObj(object, passphrase) {
+    var decryptObj = firebase.functions().httpsCallable('decryptObj');
+    var v;
+    await decryptObj({ object: object }).then(function (result) {
+        // Read result of the Cloud Function.
+        v = result.data;
+    });
+   
+
+    return v;
+}
+
+
+async function decryptMacro(encryptedMacroID){
+    var decryptMacro = firebase.functions().httpsCallable('decryptMacro');
+    var v;
+    await decryptMacro({ id: encryptedMacroID }).then(function (result) {
+        v = result.data;
+        console.log(v)
+    });
+   
+    return v;
+}
 
 
 
