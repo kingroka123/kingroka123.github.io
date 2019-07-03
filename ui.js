@@ -159,6 +159,41 @@ var textareaTemplate = `
     placeholder="" data-purpose="{{purpose}}">{{value}}</textarea>
 </div>`
 
+var fileInputTemplate = `
+<div class="form-area" style="margin-top: 15px;">
+    <div class="text-label">{{purpose}}</div>
+    <div class="input-container">
+        <button class="text-button browse-btn file-button electron-visible" onclick="showFileDialog(this)">
+            Browse 
+        </button>
+        <input autocomplete="new-password" autocapitalize="none" type="text"
+        class="text-field text-field-sm micro-input" data-tag="{{tag}}"
+        placeholder="" data-purpose="{{purpose}}" value="{{value}}" data-type="input"></input>
+    </div>
+    
+</div>
+<script>
+electronUI(isElectron)
+</script>
+`
+
+var directoryInputTemplate = `
+<div class="form-area" style="margin-top: 15px;">
+    <div class="text-label">{{purpose}}</div>
+    <div class="input-container">
+        <button class="text-button browse-btn file-button electron-visible" onclick="showDirectoryDialog(this)">
+            Browse 
+        </button>
+        <input autocomplete="new-password" autocapitalize="none" type="text"
+        class="text-field text-field-sm micro-input" data-tag="{{tag}}"
+        placeholder="" data-purpose="{{purpose}}" value="{{value}}" data-type="input"></input>
+    </div>
+</div>
+<script>
+electronUI(isElectron)
+</script>
+`
+
 var microTemplate =
     `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" id="micro-test">
         <div>
@@ -168,6 +203,29 @@ var microTemplate =
             <action-top></action-top>
         </div>
     </div>`
+
+
+function showFileDialog(elem) {
+    if (dialog) {
+        var file = dialog.showOpenDialog({ properties: ['openFile'] })
+        console.log(file)
+        $(elem).parent().find("input").val(file[0])
+
+    } else {
+        alert("Browse only available on desktop version of Macro.")
+    }
+}
+function showDirectoryDialog(elem) {
+    if (dialog) {
+        var file = dialog.showOpenDialog({ properties: ['openDirectory'] })
+        console.log(file)
+        $(elem).parent().find("input").val(file[0])
+
+    } else {
+        alert("Browse only available on desktop version of Macro.")
+    }
+}
+
 
 function MicroTemplate(id, title, command, border, tags, inputs) {
     this.title = title;
@@ -249,7 +307,7 @@ function getMicroFromHTML(element) {
     var template = element.data("template");
     inputs = []
     element.find(".micro-input").each(function () {
-        var input = { tag: $(this).data("tag"), value: $(this).val() }
+        var input = { tag: $(this).data("tag"), value: $(this).val().replaceAll("&quot;", `"`) }
         inputs.push(input);
 
     });
@@ -300,12 +358,19 @@ function microTemplateToHtml(template, micro = null) {
             temp = inputTemplate + "";
         } else if (input.type == "textarea") {
             temp = textareaTemplate;
+        } else if (input.type == "file") {
+            temp = fileInputTemplate;
+        } else if (input.type == "dir") {
+            temp = directoryInputTemplate;
         }
         var val = "";
         if (micro) {
             micro.values.forEach(function (v) {
                 if (v.tag == input.tag) {
                     val = v.value;
+                    if(typeof(val) == "string"){
+                        val = val.replaceAll(`"`, "&quot;")
+                    }
                 }
             });
         }
@@ -320,7 +385,6 @@ function microTemplateToHtml(template, micro = null) {
 
 function getCommand(micro, callback = function (command) { console.log(command) }) {
     var templateID = micro.templateID;
-
     microTemplatesRef.child(templateID).once("value", function (snapshot) {
         var template = snapshot.val();
         if (template) {
@@ -373,20 +437,23 @@ function getMacroFromHTML() {
     microList.children().each(function () {
         micro = getMicroFromHTML(this);
         console.log(micro)
-        micro.values.forEach(function(value, i){
-            micro.values[i] =value; 
-        })  
+        micro.values.forEach(function (value, i) {
+            micro.values[i] = value;
+        })
         micros.push(micro);
-       
+
     });
     return new Macro($("#wizard-area").get(0).dataset.target, $("#wizard-action-name").val(), getColor(), micros);
 }
 
 function generateMacroHTML(macro) {
-    macro.micros.forEach(function (micro) {
-        generateGlobalMicroHTML(micro.templateID, micro)
-    });
+    if (macro.micros) {
+        macro.micros.forEach(function (micro) {
+            generateGlobalMicroHTML(micro.templateID, micro)
+        });
+    }
     setColor(macro.color);
+
 }
 
 
@@ -394,15 +461,18 @@ var templateInputFormTemplate = `
     <div class="edit-micro-input">
         <span class="material-icons handle"
             style="vertical-align: middle; margin-right: 5px; cursor: pointer;">reorder</span>
-        <div class="form-area inline" style="margin-top: 15px;">
+        <div class="form-area inline" style="margin-top: 15px">
             <div class="text-label">Type</div>
             <select  autocomplete="new-password" autocapitalize="none"
                 type="text" class="text-button edit-template-input-type">
-                <option value="input">Single Line</option>
-                <option value="textarea">Text Area</option>
+                <option value="input">Line</option>
+                <option value="textarea">Area</option>
+                <option value="file">File</option>
+                <option value="dir">Folder</option>
 
             </select>
         </div>
+       
         <div class="form-area inline" style="margin-top: 15px; width:20%">
             <div class="text-label">Variable</div>
             <input  autocomplete="new-password" autocapitalize="none"
@@ -504,8 +574,9 @@ function editGlobalMicroTemplate(templateID) {
     });
 }
 
-function saveGlobalTemplate() {
+function saveGlobalTemplate(id) {
     template = getTemplateFromEditForm();
+    template.id = id;
     saveMicroTemplateGlobal(template);
     console.log(template)
 }
@@ -574,7 +645,16 @@ function toolTips() {
     });
 }
 
+$("#page-number-input").change(() => {
+    setPage($("#page-number-input").val() - 1);
+})
+
+function setPageNumberField() {
+    $("#page-number-input").val(getPage() + 1);
+}
+setPageNumberField()
 $(window).ready(toolTips);
 
 closeDrawer();
 clearActionList();
+

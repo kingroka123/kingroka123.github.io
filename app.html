@@ -54,9 +54,9 @@
                 <div class="bounce2"></div>
                 <div class="bounce3"></div>
             </div>
-
         </div>
     </div>
+
     <div id="topper">
         <div class="window-bar electron-visible">
             <button id="close-button" class="text-button no-outline material-icons"
@@ -72,7 +72,8 @@
     <div id="dashboard" class="">
 
     </div>
-    <div class="tool-tip" id="name-display" data-target="#logout"></div>
+
+    <div class="tool-tip electron-shift" id="name-display" data-target="#logout"></div>
 
 
     <div class="side-bar tool-bar electron-shift electron-height">
@@ -95,7 +96,7 @@
 
                     <br>
                     <button class="text-button" onclick="newMacro()">new Macro</button>
-                    
+
                     <br>
                     <br>
                     <button id="new-macro-button" class="text-button green-border" style="margin-bottom: 30px;"
@@ -114,7 +115,7 @@
                     </div>
                     <div id="action-list">
                     </div>
-                    
+
                     <div id="micros">
 
                         <h2>Add Micro </h2>
@@ -130,13 +131,13 @@
 
                         </div>
                     </div>
-            
+
                 </div>
 
 
             </div>
 
-            <div id="edit-micro" class="content view" style="width: 85%">
+            <div id="edit-micro" class="content view" style="width: 90%">
                 <h1>Micro Manager</h1>
 
                 <button class="text-button" onclick="switchView('edit')"
@@ -145,7 +146,8 @@
                 <button id="new-macro-button" class="text-button orange-border text-field-medium electron-shift"
                     style="margin-top: 50px; margin-bottom: 30px;" onclick="switchView('edit')">cancel</button>
                 <button id="new-macro-button" class="text-button green-border"
-                    style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();switchView('edit')">save
+                    style="margin-top: 50px; margin-bottom: 30px;"
+                    onclick="savePersonalTemplate();switchView('edit')">save
                     micro</button>
                 <div id="template-color">
                     <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
@@ -186,11 +188,13 @@
                 <button id="new-macro-button" class="text-button orange-border text-field-medium"
                     style="margin-top: 50px; margin-bottom: 30px;" onclick="switchView('edit')">cancel</button>
                 <button id="new-macro-button" class="text-button green-border"
-                    style="margin-top: 50px; margin-bottom: 30px;" onclick="savePersonalTemplate();switchView('edit')">save
+                    style="margin-top: 50px; margin-bottom: 30px;"
+                    onclick="savePersonalTemplate();switchView('edit')">save
                     micro</button>
                 <br>
                 <button id="new-macro-button" class="text-button red-border"
-                    style="margin-top: 50px; margin-bottom: 30px;" onclick="deleteSelectedTemplate();switchView('edit')">delete
+                    style="margin-top: 50px; margin-bottom: 30px;"
+                    onclick="deleteSelectedTemplate();switchView('edit')">delete
                     template</button>
             </div>
 
@@ -201,10 +205,10 @@
 
                 </div>
             </div>
-           
+
         </div>
     </div>
-    <div id="open-toolbar" class="material-icons toolbar-controls"  onclick="openToolbar()">
+    <div id="open-toolbar" class="material-icons toolbar-controls" onclick="openToolbar()">
         chevron_right
     </div>
     <div id="close-toolbar" class="material-icons toolbar-controls" onclick="closeToolbar()">
@@ -221,7 +225,7 @@
             <div class="color-button purple" onclick="selectColor(this);setSelectedColor();"></div>
         </div>
         <br>
-        <button class="text-button blue-border context-menu-item" onclick="setSelectedMacroButton()">move</button>
+        <button class="text-button blue-border context-menu-item" onclick="setSelectedMacroButton()">duplicate</button>
         <br>
         <button class="text-button yellow-border  context-menu-item" onclick="editSelectedMacroButton()">edit</button>
         <br>
@@ -230,6 +234,13 @@
         <br>
     </div>
 
+    <div id="page-number">
+        <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
+        <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input" type="number" class="text-field text-field-sm  no-outline"
+                placeholder="#" style="width: 25px;"></input></div>
+        <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
+
+    </div>
 
 
 </body>
@@ -243,7 +254,7 @@
 
 <script src="utils.js"></script>
 <script>
-  
+
 
     var scale;
     var contextScale;

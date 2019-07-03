@@ -1,9 +1,10 @@
+var isElectron  = false;
 var cmd = require('node-cmd');
 const remote = require('electron').remote;
 var macroQueue;
 var mainWindow = remote.getCurrentWindow();
 var contents = mainWindow.webContents;
-
+const { dialog } = require('electron').remote
 function close() {
   mainWindow.close();
 }
@@ -29,8 +30,10 @@ function electron(user) {
       hideWindow();
     });
     electronUI(true);
+    isElectron = true;
   }else{
     electronUI(false);
+    isElectron = false;
   }
 }
 

@@ -6,7 +6,7 @@ macroDashboardsRef = null;
 microTemplatesRef = firebase.database().ref("micros/global");
 personalMicroTemplatesRef = null;
 var dontMacro = false;
-
+var dashboardPage = 0;
 var macroEntry = `
 <div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
     <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" 
@@ -41,11 +41,78 @@ var personalMicroButton = `
 </span>
     `;
 
+function nextPage() {
+    //check perm
+    setPage(getPage() + 1)
+
+}
+
+function previousPage() {
+    setPage(getPage() - 1)
+
+}
+
+function setPage(page){
+    if(page >= 0 && page < 10){
+        dashboardPage = page;
+        updateDashboardPage()
+    }
+}
+
+function getPage() {
+    return dashboardPage;
+}
+
+function getPageOffset() {
+    return getPage() * buttonsInRow * buttonsInCol;
+}
+
+function updateDashboardPage() {
+    setPageNumberField()
+    macroListRef.once("value", (snapshot) => {
+        var macros = snapshot.val()
+        for (var macro in macros) {
+            setMacroButtonsTargets(macros[macro]);
+        }
+
+    });
+}
+
+
+
+function setMacroButtonsTargets(macro) {
+    if (macro.set) {
+        document.querySelectorAll(`.macro-button[data-target="${macro.id}"`).forEach((button) => {
+            if (!macro.set.includes(parseInt(button.dataset.number - getPageOffset()))) {
+                button.dataset.target = "";
+                button.innerHTML = " ";
+                $(button).addClass("macro-button-empty");
+            }
+        });
+        macro.set.forEach((number) => {
+            number -= getPageOffset();
+            macrobutton = document.querySelector(`.macro-button[data-number="${number}"]`);
+            if (macrobutton) {
+                macrobutton.dataset.target = macro.id;
+                name = macro.name;
+                macrobutton.innerHTML = name;
+                changeMacroButtonColor(macrobutton, macro.color);
+                $(macrobutton).removeClass("macro-button-empty");
+            }
+        });
+    }
+}
+
+function realClear(button) {
+    button.dataset.target = "";
+    button.innerHTML = " ";
+    $(button).addClass("macro-button-empty");
+}
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         var email = user.email;
-        var emailVerified = user.emailVerified;
+        var emailVerified = user.emailVerified
         cuser = user;
         macroListRef = firebase.database().ref("macrolist/" + user.uid);
         macroQueueRef = firebase.database().ref("macroqueue/" + user.uid);
@@ -56,12 +123,21 @@ firebase.auth().onAuthStateChanged(function (user) {
         document.querySelector("#name-display").innerHTML = email;
 
         /* Dashboards */
-        macroDashboardsRef.on("child_changed", (snapshot) => {
+
+
+        macroDashboardsRef.on("child_added", (snapshot) => {
             var dashboard = snapshot.val();
             dashboard.buttons.forEach((button, index) => {
-                console.log(button)
-                macroButton = document.querySelector(`.macro-button[data-number="${button.index}"`);
-                macroButton.dataset.target = button.id;
+                // console.log(button)
+                // macroButton = document.querySelector(`.macro-button[data-number="${button.index}"`);
+                // macroButton.dataset.target = button.id;
+
+                // if (macroButton) {
+                //     macroButton.dataset.target = dashboard.id;
+                //     macroButton.innerHTML = val.name;
+                //     $(macroButton).removeClass("macro-button-empty");
+                //     changeMacroButtonColor(macroButton, val.color)
+                // }
             });
         });
 
@@ -127,8 +203,8 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 
         macroListRef.on("child_added", function (snapshot) {
-            copy = macroEntry + " ";
-            val = snapshot.val();
+            var copy = macroEntry + " ";
+            var val = snapshot.val();
 
             function dothings() {
                 copy = copy.replaceAll("{{id}}", val.id);
@@ -139,14 +215,8 @@ firebase.auth().onAuthStateChanged(function (user) {
                 $(`.macro-name[data-target="${val.id}"`).trigger('onload');
                 $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
-                macroButton = document.querySelector(`.macro-button[data-number="${val.set}"`);
+                setMacroButtonsTargets(val)
 
-                if (macroButton) {
-                    macroButton.dataset.target = val.id;
-                    macroButton.innerHTML = val.name;
-                    $(macroButton).removeClass("macro-button-empty");
-                    changeMacroButtonColor(macroButton, val.color)
-                }
             }
 
             if (val.encrypted) {
@@ -161,13 +231,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.ref.getKey();
             document.querySelector(`.macro-entry[data-target="${id}"]`).remove();
-            old = document.querySelector(`button[data-target="${id}"]`);
-            if (old) {
-                old.dataset.target = "";
-                old.innerHTML = " ";
-                $(old).addClass("macro-button-empty");
+            document.querySelectorAll(`.macro-button[data-target="${id}"]`).forEach(realClear)
 
-            }
         });
 
         macroListRef.on("child_changed", function (snapshot) {
@@ -183,15 +248,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                     old.innerHTML = " ";
                     $(old).addClass("macro-button-empty");
                 }
-                if (number > -1) {
-                    // change set macro
-                    macrob = document.querySelector(`[data-number="${number}"]`);
-                    macrob.dataset.target = val.id;
-                    name = val.name;
-                    macrob.innerHTML = name;
-                    changeMacroButtonColor(macrob, val.color);
-                    $(macrob).removeClass("macro-button-empty");
-                }
+                setMacroButtonsTargets(val)
 
                 //change entry element
                 macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
@@ -275,12 +332,12 @@ function macro(element) {
                 macroListRef.child(t).once("value", function (snapshot) {
                     var macro = snapshot.val();
                     function dostuff() {
-                        
+
                         cmdTarget = macro.micros.length;
                         macro.micros.forEach(function (micro) {
 
                             getCommand(micro, condense);
-                            
+
                         })
                     }
                     if (macro.encrypted) {
@@ -291,19 +348,27 @@ function macro(element) {
                     } else {
                         dostuff();
 
-            
+
                     }
                     vibrate(100);
                 });
             }
         }
     } else {
-        // element.dataset.target = target;
-        old = document.querySelector(`.macro-button[data-target="${target}"]`);
-        if (old && element.dataset.target) {
-            macroListRef.child(element.dataset.target).update({ set: old.dataset.number });
-        }
-        macroListRef.child(target).update({ set: element.dataset.number });
+
+        var number = parseInt(element.dataset.number) + getPageOffset();
+        var setRef = macroListRef.child(target).child("set");
+        setRef.once("value", (snapshot) => {
+            list = snapshot.val();
+            if (list) {
+                if (!list.includes(number)) {
+                    list.push(number);
+                    setRef.set(list);
+                }
+            } else {
+                setRef.set([number]);
+            }
+        })
         cancelSet();
 
     }
@@ -358,7 +423,7 @@ function editMacro(element) {
 }
 
 function saveMacro() {
-   var macro = getMacroFromHTML();
+    var macro = getMacroFromHTML();
     macro.encrypted = false;
     macroListRef.child(macro.id).update(macro);
     switchView('list')
@@ -405,7 +470,16 @@ function cancelSet() {
 function clearMacro(element) {
     var target = $(element).get(0).dataset.target;
     if (target) {
-        macroListRef.child(target).update({ set: -1 });
+        var number = parseInt(element.dataset.number) + getPageOffset();
+        var setRef = macroListRef.child(target).child("set");
+        setRef.once("value", (snapshot) => {
+            list = snapshot.val();
+            index = list.indexOf(number);
+            if (number > -1) {
+                list.splice(index, 1)
+                setRef.set(list);
+            }
+        })
         vibrate(200);
     }
 }

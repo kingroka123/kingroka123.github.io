@@ -586,11 +586,9 @@ textarea {
 .tool-tip {
   position: fixed;
   height: var(--toolbar-width);
-  background: inherit;
-  left: var(--toolbar-width);
+  left: calc(5px + var(--toolbar-width));
   top: 0px;
   z-index: 3;
-  border: solid 2px rgba(0, 0, 0, 0.15);
   border-left: none;
   font-size: 1.25rem;
   font-weight: bold;
@@ -956,4 +954,44 @@ select::-ms-expand {
 
 .micro-button-container{
   height: 125px;
+}
+
+#page-number{
+  position: fixed;
+  width :100%;
+  bottom: 5px;
+  text-align: center;
+  z-index: 1;
+
+}
+
+#page-number input{
+  padding-left: 2px;
+  padding-right: 4px;
+  font-size: .875em;
+  border: none !important;
+}
+#page-number input:focus{
+  box-shadow: none;
+  border: none !important;
+}
+#page-number button{
+  background: none !important;
+  color: white !important;
+  padding: 0px;
+  
+}
+
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.file-button{
+  display: none;
 }
