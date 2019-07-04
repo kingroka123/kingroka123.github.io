@@ -4,9 +4,15 @@ const remote = require('electron').remote;
 var macroQueue;
 var mainWindow = remote.getCurrentWindow();
 var contents = mainWindow.webContents;
-const {app, dialog } = require('electron').remote
+const { app, dialog } = require('electron').remote
 var AutoLaunch = require('auto-launch');
-
+let autoLaunch = null;
+if (AutoLaunch) {
+  autoLaunch = new AutoLaunch({
+    name: 'Macro',
+    path: app.getPath('exe'),
+  });
+}
 function close() {
   mainWindow.close();
 }
@@ -15,18 +21,21 @@ function hideWindow() {
   mainWindow.hide();
 }
 
+function disableAutoLaunch(){
+  autoLaunch.isEnabled().then((isEnabled) => {
+    if (isEnabled) autoLaunch.disable();
+  });
+} 
+function enableAutoLaunch(){
+  autoLaunch.isEnabled().then((isEnabled) => {
+    if (!isEnabled) autoLaunch.enable();
+  });
+} 
+
 function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
     console.log(contents)
-
-    let autoLaunch = new AutoLaunch({
-      name: 'Macro',
-      path: app.getPath('exe'),
-    });
-    autoLaunch.isEnabled().then((isEnabled) => {
-      if (isEnabled) autoLaunch.disable();
-    });
 
 
     macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
