@@ -218,15 +218,15 @@ firebase.auth().onAuthStateChanged(function (user) {
                 setMacroButtonsTargets(val)
 
             }
+            dothings();
 
-            if (val.encrypted) {
-                decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
-                    val = decrypted;
-                    dothings();
-                })
-            } else {
-                dothings();
-            }
+            // if (val.encrypted) {
+            //     decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
+            //         val = decrypted;
+            //     })
+            // } else {
+            //     dothings();
+            // }
         });
         macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.ref.getKey();
@@ -254,15 +254,15 @@ firebase.auth().onAuthStateChanged(function (user) {
                 macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
                 macroEntryElemName.value = val.name;
             }
-            if (val.encrypted) {
-                decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
-                    val = decrypted;
-                    dothings();
-                })
-            } else {
-                dothings();
-            }
-
+            // if (val.encrypted) {
+            //     decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
+            //         val = decrypted;
+            //         dothings();
+            //     })
+            // } else {
+            //     dothings();
+            // }
+dothings();
 
         });
 
@@ -340,7 +340,7 @@ function macro(element) {
 
                         })
                     }
-                    if (macro.encrypted) {
+                    if (typeof(macro.micros) == "string") {
                         decryptMacro(t).then((decrypted) => {
                             macro = decrypted;
                             dostuff();
@@ -406,7 +406,7 @@ function editMacro(element) {
         switchView("edit")
         var val = snapshot.val();
         console.log(id)
-        if (val.encrypted) {
+        if (typeof(val.micros) == "string") {
             decryptMacro(id).then((decrypted) => {
                 generateMacroHTML(decrypted);
                 $("#wizard-action-name").val(decrypted.name)
