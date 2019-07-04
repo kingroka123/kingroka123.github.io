@@ -57,6 +57,11 @@ body {
 h4 {
   color: white;
 }
+.text-field-label{
+  padding: 0  !important;
+  margin-bottom: 5px !important;
+  margin-left: 0 !important;
+}
 
 .text-field {
   -webkit-appearance: none !important;
@@ -995,3 +1000,8 @@ input[type='file'] {
 .file-button{
   display: none;
 }
+
+.settings-item{
+  padding-left: 25px;
+}
+

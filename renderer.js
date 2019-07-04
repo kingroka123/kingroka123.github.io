@@ -21,22 +21,39 @@ function hideWindow() {
   mainWindow.hide();
 }
 
-function disableAutoLaunch(){
+function disableAutoLaunch() {
   autoLaunch.isEnabled().then((isEnabled) => {
     if (isEnabled) autoLaunch.disable();
+    setCookie("autolaunch", false, 365)
   });
-} 
-function enableAutoLaunch(){
+}
+function enableAutoLaunch() {
   autoLaunch.isEnabled().then((isEnabled) => {
     if (!isEnabled) autoLaunch.enable();
+    setCookie("autolaunch", true, 365)
+
   });
-} 
+}
+
+function setAutoLaunchByForm() {
+  option = $("#autolaunch-field").val();
+  if (option == "open") {
+    enableAutoLaunch();
+  } else {
+    disableAutoLaunch();
+  }
+}
 
 function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
     console.log(contents)
-
+    autoLaunch.isEnabled().then((isEnabled) => {
+      if (!isEnabled)
+        $("#autolaunch-field").val("close");
+      else
+        $("#autolaunch-field").val("open");
+    });
 
     macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
     macroQueue.on("child_added", function (snapshot) {

@@ -201,13 +201,30 @@
 
             <div id="list" class="content view">
                 <h1>Macro List</h1>
+                <button class="text-button" onclick="newMacro()">new Macro</button>
+
                 <div id="macro-list">
 
                 </div>
             </div>
-
+            <div id="settings" class="content view" style="text-align: left;">
+                <h1>Settings </h1>
+                <div class="electron-visible" >
+                    <h3> Windows Settings</h3>
+                    <div class="settings-item">
+                        <div disabled class="no-outline text-field text-field-label">System Startup Behavior </div>
+                        <select id="autolaunch-field" class="text-button" onchange="setAutoLaunchByForm()">
+                            <option value="open">Open Macro</option>
+                            <option value="close">Do not open Macro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+
+
     <div id="open-toolbar" class="material-icons toolbar-controls" onclick="openToolbar()">
         chevron_right
     </div>
@@ -236,8 +253,8 @@
 
     <div id="page-number">
         <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
-        <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input" type="number" class="text-field text-field-sm  no-outline"
-                placeholder="#" style="width: 25px;"></input></div>
+        <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input" type="number"
+                class="text-field text-field-sm  no-outline" placeholder="#" style="width: 25px;"></input></div>
         <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
 
     </div>
