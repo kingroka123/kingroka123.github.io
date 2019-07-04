@@ -4,7 +4,9 @@ const remote = require('electron').remote;
 var macroQueue;
 var mainWindow = remote.getCurrentWindow();
 var contents = mainWindow.webContents;
-const { dialog, app } = require('electron').remote
+const {app, dialog } = require('electron').remote
+var AutoLaunch = require('auto-launch');
+
 function close() {
   mainWindow.close();
 }
@@ -17,9 +19,16 @@ function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
     console.log(contents)
-    app.setLoginItemSettings({
-      openAtLogin: false,
-    })
+
+    let autoLaunch = new AutoLaunch({
+      name: 'Macro',
+      path: app.getPath('exe'),
+    });
+    autoLaunch.isEnabled().then((isEnabled) => {
+      if (isEnabled) autoLaunch.disable();
+    });
+
+
     macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
     macroQueue.on("child_added", function (snapshot) {
       // console.log(snapshot.val());
