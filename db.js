@@ -44,7 +44,7 @@ var personalMicroButton = `
     `;
 
 var deviceTemplate = `
-    <div>
+    <div class="device-entry">
         <check-box data-target="{{deviceID}}"></check-box> <span>{{deviceName}}</span>
     </div>  
 `;

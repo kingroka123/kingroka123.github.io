@@ -58,6 +58,10 @@ window.customElements.define('check-box', Checkbox);
 function clearActionList() {
     $("#action-list").empty();
     $("#wizard-action-name").val("")
+    document.querySelectorAll("check-box div").forEach((e) => {
+        e.setAttribute("data-checked", "false")
+
+    })
     setNewMacroID()
 }
 var views = ["edit", "list", "settings", "edit-micro"];

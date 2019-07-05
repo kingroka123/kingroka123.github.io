@@ -540,7 +540,8 @@ textarea {
 .side-bar {
   height: 100vh;
   width: 40%;
-  min-width: 500px;;
+  min-width: 500px;
+  max-width: 600px;
   position: fixed;
   background: var(--drawer-bg-color);
   z-index: 2;
@@ -1039,4 +1040,9 @@ input[type='file'] {
 .toggle-button[data-checked=true]{
   background: white !important;
 }
-
+.device-entry{
+  width: 200px;
+  text-align: left;
+  margin: auto;
+  margin-bottom: 15px;
+}
