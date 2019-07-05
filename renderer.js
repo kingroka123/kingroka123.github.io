@@ -9,7 +9,7 @@ var AutoLaunch = require('auto-launch');
 let autoLaunch = null;
 
 var os = require('os')
-const DeviceID = window.btoa(os.networkInterfaces().mac);
+const DeviceID = window.btoa(os.networkInterfaces()["Wi-Fi"][0].mac);
 
 if (AutoLaunch) {
   autoLaunch = new AutoLaunch({
