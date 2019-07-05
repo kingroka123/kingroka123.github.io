@@ -61,11 +61,11 @@ function electron(user) {
     deviceRef.child(DeviceID).once('value', (snapshot) => {
       console.log(snapshot.val());
       if (!snapshot.val()) {
-        deviceRef.child(DeviceID).set({ id: DeviceID, name: os.hostname() })
-
+        deviceRef.child(DeviceID).update({ id: DeviceID, name: os.hostname() })
       }
     })
-
+    deviceRef.child(DeviceID).update({online: true});
+    deviceRef.child(DeviceID).onDisconnect().update({online: false});
     deviceRef.child(DeviceID).on("value", (snapshot) => {
       $("#computer-name-field").val(snapshot.val().name)
     })

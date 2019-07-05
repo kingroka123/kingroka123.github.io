@@ -407,7 +407,7 @@ function runCommand(command) {
     if (command && macroDevices) {
         for (var device in macroDevices) {
             deviceRef.child(device).once("value", (snapshot) => {
-                if (snapshot.val()) {
+                if (snapshot.val() &&snapshot.val().online) {
                     if (macroDevices[device].checked == "true") {
                         macroQueueRef.set({ [device]: command });
                     }
