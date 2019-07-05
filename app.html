@@ -113,12 +113,15 @@
                         <div class="color-button purple" onclick="selectColor(this)"></div>
 
                     </div>
+                    <h2> Devices </h2>
+                    <div id="devices">
+                        
+                    </div>
+                    <h2>Micros</h2>
                     <div id="action-list">
                     </div>
 
                     <div id="micros">
-
-                        <h2>Add Micro </h2>
                         <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button"
                             onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
                         <br>
@@ -209,8 +212,12 @@
             </div>
             <div id="settings" class="content view" style="text-align: left;">
                 <h1>Settings </h1>
-                <div class="electron-visible" >
-                    <h3> Windows Settings</h3>
+                <div class="electron-visible">
+                    <h3> Desktop Settings</h3>
+                    <div class="settings-item">
+                        <div disabled class="no-outline text-field text-field-label">Device Name </div>
+                        <input class="text-field text-field-sm text-field-long" id="computer-name-field">
+                    </div>
                     <div class="settings-item">
                         <div disabled class="no-outline text-field text-field-label">System Startup Behavior </div>
                         <select id="autolaunch-field" class="text-button" onchange="setAutoLaunchByForm()">
@@ -268,7 +275,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
-
+<script src="client.min.js"></script>
 <script src="utils.js"></script>
 <script>
 

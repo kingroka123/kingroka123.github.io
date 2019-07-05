@@ -1003,5 +1003,40 @@ input[type='file'] {
 
 .settings-item{
   padding-left: 25px;
+  margin-bottom: 25px;
+}
+
+/* The container */
+.container {
+
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-button{
+  width: 1rem !important;
+  height: 1rem !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  display: inline-block;
+  background: noen !important;
+
+}
+
+.toggle-button[data-checked=true]{
+  background: white !important;
 }
 
