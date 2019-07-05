@@ -7,9 +7,10 @@ var contents = mainWindow.webContents;
 const { app, dialog } = require('electron').remote
 var AutoLaunch = require('auto-launch');
 let autoLaunch = null;
-var client = new ClientJS()
-const DeviceID = client.getFingerprint();
+
 var os = require('os')
+const DeviceID = window.btoa(os.networkInterfaces().mac);
+
 if (AutoLaunch) {
   autoLaunch = new AutoLaunch({
     name: 'Macro',

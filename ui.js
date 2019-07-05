@@ -461,9 +461,9 @@ function getMacroFromHTML() {
 function generateMacroHTML(macro) {
     if (macro.micros) {
         if (macro.devices) {
-            macro.devices.forEach((device) => {
-                $(`check-box[data-target="${device.id}"] div`).get(0).setAttribute("data-checked", device.checked)
-            })
+            for (var device in macro.devices) {
+                $(`check-box[data-target="${device}"] div`).get(0).setAttribute("data-checked", macro.devices[device].checked);
+            }
         }
         macro.micros.forEach(function (micro) {
             generateGlobalMicroHTML(micro.templateID, micro)
@@ -676,9 +676,9 @@ closeDrawer();
 clearActionList();
 
 function getSelectedDevices() {
-    var devices = [];
+    var devices = {};
     document.querySelectorAll("check-box").forEach((e) => {
-        devices.push({ id: $(e).data("target"), checked: $(e).find("div").get(0).dataset.checked })
+        devices[$(e).data("target")] = { id: $(e).data("target"), checked: $(e).find("div").get(0).dataset.checked };
 
     })
     console.log(devices)

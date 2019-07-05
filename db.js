@@ -405,11 +405,15 @@ function condense(c) {
 
 function runCommand(command) {
     if (command && macroDevices) {
-        macroDevices.forEach((device, index) => {
-            if (device.checked) {
-                macroQueueRef.set({ [device.id]: command});
-            }
-        })
+        for (var device in macroDevices) {
+            deviceRef.child(device).once("value", (snapshot) => {
+                if (snapshot.val()) {
+                    if (macroDevices[device].checked == "true") {
+                        macroQueueRef.set({ [device]: command });
+                    }
+                }
+            })
+        }
 
         console.log(command)
         macroDevices = null;
