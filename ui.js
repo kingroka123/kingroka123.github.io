@@ -41,8 +41,19 @@ class ActionTop extends HTMLElement {
 }
 window.customElements.define('action-top', ActionTop);
 
+var checkbox =
+    `
+<div class="text-button toggle-button" onclick="this.setAttribute('data-checked', !(this.getAttribute('data-checked')=='true'))" data-checked="false"></div>
 
+`
 
+class Checkbox extends HTMLElement {
+    constructor() {
+        super();
+        this.innerHTML = checkbox + "";
+    }
+}
+window.customElements.define('check-box', Checkbox);
 
 function clearActionList() {
     $("#action-list").empty();
@@ -253,11 +264,12 @@ function MicroTemplateInput(type, tag, purpose) {
     this.purpose = purpose;
 }
 
-function Macro(id, name, color, micros) {
+function Macro(id, name, color, micros, devices) {
     this.id = id;
     this.name = name;
     this.color = color;
     this.micros = micros;
+    this.devices = devices;
 }
 
 
@@ -368,7 +380,7 @@ function microTemplateToHtml(template, micro = null) {
             micro.values.forEach(function (v) {
                 if (v.tag == input.tag) {
                     val = v.value;
-                    if(typeof(val) == "string"){
+                    if (typeof (val) == "string") {
                         val = val.replaceAll(`"`, "&quot;")
                     }
                 }
@@ -443,11 +455,16 @@ function getMacroFromHTML() {
         micros.push(micro);
 
     });
-    return new Macro($("#wizard-area").get(0).dataset.target, $("#wizard-action-name").val(), getColor(), micros);
+    return new Macro($("#wizard-area").get(0).dataset.target, $("#wizard-action-name").val(), getColor(), micros, getSelectedDevices());
 }
 
 function generateMacroHTML(macro) {
     if (macro.micros) {
+        if (macro.devices) {
+            macro.devices.forEach((device) => {
+                $(`check-box[data-target="${device.id}"] div`).get(0).setAttribute("data-checked", device.checked)
+            })
+        }
         macro.micros.forEach(function (micro) {
             generateGlobalMicroHTML(micro.templateID, micro)
         });
@@ -658,3 +675,12 @@ $(window).ready(toolTips);
 closeDrawer();
 clearActionList();
 
+function getSelectedDevices() {
+    var devices = [];
+    document.querySelectorAll("check-box").forEach((e) => {
+        devices.push({ id: $(e).data("target"), checked: $(e).find("div").get(0).dataset.checked })
+
+    })
+    console.log(devices)
+    return devices;
+}

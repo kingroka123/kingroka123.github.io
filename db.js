@@ -4,6 +4,8 @@ macroListRef = null;
 macroQueueRef = null;
 macroDashboardsRef = null;
 microTemplatesRef = firebase.database().ref("micros/global");
+var deviceRef;
+
 personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
@@ -41,6 +43,12 @@ var personalMicroButton = `
 </span>
     `;
 
+var deviceTemplate = `
+    <div>
+        <check-box data-target="{{deviceID}}"></check-box> <span>{{deviceName}}</span>
+    </div>  
+`;
+
 function nextPage() {
     //check perm
     setPage(getPage() + 1)
@@ -52,8 +60,8 @@ function previousPage() {
 
 }
 
-function setPage(page){
-    if(page >= 0 && page < 10){
+function setPage(page) {
+    if (page >= 0 && page < 10) {
         dashboardPage = page;
         updateDashboardPage()
     }
@@ -77,7 +85,6 @@ function updateDashboardPage() {
 
     });
 }
-
 
 
 function setMacroButtonsTargets(macro) {
@@ -119,11 +126,15 @@ firebase.auth().onAuthStateChanged(function (user) {
         macroDashboardsRef = firebase.database().ref("dashboards/" + user.uid);
 
         personalMicroTemplatesRef = firebase.database().ref("micros/" + user.uid);;
-
+        deviceRef = firebase.database().ref("devices/" + user.uid)
         document.querySelector("#name-display").innerHTML = email;
 
         /* Dashboards */
-
+        deviceRef.on("child_added", (snapshot) => {
+            var device = snapshot.val();
+            var elem = deviceTemplate.replaceAll("{{deviceID}}", device.id).replaceAll("{{deviceName}}", device.name);
+            $("#devices").append(elem);
+        })
 
         macroDashboardsRef.on("child_added", (snapshot) => {
             var dashboard = snapshot.val();
@@ -262,7 +273,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             // } else {
             //     dothings();
             // }
-dothings();
+            dothings();
 
         });
 
@@ -324,6 +335,7 @@ function closeEdit() {
 let set = false;
 var longMove = false;
 let target = "";
+var macroDevices = null
 function macro(element) {
     if (!set) {
         if (!dontMacro && !isDrawerOpen()) {
@@ -334,13 +346,15 @@ function macro(element) {
                     function dostuff() {
 
                         cmdTarget = macro.micros.length;
+                        macroDevices = macro.devices;
                         macro.micros.forEach(function (micro) {
 
                             getCommand(micro, condense);
 
                         })
+                        macroDevices = null;
                     }
-                    if (typeof(macro.micros) == "string") {
+                    if (typeof (macro.micros) == "string") {
                         decryptMacro(t).then((decrypted) => {
                             macro = decrypted;
                             dostuff();
@@ -387,13 +401,18 @@ function condense(c) {
         cmds = 0;
         cmdTarget = 0;
     }
-
 }
 
 function runCommand(command) {
-    if (command) {
-        macroQueueRef.update({ [ID()]: command });
-        // console.log(command)
+    if (command && macroDevices) {
+        macroDevices.forEach((device, index) => {
+            if (device.checked) {
+                macroQueueRef.set({ [device.id]: command});
+            }
+        })
+
+        console.log(command)
+        macroDevices = null;
     }
 }
 
@@ -406,7 +425,7 @@ function editMacro(element) {
         switchView("edit")
         var val = snapshot.val();
         console.log(id)
-        if (typeof(val.micros) == "string") {
+        if (typeof (val.micros) == "string") {
             decryptMacro(id).then((decrypted) => {
                 generateMacroHTML(decrypted);
                 $("#wizard-action-name").val(decrypted.name)

@@ -7,6 +7,9 @@ var contents = mainWindow.webContents;
 const { app, dialog } = require('electron').remote
 var AutoLaunch = require('auto-launch');
 let autoLaunch = null;
+var client = new ClientJS()
+const DeviceID = client.getFingerprint();
+var os = require('os')
 if (AutoLaunch) {
   autoLaunch = new AutoLaunch({
     name: 'Macro',
@@ -47,19 +50,35 @@ function setAutoLaunchByForm() {
 function electron(user) {
   if (window && window.process && window.process.type) {
     console.log("electron!!")
-    console.log(contents)
     autoLaunch.isEnabled().then((isEnabled) => {
       if (!isEnabled)
         $("#autolaunch-field").val("close");
       else
         $("#autolaunch-field").val("open");
     });
+    console.log(deviceRef)
+    deviceRef.child(DeviceID).once('value', (snapshot) => {
+      console.log(snapshot.val());
+      if (!snapshot.val()) {
+        deviceRef.child(DeviceID).set({ id: DeviceID, name: os.hostname() })
 
-    macroQueue = firebase.database().ref("macroqueue/" + cuser.uid);
-    macroQueue.on("child_added", function (snapshot) {
-      // console.log(snapshot.val());
-      cmd.get(snapshot.val(), console.log)
-      snapshot.ref.remove();
+      }
+    })
+
+    deviceRef.child(DeviceID).on("value", (snapshot) => {
+      $("#computer-name-field").val(snapshot.val().name)
+    })
+
+    $("#computer-name-field").on("change keyup", () => {
+      deviceRef.child(DeviceID).update({ name: $("#computer-name-field").val() });
+    });
+
+    macroQueue = firebase.database().ref("macroqueue/" + cuser.uid + "/" + DeviceID);
+    macroQueue.on("value", function (snapshot) {
+      if (snapshot.val()) {
+        cmd.get(snapshot.val(), console.log)
+        snapshot.ref.remove();
+      }
     });
 
     input = document.querySelector("#close-button");
@@ -74,6 +93,20 @@ function electron(user) {
     isElectron = false;
   }
 }
+
+// if (window.requestIdleCallback) {
+//   requestIdleCallback(function () {
+//       Fingerprint2.get(function (components) {
+//         console.log(components) // an array of components: {key: ..., value: ...}
+//       })
+//   })
+// } else {
+//   setTimeout(function () {
+//       Fingerprint2.get(function (components) {
+//         console.log(components) // an array of components: {key: ..., value: ...}
+//       })  
+//   }, 500)
+// }
 
 
 
