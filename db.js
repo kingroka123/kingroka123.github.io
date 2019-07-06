@@ -336,7 +336,42 @@ let set = false;
 var longMove = false;
 let target = "";
 var macroDevices = null
+
+function ripple(element) {
+  
+    var rect = element.getBoundingClientRect();
+    console.log(rect)
+    const xPos = rect.left + rect.width/2,
+        yPos = rect.top + rect.height/2,
+        elWavesRipple = document.createElement('div');
+    console.log(xPos)
+    elWavesRipple.className = 'waves-ripple';
+    elWavesRipple.style.left = xPos + 'px';
+    elWavesRipple.style.top = yPos + 'px';
+
+    const rippleElm = document.querySelector("body").appendChild(elWavesRipple);
+
+    anime({
+        targets: '.waves-ripple',
+        scale: {
+            value: 40,
+            duration: 750,
+        },
+        opacity: {
+            value: 0,
+            duration: 750
+        },
+        easing: 'easeOutSine',
+        complete: function () {
+            const newElm = document.getElementsByClassName('waves-ripple')[0]
+            newElm.remove();
+        }
+    });
+
+}
+
 function macro(element) {
+
     if (!set) {
         if (!dontMacro && !isDrawerOpen()) {
             t = element.dataset.target;
@@ -344,14 +379,18 @@ function macro(element) {
                 macroListRef.child(t).once("value", function (snapshot) {
                     var macro = snapshot.val();
                     function dostuff() {
+                        ripple(element)
+                        snackbar(`Running <span class="${macro.color}-font">` + macro.name + `</span>`)
 
-                        cmdTarget = macro.micros.length;
-                        macroDevices = macro.devices;
-                        macro.micros.forEach(function (micro) {
+                        if (macro.micros) {
+                            cmdTarget = macro.micros.length;
+                            macroDevices = macro.devices;
+                            macro.micros.forEach(function (micro) {
 
-                            getCommand(micro, condense);
+                                getCommand(micro, condense);
 
-                        })
+                            })
+                        }
                         macroDevices = null;
                     }
                     if (typeof (macro.micros) == "string") {
@@ -407,9 +446,10 @@ function runCommand(command) {
     if (command && macroDevices) {
         for (var device in macroDevices) {
             deviceRef.child(device).once("value", (snapshot) => {
-                if (snapshot.val() &&snapshot.val().online) {
+                if (snapshot.val() && snapshot.val().online) {
                     if (macroDevices[device].checked == "true") {
                         macroQueueRef.set({ [device]: command });
+
                     }
                 }
             })
@@ -532,17 +572,21 @@ $(window).contextmenu(function (e) {
     }
 });
 
-$(document).mouseup(function (e) {
+$(document).mousedown(function (e) {
 
     var container = $("#long-menu");
     var drawer = $("#drawer");
     var toolbar = $(".tool-bar");
+    var snackbar = $(".snack-bar")
     // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
     }
     if (!drawer.is(e.target) && drawer.has(e.target).length === 0 && !toolbar.is(e.target) && toolbar.has(e.target).length === 0) {
         closeDrawer();
+    }
+    if (!snackbar.is(e.target) && snackbar.has(e.target).length === 0) {
+        hideSnackBars();
     }
 });
 

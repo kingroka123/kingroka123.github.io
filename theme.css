@@ -11,6 +11,7 @@
   --color-orange: #ff8f00;
   --toolbar-width: 3.5rem;
   --window-bar-height: 25px;
+  --snackbar-height: 2rem;
 }
 
 * {
@@ -188,6 +189,7 @@ h2 {
   border-radius: 8px;
   font-size: 0.9rem !important;
   margin: 5px;
+  overflow: hidden;
 }
 .macro-button:hover {
   border-color: white;
@@ -809,7 +811,7 @@ h5 {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   #navigation button {
-    font-size: 1.2em;
+    font-size: .9em;
   }
 }
 
@@ -1045,4 +1047,37 @@ input[type='file'] {
   text-align: left;
   margin: auto;
   margin-bottom: 15px;
+}
+
+.snack-bar{
+  position: fixed;
+  bottom: -3rem;
+  height: var(--snackbar-height);
+  font-size: 1rem;
+  color: white;
+  background: #000a12;
+  padding: .5rem 0;
+  padding-left: calc(25px + var(--toolbar-width));
+  z-index: 5;
+  width: 100vw;
+  
+}
+
+.snack-bar .text-button{
+  font-size: inherit !important;
+  font-weight: bolder !important;
+  color: #ffb300 !important;
+}
+.snack-bar .text-button:hover{
+  background: none !important;
+ 
+  color: white !important;
+}
+
+.waves-ripple {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
 }

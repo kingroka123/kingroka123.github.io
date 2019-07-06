@@ -688,3 +688,38 @@ function getSelectedDevices() {
     console.log(devices)
     return devices;
 }
+function hideSnackBars() {
+    anime({
+        targets: '.snack-bar',
+        translateY: '3rem',
+        duration: 100,
+        easing: "linear",
+        complete: () => {$(".snack-bar").remove()}
+      });
+}
+
+function showSnackBars() {
+    anime({
+        targets: '.snack-bar',
+        translateY: '-3rem',
+        duration: 100,
+        easing: "linear"
+      });
+}
+
+var snackbarTemplate =
+    `
+<div class="snack-bar">
+    <button class="text-button no-outline" onclick="{{actionfunc}}">{{action}}</button>
+    | {{message}}
+</div>
+`
+function snackbar(message="command executed", action="dismiss",  func="hideSnackBars()") {
+    var bar = snackbarTemplate
+        .replaceAll("{{message}}", message)
+        .replaceAll("{{actionfunc}}", func)
+        .replaceAll("{{action}}", action);
+    $("body").append(bar);
+    showSnackBars()
+}
+

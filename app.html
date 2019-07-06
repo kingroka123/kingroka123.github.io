@@ -115,7 +115,7 @@
                     </div>
                     <h2> Devices </h2>
                     <div id="devices">
-                        
+
                     </div>
                     <h2>Micros</h2>
                     <div id="action-list">
@@ -213,7 +213,7 @@
             <div id="settings" class="content view" style="text-align: left;">
                 <h1>Settings </h1>
                 <div class="electron-visible">
-                    <h3> Desktop Settings</h3>
+                    <h3> Desktop</h3>
                     <div class="settings-item">
                         <div disabled class="no-outline text-field text-field-label">Device Name </div>
                         <input class="text-field text-field-sm text-field-long" id="computer-name-field">
@@ -225,6 +225,14 @@
                             <option value="close">Do not open Macro</option>
                         </select>
                     </div>
+                </div>
+                <h3> Misc.</h3>
+                <div class="settings-item">
+                    <div disabled class="no-outline text-field text-field-label">Vibrate/ Play Sounds </div>
+                    <select class="text-button" onchange="">
+                        <option value="on">On</option>
+                        <option value="off">Off</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -274,7 +282,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-
+<script src="anime.min.js"></script>
 <script src="client.min.js"></script>
 <script src="utils.js"></script>
 <script>
