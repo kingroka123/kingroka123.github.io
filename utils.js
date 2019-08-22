@@ -130,5 +130,9 @@ async function decryptMacro(encryptedMacroID){
 }
 
 
-
+function showPopper(element){
+    var popper = new Popper(element, null, {
+        placement: 'left'
+    });
+}
 

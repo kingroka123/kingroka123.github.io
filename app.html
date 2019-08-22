@@ -70,6 +70,7 @@
 
 
     <div id="dashboard" class="">
+        <div id="overlay"></div>
 
     </div>
 
@@ -205,9 +206,13 @@
             <div id="list" class="content view">
                 <h1>Macro List</h1>
                 <button class="text-button" onclick="newMacro()">new Macro</button>
+                <br>
+                <input style="margin-top: 15px" class="text-field text-field-medium text-field-sm" placeholder="search">
 
                 <div id="macro-list">
+                    <div id="macro-list-container">
 
+                    </div>
                 </div>
             </div>
             <div id="settings" class="content view" style="text-align: left;">
@@ -274,7 +279,6 @@
 
     </div>
 
-
 </body>
 
 <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
@@ -283,6 +287,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="anime.min.js"></script>
+<script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
 <script src="client.min.js"></script>
 <script src="utils.js"></script>
 <script>
@@ -349,13 +354,8 @@
     setDashboard();
 
     function fullscreen() {
-
-        controls = document.querySelector("#controls");
-        exitF = document.querySelector("#exit-fullscreen");
-
-        $(controls).fadeOut(function () {
-            $(exitF).fadeIn();
-        });
+        closeToolbar();
+       
     }
     function exitFull() {
         // list = document.querySelector("#dashboard");

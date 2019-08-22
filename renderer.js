@@ -7,9 +7,9 @@ var contents = mainWindow.webContents;
 const { app, dialog } = require('electron').remote
 var AutoLaunch = require('auto-launch');
 let autoLaunch = null;
-
+let machine = require('node-machine-id');
 var os = require('os')
-const DeviceID = window.btoa(os.networkInterfaces()["Wi-Fi"][0].mac);
+const DeviceID = machine.machineIdSync();
 
 if (AutoLaunch) {
   autoLaunch = new AutoLaunch({
@@ -57,11 +57,14 @@ function electron(user) {
       else
         $("#autolaunch-field").val("open");
     });
-    console.log(deviceRef)
+    
     deviceRef.child(DeviceID).once('value', (snapshot) => {
       console.log(snapshot.val());
       if (!snapshot.val()) {
         deviceRef.child(DeviceID).update({ id: DeviceID, name: os.hostname() })
+      }else if(!snapshot.val().name || !snapshot.val().id){
+        deviceRef.child(DeviceID).update({ id: DeviceID, name: os.hostname() })
+
       }
     })
     deviceRef.child(DeviceID).update({online: true});

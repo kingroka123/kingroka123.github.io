@@ -973,11 +973,13 @@ select::-ms-expand {
 
 }
 
+
 #page-number input{
   padding-left: 2px;
   padding-right: 4px;
   font-size: .875em;
   border: none !important;
+
 }
 #page-number input:focus{
   box-shadow: none;
@@ -987,6 +989,8 @@ select::-ms-expand {
   background: none !important;
   color: white !important;
   padding: 0px;
+  -webkit-text-stroke: 1px black;
+
   
 }
 
@@ -1080,4 +1084,31 @@ input[type='file'] {
   width: 10px;
   height: 10px;
   position: absolute;
+}
+
+
+
+.expose {
+  position:relative !important;
+  z-index:99999;
+}
+
+#overlay {
+  background:rgba(0,0,0,0.3);
+  display:none;
+  width:100%; height:100%;
+  position:absolute; top:0; left:0; z-index:99998;
+}
+
+.text-button.macro-list-entry{
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+}
+
+#macro-list-container{
+  padding-top: 50px;
+  display:  inline-grid;
+  grid-template-columns: 150px 150px 150px;
+  grid-gap: 10px;
 }

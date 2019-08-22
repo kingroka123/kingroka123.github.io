@@ -466,7 +466,11 @@ function generateMacroHTML(macro) {
     if (macro.micros) {
         if (macro.devices) {
             for (var device in macro.devices) {
-                $(`check-box[data-target="${device}"] div`).get(0).setAttribute("data-checked", macro.devices[device].checked);
+                console.log(device);
+                var tar = $(`check-box[data-target="${device}"] div`);
+                if (tar.length) {
+                    tar.get(0).setAttribute("data-checked", macro.devices[device].checked);
+                }
             }
         }
         macro.micros.forEach(function (micro) {
@@ -657,12 +661,26 @@ Sortable.create(el, {
 });
 
 function toolTips() {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        fullscreen();
+    }
     $(".tool-tip").each(function () {
         var tip = $(this);
         var target = $(tip.data("target"));
         var y = target.position().top - 2;
         tip.css({ top: y + "px" })
         target.hover(function () { tip.css({ visibility: "visible" }) }, function () { tip.css({ visibility: "hidden" }) })
+    });
+    $(".macro-button[data-number=2]").addClass("expose")
+    $('.expose').click(function (e) {
+        $(this).css('z-index', '99999');
+        $('#overlay').fadeIn(300);
+    });
+
+    $('#overlay').click(function (e) {
+        $('#overlay').fadeOut(300, function () {
+            $('.expose').removeClass("expose")
+        });
     });
 }
 
@@ -694,8 +712,8 @@ function hideSnackBars() {
         translateY: '3rem',
         duration: 100,
         easing: "linear",
-        complete: () => {$(".snack-bar").remove()}
-      });
+        complete: () => { $(".snack-bar").remove() }
+    });
 }
 
 function showSnackBars() {
@@ -704,7 +722,7 @@ function showSnackBars() {
         translateY: '-3rem',
         duration: 100,
         easing: "linear"
-      });
+    });
 }
 
 var snackbarTemplate =
@@ -714,12 +732,17 @@ var snackbarTemplate =
     | {{message}}
 </div>
 `
-function snackbar(message="command executed", action="dismiss",  func="hideSnackBars()") {
+function snackbar(message = "command executed", action = "dismiss", func = "hideSnackBars()") {
     var bar = snackbarTemplate
         .replaceAll("{{message}}", message)
         .replaceAll("{{actionfunc}}", func)
         .replaceAll("{{action}}", action);
     $("body").append(bar);
     showSnackBars()
+}
+
+function expose(selector) {
+    $(selector).addClass("exposed")
+    $("#overlay").fadeIn();
 }
 

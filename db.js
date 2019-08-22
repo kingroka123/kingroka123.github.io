@@ -5,21 +5,16 @@ macroQueueRef = null;
 macroDashboardsRef = null;
 microTemplatesRef = firebase.database().ref("micros/global");
 var deviceRef;
+/**    <button style="display: none" class="text-button save-macro-button green-border" onclick="saveMacro(this)" data-target="{{id}}">save</button>
 
+  <button class="text-button blue-border" onclick="setMacro(this)" data-target="{{id}}">set</button>
+    <button class="text-button yellow-border" onclick="editMacro(this)" data-target="{{id}}">edit</button>
+    <button class="text-button red-border" onclick="deleteMacro(this)" data-target="{{id}}">delete</button> */
 personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
 var macroEntry = `
-<div  class="macro-entry" data-target="{{id}}" data-command="{{command}}" data-name="{{name}}">
-    <input type="text" onload="addEnterBind(this);" data-enterbind=".save-macro-button[data-target='{{id}}']" autocapitalize="none" 
-    class="macro-name text-field text-field-sm text-field-short" data-target="{{id}}" placeholder="Name" value="{{name}}"
-        disabled>
-   
-    <button class="text-button blue-border" onclick="setMacro(this)" data-target="{{id}}">set</button>
-    <button class="text-button yellow-border" onclick="editMacro(this)" data-target="{{id}}">edit</button>
-    <button class="text-button red-border" onclick="deleteMacro(this)" data-target="{{id}}">delete</button>
-    <button style="display: none" class="text-button save-macro-button green-border" onclick="saveMacro(this)" data-target="{{id}}">save</button>
-</div>
+<button class="macro-list-entry text-button" data-target="{{id}}" onclick="showPopper(this)"> {{name}} </button>
 `;
 
 var globalMicroButton = `
@@ -222,7 +217,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 copy = copy.replaceAll("{{name}}", val.name);
                 copy = copy.replaceAll("{{command}}", val.command);
 
-                $("#macro-list").append(copy);
+                $("#macro-list-container").append(copy);
                 $(`.macro-name[data-target="${val.id}"`).trigger('onload');
                 $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
