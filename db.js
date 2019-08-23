@@ -14,7 +14,7 @@ personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
 var macroEntry = `
-<button class="macro-list-entry text-button" data-target="{{id}}" onclick="showPopper(this)"> {{name}} </button>
+<button class="macro-list-entry text-button" data-target="{{id}}" onclick="showEntryMenu(this)"> {{name}} </button>
 `;
 
 var globalMicroButton = `
@@ -236,7 +236,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         });
         macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.ref.getKey();
-            document.querySelector(`.macro-entry[data-target="${id}"]`).remove();
+            document.querySelector(`.macro-list-entry[data-target="${id}"]`).remove();
             document.querySelectorAll(`.macro-button[data-target="${id}"]`).forEach(realClear)
 
         });
@@ -257,8 +257,8 @@ firebase.auth().onAuthStateChanged(function (user) {
                 setMacroButtonsTargets(val)
 
                 //change entry element
-                macroEntryElemName = document.querySelector(`.macro-name[data-target="${val.id}"]`);
-                macroEntryElemName.value = val.name;
+                macroEntryElemName = document.querySelector(`.macro-list-entry[data-target="${val.id}"]`);
+                macroEntryElemName.innerHTML= val.name;
             }
             // if (val.encrypted) {
             //     decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
@@ -495,6 +495,7 @@ function deleteMacro(element) {
     if (confirm("Are you sure you want to delete?")) {
         id = element.dataset.target;
         macroListRef.child(id).remove();
+        $("#entry-menu").css('visibility', 'hidden');
     }
 }
 
@@ -569,8 +570,8 @@ $(window).contextmenu(function (e) {
 
 $(document).mousedown(function (e) {
 
-    var container = $("#long-menu");
-    var drawer = $("#drawer");
+    var container = $("#long-menu, #entry-menu");
+    var drawer = $("#drawer, #entry-menu");
     var toolbar = $(".tool-bar");
     var snackbar = $(".snack-bar")
     // if the target of the click isn't the container nor a descendant of the container
@@ -662,6 +663,7 @@ function hideLongMenu() {
     if ($("#long-menu").css('visibility') == "visible")
         dontMacro = true;
     $("#long-menu").css('visibility', 'hidden')
+    $("#entry-menu").css('visibility', 'hidden')
 
 
 }
@@ -692,3 +694,10 @@ function editSelectedMacroButton() {
 $(document.body).on("mousedown touchstart", function () {
 });
 
+function showEntryMenu(element) {
+    var popper = new Popper(element, $("#entry-menu").get(0), {
+        placements: 'auto'
+    });
+    $("#entry-menu").get(0).dataset.target =  element.dataset.target;
+    $("#entry-menu").css('visibility', 'visible')
+}

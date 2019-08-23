@@ -517,6 +517,21 @@ textarea {
   transform-origin: left top;
   width: 300px;
 }
+#entry-menu{
+  box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.45);
+  padding: 10px;
+  border-radius: 4px;
+  position: fixed;
+  z-index: 5;
+  top: 50px;
+  border: solid 2px;
+  background: var(--main-bg-color) !important;
+  visibility: hidden;
+  text-align: center;
+  transform-origin: left top;
+  
+}
+
 
 #button-pointer-up {
   width: 0;
@@ -1085,8 +1100,6 @@ input[type='file'] {
   height: 10px;
   position: absolute;
 }
-
-
 
 .expose {
   position:relative !important;

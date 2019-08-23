@@ -106,6 +106,7 @@ function openDrawer(callback) {
 }
 
 function closeDrawer(callback) {
+    $("#entry-menu").css('visibility', 'hidden');
 
     $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
         if (callback) {
@@ -745,4 +746,5 @@ function expose(selector) {
     $(selector).addClass("exposed")
     $("#overlay").fadeIn();
 }
+
 

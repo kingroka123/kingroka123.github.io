@@ -97,11 +97,11 @@ function encryptObj(object, passphrase) {
     var temp = {};
     if (object) {
         for (var property in object) {
-        //    console.log(property + ", " + object[property])
+            //    console.log(property + ", " + object[property])
             temp[property] = CryptoJS.AES.encrypt(object[property], passphrase).toString();
         }
     }
-   // console.log(temp)
+    // console.log(temp)
     return object;
 }
 
@@ -112,27 +112,21 @@ async function decryptObj(object, passphrase) {
         // Read result of the Cloud Function.
         v = result.data;
     });
-   
+
 
     return v;
 }
 
 
-async function decryptMacro(encryptedMacroID){
+async function decryptMacro(encryptedMacroID) {
     var decryptMacro = firebase.functions().httpsCallable('decryptMacro');
     var v;
     await decryptMacro({ id: encryptedMacroID }).then(function (result) {
         v = result.data;
         console.log(v)
     });
-   
+
     return v;
 }
 
-
-function showPopper(element){
-    var popper = new Popper(element, null, {
-        placement: 'left'
-    });
-}
 

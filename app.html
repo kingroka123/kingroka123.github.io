@@ -278,7 +278,11 @@
         <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
 
     </div>
-
+    <div id="entry-menu" class="white-border" data-target="">
+        <button class="text-button red-border" onclick="deleteMacro($('#entry-menu').get(0))">delete</button>
+        <button class="text-button yellow-border" onclick="editMacro($('#entry-menu').get(0))">edit</button>
+        <button class="text-button blue-border" onclick="setMacro($('#entry-menu').get(0))">place</button>
+    </div>
 </body>
 
 <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
@@ -355,7 +359,7 @@
 
     function fullscreen() {
         closeToolbar();
-       
+
     }
     function exitFull() {
         // list = document.querySelector("#dashboard");
