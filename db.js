@@ -14,7 +14,7 @@ personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
 var macroEntry = `
-<button class="macro-list-entry text-button" data-target="{{id}}" onclick="showEntryMenu(this)"> {{name}} </button>
+<button class="macro-list-entry text-button {{border}}-border" data-target="{{id}}" onclick="showEntryMenu(this)"> {{name}} </button>
 `;
 
 var globalMicroButton = `
@@ -216,6 +216,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 copy = copy.replaceAll("{{id}}", val.id);
                 copy = copy.replaceAll("{{name}}", val.name);
                 copy = copy.replaceAll("{{command}}", val.command);
+                copy = copy.replaceAll("{{border}}", val.color);
 
                 $("#macro-list-container").append(copy);
                 $(`.macro-name[data-target="${val.id}"`).trigger('onload');
@@ -260,14 +261,6 @@ firebase.auth().onAuthStateChanged(function (user) {
                 macroEntryElemName = document.querySelector(`.macro-list-entry[data-target="${val.id}"]`);
                 macroEntryElemName.innerHTML= val.name;
             }
-            // if (val.encrypted) {
-            //     decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
-            //         val = decrypted;
-            //         dothings();
-            //     })
-            // } else {
-            //     dothings();
-            // }
             dothings();
 
         });

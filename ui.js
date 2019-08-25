@@ -148,6 +148,19 @@ function updateSearch() {
     });
 
 }
+
+$("#macro-list-search").on('input', function () {
+    updateMacroSearch();
+});
+function updateMacroSearch() {
+    var val = $("#macro-list-search").val().toLowerCase();
+
+    $(`.macro-list-entry`).filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1 )
+    });
+}
+
+
 function setSearch(e) {
     var search = $(e).text();
     $("#macro-preset-search").val(search);
