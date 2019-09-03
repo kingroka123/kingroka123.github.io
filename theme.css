@@ -556,9 +556,8 @@ textarea {
 
 .side-bar {
   height: 100vh;
-  width: 40%;
+  width: 100%;
   min-width: 500px;
-  max-width: 600px;
   position: fixed;
   background: var(--drawer-bg-color);
   z-index: 2;
