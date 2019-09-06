@@ -64,76 +64,57 @@ function clearActionList() {
     })
     setNewMacroID()
 }
-var views = ["edit", "list", "settings", "edit-micro"];
+var views = ["edit", "list", "settings", "edit-micro", "dashboard", "device-manager"];
+var viewHistory = [];
+var lastView = "", currentView;
+function swapDrawerContent(newView, history=true) {
+    if (history && currentView && currentView != viewHistory[viewHistory.length - 1]) {
+        viewHistory.push(currentView);
+    }
 
-var lastView = ""
-function swapDrawerContent(newView) {
+    currentView = newView;
+
     views.forEach(function (view) {
-        if (view != newView && $("#" + view).is(":visible")) {
-            $("#" + view).hide();
-        }
+        $("#" + view).hide();
     });
     $("#" + newView).show();
-    lastView = newView;
 }
-function closeToolbar() {
-    $('.tool-bar').hide();
-    $('#close-toolbar').hide();
-}
-function openToolbar() {
-    $('.tool-bar').show();
-    $('#close-toolbar').show();
 
-}
-function switchView(view) {
-
-    var toggle = view == lastView;
-    if (isDrawerOpen()) {
-        closeDrawer(function () { if (!toggle) { switchView(view) } });
-    } else {
-        swapDrawerContent(view);
-        openDrawer()
+function goBack() {
+    if (viewHistory.length > 0) {
+        swapDrawerContent(viewHistory.pop(), false);
     }
 }
 
 function openDrawer(callback) {
-    openToolbar();
-    $("#drawer").animate({ right: window.innerWidth - $("#drawer").outerWidth() }, 225, 'linear', function () {
-        if (callback) {
-            openCallback();
-        }
-    })
-}
-
-function closeDrawer(callback) {
-    $("#entry-menu").css('visibility', 'hidden');
-
-    $("#drawer").animate({ right: window.innerWidth }, 200, 'linear', function () {
-        if (callback) {
-            callback();
-        }
-    });
+    $("#drawer").show();
+    if (callback) {
+        callback();
+    }
 }
 
 
+function switchView(view) {
+
+    swapDrawerContent(view);
+}
+
+switchView("dashboard");
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    closeToolbar();
+    //  closeToolbar();
 }
 $(window).resize(function () {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
     } else {
-        $("#drawer").css({ right: window.innerWidth });
+        //  $("#drawer").css({ right: window.innerWidth });
     }
 })
 
-
 function isDrawerOpen() {
-    return $("#drawer").position().left >= -$("#drawer").width();;
+    return !$("#drawer").is(":hidden");
 }
 
-
-switchView("list")
 $("#macro-preset-search").on('input', function () {
     updateSearch()
 });
@@ -152,11 +133,12 @@ function updateSearch() {
 $("#macro-list-search").on('input', function () {
     updateMacroSearch();
 });
+
 function updateMacroSearch() {
     var val = $("#macro-list-search").val().toLowerCase();
 
     $(`.macro-list-entry`).filter(function () {
-        $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1 )
+        $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1)
     });
 }
 
@@ -676,7 +658,6 @@ Sortable.create(el, {
 
 function toolTips() {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        fullscreen();
     }
     $(".tool-tip").each(function () {
         var tip = $(this);
@@ -708,7 +689,7 @@ function setPageNumberField() {
 setPageNumberField()
 $(window).ready(toolTips);
 
-closeDrawer();
+
 clearActionList();
 
 function getSelectedDevices() {

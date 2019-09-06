@@ -66,13 +66,10 @@
     <div id="exit-fullscreen" class=" material-icons electron-shift" onclick="exitFull()">arrow_back </div>
     <button id="cancel-button" class="text-button red-border red"
         style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
-        onclick="cancelSet()">cancel</button>
+        onclick="cancelSet();">cancel</button>
 
 
-    <div id="dashboard" class="">
-        <div id="overlay"></div>
 
-    </div>
 
     <div class="tool-tip electron-shift" id="name-display" data-target="#logout"></div>
 
@@ -80,165 +77,189 @@
     <div class="side-bar tool-bar electron-shift electron-height">
         <div id="logout"><img style="vertical-align: middle; " src="./img/icons/apple-touch-icon-152x152.png"
                 width="44"></div>
-        <div onclick="switchView('list')" id="add_macro_toolbar"><i class="material-icons">touch_app</i></div>
-        <div onclick="switchView('edit')" id="edit_macro_toolbar"><i class="material-icons">edit</i></div>
+        <div onclick="switchView('dashboard')" id="add_macro_toolbar"><i class="material-icons">dashboard</i>
+        </div>
+        <div onclick="switchView('list')" id="add_macro_toolbar"><i class="material-icons">create</i></div>
+        <!-- <div onclick="switchView('edit')" id="edit_macro_toolbar"><i class="material-icons">edit</i></div> -->
+        <div onclick="switchView('device-manager')" id="device_toolbar"><i class="material-icons">devices</i></div>
 
         <div onclick="switchView('settings')" id="settings_macro_toolbar"><i class="material-icons">settings</i></div>
 
         <div onclick="logout()" class="bottom"><i class="material-icons">exit_to_app</i></div>
     </div>
     <div id="drawer" class="side-bar electron-shift">
-
         <div class="sidebar-content">
-            <div id="edit" class="content view">
-                <div id="wizard-area" class="content" data-target="">
-
-                    <h1>Wizard</h1>
-
-                    <br>
-                    <button class="text-button" onclick="newMacro()">new Macro</button>
-
-                    <br>
-                    <br>
-                    <button id="new-macro-button" class="text-button green-border" style="margin-bottom: 30px;"
-                        onclick="saveMacro(); ">save macro</button>
-                    <br>
-                    <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name"
-                        type="text" class="text-field text-field-sm" placeholder="Name" style="width: 60%;">
-                    <div id="action-colors">
-                        <div class="color-button red" onclick="selectColor(this)" data-color-selected="true"></div>
-                        <div class="color-button orange" onclick="selectColor(this)"></div>
-                        <div class="color-button yellow" onclick="selectColor(this)"></div>
-                        <div class="color-button green" onclick="selectColor(this)"></div>
-                        <div class="color-button blue" onclick="selectColor(this)"></div>
-                        <div class="color-button purple" onclick="selectColor(this)"></div>
-
-                    </div>
-                    <h2> Devices </h2>
-                    <div id="devices">
-
-                    </div>
-                    <h2>Micros</h2>
-                    <div id="action-list">
-                    </div>
-
-                    <div id="micros">
-                        <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button"
-                            onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
-                        <br>
-                        <input autocomplete="new-password" autocapitalize="none" id="macro-preset-search" type="text"
-                            class="text-field text-field-sm text-field-medium deletable" placeholder="search">
-                        <span id="search-clear-button" class=" material-icons no-outline" onclick="clearSearch()"
-                            style="vertical-align: middle; cursor: pointer;">clear</span>
-                        <br>
-                        <div id="micro-presets" class="">
-
-                        </div>
-                    </div>
+            <div id="dashboard" class="view">
+                <div id="macro-grid">
+                    <div id="overlay"></div>
+                </div>
+                <div id="page-number">
+                    <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
+                    <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input"
+                            type="number" class="text-field text-field-sm  no-outline" placeholder="#"
+                            style="width: 25px;"></input></div>
+                    <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
 
                 </div>
+            </div>
 
+            <div id="edit" class="content view">
+                <div id="wizard-area" class="content" data-target="">
+                    <div class="view-topbar">
+                        <h1>Wizard</h1>
+                        <button class="text-button" onclick="goBack()">back</button>
+                        <button class="text-button" onclick="newMacro()">new</button>
+                        <button id="new-macro-button" class="text-button green-border"
+                            onclick="saveMacro(); goBack();">save and exit</button>
+                        <br>
+                    </div>
+
+
+                    <div class="view-content">
+
+                        <br>
+                        <br>
+
+                        <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none"
+                            id="new-macro-name" type="text" class="text-field text-field-sm text-field-medium"
+                            placeholder="Name">
+                        <div id="action-colors">
+                            <div class="color-button red" onclick="selectColor(this)" data-color-selected="true"></div>
+                            <div class="color-button orange" onclick="selectColor(this)"></div>
+                            <div class="color-button yellow" onclick="selectColor(this)"></div>
+                            <div class="color-button green" onclick="selectColor(this)"></div>
+                            <div class="color-button blue" onclick="selectColor(this)"></div>
+                            <div class="color-button purple" onclick="selectColor(this)"></div>
+
+                        </div>
+                        <h2> Devices </h2>
+                        <div id="devices">
+
+                        </div>
+                        <h2>Micros</h2>
+                        <div id="action-list">
+                        </div>
+
+                        <div id="micros">
+                            <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button"
+                                onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
+                            <br>
+                            <input autocomplete="new-password" autocapitalize="none" id="macro-preset-search"
+                                type="text" class="text-field text-field-sm text-field-medium deletable"
+                                placeholder="search">
+                            <span id="search-clear-button" class=" material-icons no-outline" onclick="clearSearch()"
+                                style="vertical-align: middle; cursor: pointer;">clear</span>
+                            <br>
+                            <div id="micro-presets" class="">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
 
-            <div id="edit-micro" class="content view" style="width: 90%">
-                <h1>Micro Manager</h1>
-
-                <button class="text-button" onclick="switchView('edit')"
-                    style="margin-bottom: 15px; margin-top: 15px;">close</button>
-                <br>
-                <button id="new-macro-button" class="text-button orange-border text-field-medium electron-shift"
-                    style="margin-top: 50px; margin-bottom: 30px;" onclick="switchView('edit')">cancel</button>
-                <button id="new-macro-button" class="text-button green-border"
-                    style="margin-top: 50px; margin-bottom: 30px;"
-                    onclick="savePersonalTemplate();switchView('edit')">save
-                    micro</button>
-                <div id="template-color">
-                    <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
+            <div id="edit-micro" class="content view">
+                <div class="view-topbar">
+                    <h1>Micro Manager</h1>
+                    <button class="text-button orange-border" onclick="goBack()">cancel</button>
+                    <button id="new-macro-button" class="text-button green-border"
+                        onclick="savePersonalTemplate();goBack()">save and exit</button>
+                </div>
+                <div class="view-content">
+                    <div id="template-color">
+                        <div class="color-button red" onclick="selectTemplateColor(this)" data-color-selected="true">
+                        </div>
+                        <div class="color-button orange" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button yellow" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button green" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button blue" onclick="selectTemplateColor(this)"></div>
+                        <div class="color-button purple" onclick="selectTemplateColor(this)"></div>
                     </div>
-                    <div class="color-button orange" onclick="selectTemplateColor(this)"></div>
-                    <div class="color-button yellow" onclick="selectTemplateColor(this)"></div>
-                    <div class="color-button green" onclick="selectTemplateColor(this)"></div>
-                    <div class="color-button blue" onclick="selectTemplateColor(this)"></div>
-                    <div class="color-button purple" onclick="selectTemplateColor(this)"></div>
-                </div>
-                <div class="form-area" style="margin-top: 30px;">
-                    <div class="text-label">Template ID</div>
-                    <input id="edit-template-id" autocomplete="new-password" autocapitalize="none" type="text"
-                        class="text-field text-field-sm" placeholder="will be generated..." disabled>
-                </div>
-                <div class="form-area" style="margin-top: 15px;">
-                    <div class="text-label">Template Name</div>
-                    <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text"
-                        class="text-field text-field-sm">
-                </div>
-                <div class="form-area" style="margin-top: 15px;">
-                    <div class="text-label">Template Tags</div>
-                    <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text"
-                        class="text-field text-field-sm">
-                </div>
-                <div class="form-area" style="margin-top: 15px;">
-                    <div class="text-label">Template Command</div>
-                    <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none" type="text"
-                        class="text-field"></textarea>
-                </div>
-                <h2>Inputs</h2>
-                <div id="edit-micro-inputs">
+                    <div class="text-field-xlong" style="margin:auto;">
+                        <div class="form-area " style="margin-top: 15px;">
+                            <div class="text-label">Micro Name</div>
+                            <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text"
+                                class="text-field text-field-sm">
+                        </div>
+                        <div class="form-area" style="margin-top: 15px;">
+                            <div class="text-label">TMicro Tags</div>
+                            <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text"
+                                class="text-field text-field-sm">
+                        </div>
+                        <div class="form-area" style="margin-top: 15px;">
+                            <div class="text-label">Micro Command</div>
+                            <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none"
+                                type="text" class="text-field"></textarea>
+                        </div>
+                    </div>
+                    <h2>Inputs</h2>
+                    <div id="edit-micro-inputs">
 
+                    </div>
+                    <button class="text-button no-outline material-icons" onclick="addInputToForm()">
+                        add</button>
+                    <br>
+                    <button id="new-macro-button" class="text-button red-border"
+                        style="margin-top: 50px; margin-bottom: 30px;"
+                        onclick="deleteSelectedTemplate();switchView('edit')">delete
+                        micro</button>
                 </div>
-                <button class="text-button no-outline material-icons" onclick="addInputToForm()">
-                    add</button>
-                <br>
-                <button id="new-macro-button" class="text-button orange-border text-field-medium"
-                    style="margin-top: 50px; margin-bottom: 30px;" onclick="switchView('edit')">cancel</button>
-                <button id="new-macro-button" class="text-button green-border"
-                    style="margin-top: 50px; margin-bottom: 30px;"
-                    onclick="savePersonalTemplate();switchView('edit')">save
-                    micro</button>
-                <br>
-                <button id="new-macro-button" class="text-button red-border"
-                    style="margin-top: 50px; margin-bottom: 30px;"
-                    onclick="deleteSelectedTemplate();switchView('edit')">delete
-                    template</button>
             </div>
 
 
             <div id="list" class="content view">
-                <h1>Macros</h1>
-                <button class="text-button" onclick="newMacro()">new Macro</button>
-                <br>
-                <input id="macro-list-search" style="margin-top: 15px"
-                    class="text-field text-field-medium text-field-sm" placeholder="search">
+                <div class="view-topbar">
+                    <h1>Macros</h1>
+                    <button class="text-button" onclick="newMacro()">new Macro</button>
+                    <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
+                        placeholder="search">
+                </div>
+                <div class="view-content">
+                    <div id="macro-list">
+                        <div id="macro-list-container">
 
-                <div id="macro-list">
-                    <div id="macro-list-container">
-
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="device-manager" class="content view">
+                <div class="view-topbar">
+                    <h1> Device Manager </h1>
+                </div>
+                <div class="view-content">
+
+                </div>
+            </div>
             <div id="settings" class="content view" style="text-align: left;">
-                <h1>Settings </h1>
-                <div class="electron-visible">
-                    <h3> Desktop</h3>
-                    <div class="settings-item">
-                        <div disabled class="no-outline text-field text-field-label">Device Name </div>
-                        <input class="text-field text-field-sm text-field-long" id="computer-name-field">
+                <div class="view-topbar">
+                    <h1>Settings </h1>
+                </div>
+                <div class="view-content">
+
+                    <div class="electron-visible">
+                        <h3> Desktop</h3>
+                        <div class="settings-item">
+                            <div disabled class="no-outline text-field text-field-label">Device Name </div>
+                            <input class="text-field text-field-sm text-field-long" id="computer-name-field">
+                        </div>
+                        <div class="settings-item">
+                            <div disabled class="no-outline text-field text-field-label">System Startup Behavior </div>
+                            <select id="autolaunch-field" class="text-button" onchange="setAutoLaunchByForm()">
+                                <option value="open">Open Macro</option>
+                                <option value="close">Do not open Macro</option>
+                            </select>
+                        </div>
                     </div>
+                    <h3> Misc.</h3>
                     <div class="settings-item">
-                        <div disabled class="no-outline text-field text-field-label">System Startup Behavior </div>
-                        <select id="autolaunch-field" class="text-button" onchange="setAutoLaunchByForm()">
-                            <option value="open">Open Macro</option>
-                            <option value="close">Do not open Macro</option>
+                        <div disabled class="no-outline text-field text-field-label">Vibrate/ Play Sounds </div>
+                        <select class="text-button" onchange="">
+                            <option value="on">On</option>
+                            <option value="off">Off</option>
                         </select>
                     </div>
-                </div>
-                <h3> Misc.</h3>
-                <div class="settings-item">
-                    <div disabled class="no-outline text-field text-field-label">Vibrate/ Play Sounds </div>
-                    <select class="text-button" onchange="">
-                        <option value="on">On</option>
-                        <option value="off">Off</option>
-                    </select>
                 </div>
             </div>
         </div>
@@ -246,12 +267,12 @@
 
 
 
-    <div id="open-toolbar" class="material-icons toolbar-controls" onclick="openToolbar()">
+    <!-- <div id="open-toolbar" class="material-icons toolbar-controls" onclick="openToolbar()">
         chevron_right
     </div>
     <div id="close-toolbar" class="material-icons toolbar-controls" onclick="closeToolbar()">
         chevron_left
-    </div>
+    </div> -->
     <div id="long-menu" class="white-border">
         <div>
             <div class="color-button red" onclick="selectColor(this);setSelectedColor();" data-color-selected="true">
@@ -272,13 +293,7 @@
         <br>
     </div>
 
-    <div id="page-number">
-        <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
-        <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input" type="number"
-                class="text-field text-field-sm  no-outline" placeholder="#" style="width: 25px;"></input></div>
-        <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
 
-    </div>
     <div id="entry-menu" class="white-border" data-target="">
         <button class="text-button red-border" onclick="deleteMacro($('#entry-menu').get(0))">delete</button>
         <button class="text-button yellow-border" onclick="editMacro($('#entry-menu').get(0))">edit</button>
@@ -317,7 +332,7 @@
     for (i = 0; i < totalButtons; i++) {
         copy = macroButtonTemplate + "";
         copy = copy.replaceAll("{{num}}", i);
-        document.querySelector("#dashboard").insertAdjacentHTML('beforeend', copy);
+        document.querySelector("#macro-grid").insertAdjacentHTML('beforeend', copy);
     }
 
     function setDashboard() {
@@ -331,7 +346,8 @@
             button.style.width = bw + "px";
             button.style.height = bh + "px";
         });
-        var list = document.querySelector("#dashboard");
+        var list = document.querySelector("#macro-grid");
+        console.log(list);
         list.style.width = dw + "px";
         list.style.height = dh + "px";
 
@@ -339,13 +355,11 @@
         var paddingFactor = .90;
         if (dh * scale > window.innerHeight) {
             scale = window.innerHeight / dh;
-
         }
-        // console.log("dahsboard: " + dw * scale + ", " + dh * scale)
-
+        var toolbarWidth = $(".tool-bar").width();
         scale *= paddingFactor;
         list.style.transform = "scale(" + scale + ")";
-        list.style.left = ((window.innerWidth - dw * scale) / 2) + "px";
+        list.style.left = ((window.innerWidth - toolbarWidth - dw * scale) / 2 + toolbarWidth) + "px";
         list.style.top = ((window.innerHeight - dh * scale) / 2) + "px";
 
         contextScale = window.innerWidth / 1920;
@@ -358,14 +372,7 @@
 
     setDashboard();
 
-    function fullscreen() {
-        closeToolbar();
-
-    }
     function exitFull() {
-        // list = document.querySelector("#dashboard");
-        // list.classList.remove("fullscreen-list");
-        // list.style.padding = "0px";
         controls = document.querySelector("#controls");
 
         exitF = document.querySelector("#exit-fullscreen");
@@ -374,7 +381,6 @@
         });
     }
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        fullscreen();
 
         setTimeout(function () {
             var viewwidth = $(window).width();

@@ -1,7 +1,11 @@
 :root {
   --main-bg-color: #263238;
-  --drawer-bg-color: #102027;
-  --toolbar-bg-color: #102027;
+  --drawer-bg-color: #000a12;
+  --toolbar-bg-color: #102027;;
+
+  --macro-bg-color: transparent;
+  --macro-font-color : white;
+  --macro-empty-border: #546e7a;
 
   --color-red: #f44336;
   --color-purple: #673ab7;
@@ -180,9 +184,10 @@ h2 {
 .macro-button {
   height: 192px;
   width: 192px;
-  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 
-  color: white;
+  color:  var(--macro-font-color);
+  background: var(--macro-bg-color);
   word-wrap: break-word;
   /* text-overflow: ellipsis; */
   border-width: 4px;
@@ -191,19 +196,16 @@ h2 {
   margin: 5px;
   overflow: hidden;
 }
-.macro-button:hover {
+.text-button.macro-button:hover {
   border-color: white;
+  color:  var(--macro-font-color);
   background: none;
-  color: white;
 }
-.macro-button-empty {
+.macro-button.macro-button-empty {
   box-shadow: none;
   cursor: default;
-  border-color: #4f5b62 !important;
-  border-width: 2px !important;
-}
-.macro-button-empty:hover {
-  border-color: rgba(255, 255, 255, 0.45) !important;
+  border-color: var(--macro-empty-border);
+  border-width: 2px;
   background: none;
 }
 
@@ -231,7 +233,7 @@ h2 {
 
 
 .content {
-  width: 80%;
+  width: 60%;
   margin: auto;
   text-align: center;
   margin-top: 10px;
@@ -270,6 +272,10 @@ html {
 }
 .text-field-long {
   width: 200px !important;
+}
+
+.text-field-xlong {
+  width: 400px;
 }
 
 .macro-entry {
@@ -360,7 +366,6 @@ body {
 
 
 #wizard-area {
-  margin-bottom: 30px;
   width: 95%;
 }
 .macro-preset:hover {
@@ -381,9 +386,9 @@ body {
   border-width: 4px;
 }
 
-textarea {
+textarea.text-field{
   resize: vertical;
-  height: 50px !important;
+  height: 100px;
 }
 
 .macro-list-item h5 {
@@ -556,15 +561,15 @@ textarea {
 
 .side-bar {
   height: 100vh;
-  width: 100%;
+  width:  calc(100% - var(--toolbar-width));
   min-width: 500px;
   position: fixed;
   background: var(--drawer-bg-color);
   z-index: 2;
-  right: 100vw;
+  
   top: 0px;
   overflow: auto;
-  border-right: solid 2px rgba(0, 0, 0, 0.25);
+  /* border-right: solid 2px rgba(0, 0, 0, 0.25); */
   padding-left: var(--toolbar-width);
 }
 
@@ -573,7 +578,7 @@ textarea {
   top: calc(50vh - 1.25rem);
   font-size: 2.5rem !important;
   color: white;
-  z-index: 1;
+  z-index: 3;
   cursor: pointer;
   left: 0px;
 }
@@ -586,8 +591,8 @@ textarea {
 .tool-bar {
   width: var(--toolbar-width) !important;
   left: 0px !important;
-  border-right: solid 2px rgba(0, 0, 0, 0.15);
-  z-index: 3;
+  /* border-right: solid 2px rgba(0, 0, 0, 0.15); */
+  z-index: 4;
   text-align: center;
   padding-left: 0;
   padding-top: 5px;
@@ -603,7 +608,7 @@ textarea {
   vertical-align: middle;
   cursor: pointer;
   color: rgb(167, 167, 167);
-  border-bottom: solid 2px rgba(0, 0, 0, 0.15);
+  /* border-bottom: solid 2px rgba(0, 0, 0, 0.15); */
 }
 .tool-tip {
   position: fixed;
@@ -657,14 +662,13 @@ textarea {
 
 .view {
   width: 100%;
-  padding-top: 30px;
+  height: 100%;
 }
 
 
-#dashboard {
+#macro-grid{
   font-size: 0;
   transform-origin: left top;
-
   position: fixed;
 }
 
@@ -909,13 +913,12 @@ select::-ms-expand {
   
   font-size: 0px;
   display:  inline-grid;
-  grid-template-columns: 100px 100px 100px 100px;
-  grid-gap: 10px;
+  grid-template-columns: 100px 100px 100px 100px 100px;
+  grid-gap: 20px;
 }
 .macro-preset {
   width: 100px;
   height: 100px;
-  margin: 10px;
   font-size: 1rem;
   text-align: center;
   padding: 0;
@@ -954,16 +957,16 @@ select::-ms-expand {
 
 .little-icon-button {
   padding: 0 !important;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   min-width: 0px;
-  font-size: 14px;
+  font-size: 8px;
   background: black;
   border: none;
   clip-path: circle(50% at 50% 50%);
   position: relative;
-  left: 41px;
-  top: -25px; 
+  left: calc(115px - 30px);
+  top: -115px; 
   cursor: pointer;
   z-index: 2;
   text-align: center;
@@ -975,16 +978,17 @@ select::-ms-expand {
 }
 
 .micro-button-container{
-  height: 125px;
+  height: 100px;
 }
 
 #page-number{
   position: fixed;
-  width :100%;
-  bottom: 5px;
+  bottom: 2px;
+  width: 300px;
+  left: calc(50% - (150px - (var(--toolbar-width) / 2)) );
   text-align: center;
-  z-index: 1;
-
+  z-index: 3;
+  color: white;
 }
 
 
@@ -1121,8 +1125,40 @@ input[type='file'] {
 
 #macro-list-container{
   padding-top: 50px;
-  display:  inline-grid;
-  grid-template-columns: 150px 150px 150px;
-  grid-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+  grid-gap: 1em;
+  /* grid-template-columns: 150px 150px 150px 150px 150px 150px 150px 150px; */
+
+  /* grid-gap: 10px; */
+  
   margin-bottom: 100px;
 }
+
+.view-topbar{
+  width: calc(100% - var(--toolbar-width));
+  background-color: #0a171d;
+  height: 55px;
+  position: fixed; 
+  top: 0px;
+  left:  var(--toolbar-width);
+  text-align: left;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  line-height: 55px;
+}
+.view-topbar h1{
+  font-size: 25px;
+  margin: 0;
+}
+
+.view-topbar *{
+  display: inline;
+  vertical-align: middle;
+}
+
+.view-content{
+  margin-top: 65px;
+}
+

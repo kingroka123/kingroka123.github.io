@@ -359,9 +359,9 @@ function ripple(element) {
 }
 
 function macro(element) {
-
+    hideLongMenu();
     if (!set) {
-        if (!dontMacro && !isDrawerOpen()) {
+        if (!dontMacro) {
             t = element.dataset.target;
             if (cuser && macroQueueRef && t && t.length > 0) {
                 macroListRef.child(t).once("value", function (snapshot) {
@@ -449,6 +449,7 @@ function runCommand(command) {
 }
 
 function editMacro(element) {
+    hideLongMenu();
     var id = element.dataset.target;
     macroListRef.child(`/${id}`).once("value", (snapshot) => {
         clearActionList();
@@ -477,7 +478,6 @@ function saveMacro() {
     var macro = getMacroFromHTML();
     macro.encrypted = false;
     macroListRef.child(macro.id).update(macro);
-    switchView('list')
 }
 
 function updateMacro(macro) {
@@ -493,10 +493,9 @@ function deleteMacro(element) {
 }
 
 function newMacro() {
-    closeDrawer(function () {
-        clearActionList();
-        switchView("edit");
-    });
+    clearActionList();
+    switchView("edit");
+
 }
 
 function setNewMacroID() {
@@ -504,11 +503,12 @@ function setNewMacroID() {
     $('#wizard-area').get(0).dataset.target = newID;
 }
 function setMacro(element) {
+    hideLongMenu();
 
     id = element.dataset.target;
     set = true;
     target = id;
-    closeDrawer();
+   switchView("dashboard");
     document.querySelector("#cancel-button").style.display = "inline-block";
 
 }
@@ -570,9 +570,6 @@ $(document).mousedown(function (e) {
     // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
-    }
-    if (!drawer.is(e.target) && drawer.has(e.target).length === 0 && !toolbar.is(e.target) && toolbar.has(e.target).length === 0) {
-        closeDrawer();
     }
     if (!snackbar.is(e.target) && snackbar.has(e.target).length === 0) {
         hideSnackBars();
