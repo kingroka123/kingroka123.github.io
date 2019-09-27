@@ -1,4 +1,3 @@
-
 cuser = null;
 macroListRef = null;
 macroQueueRef = null;
@@ -14,7 +13,7 @@ personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
 var macroEntry = `
-<button class="macro-list-entry text-button {{border}}-border" data-target="{{id}}" onclick="showEntryMenu(this)"> {{name}} </button>
+<button class="macro-list-entry text-button {{border}}-border" data-target="{{id}}" onclick="macro(this)" data-categories="{{categories}}"> {{name}} </button>
 `;
 
 var globalMicroButton = `
@@ -46,19 +45,18 @@ var deviceTemplate = `
 
 function nextPage() {
     //check perm
-    setPage(getPage() + 1)
-
+    setPage(getPage() + 1);
 }
 
 function previousPage() {
-    setPage(getPage() - 1)
+    setPage(getPage() - 1);
 
 }
 
 function setPage(page) {
     if (page >= 0 && page < 10) {
         dashboardPage = page;
-        updateDashboardPage()
+        updateDashboardPage();
     }
 }
 
@@ -111,7 +109,7 @@ function realClear(button) {
     $(button).addClass("macro-button-empty");
 }
 
-firebase.auth().onAuthStateChanged(function (user) {
+firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         var email = user.email;
         var emailVerified = user.emailVerified
@@ -148,8 +146,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         });
 
 
-        /* global templates */
-        microTemplatesRef.on("child_changed", function (snapshot) {
+        /* global mircos */
+        microTemplatesRef.on("child_changed", function(snapshot) {
             var template = snapshot.val();
             var elem = globalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -160,13 +158,13 @@ firebase.auth().onAuthStateChanged(function (user) {
             $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
         });
 
-        microTemplatesRef.on("child_removed", function (snapshot) {
+        microTemplatesRef.on("child_removed", function(snapshot) {
             var template = snapshot.val();
 
             $(`.micro-button-container[data-templateID='${template.id}']`).remove();
         });
 
-        microTemplatesRef.on("child_added", function (snapshot) {
+        microTemplatesRef.on("child_added", function(snapshot) {
             var template = snapshot.val();
             var elem = globalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -176,9 +174,9 @@ firebase.auth().onAuthStateChanged(function (user) {
             $("#micro-presets").append(elem);
         });
 
-        /* personal templates */
+        /* personal micros */
 
-        personalMicroTemplatesRef.on("child_changed", function (snapshot) {
+        personalMicroTemplatesRef.on("child_changed", function(snapshot) {
             var template = snapshot.val();
             var elem = personalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -190,14 +188,14 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         });
 
-        personalMicroTemplatesRef.on("child_removed", function (snapshot) {
+        personalMicroTemplatesRef.on("child_removed", function(snapshot) {
             var template = snapshot.val();
 
             $(`.micro-button-container[data-templateID='${template.id}']`).remove();
 
         });
 
-        personalMicroTemplatesRef.on("child_added", function (snapshot) {
+        personalMicroTemplatesRef.on("child_added", function(snapshot) {
             var template = snapshot.val();
             var elem = personalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -208,42 +206,40 @@ firebase.auth().onAuthStateChanged(function (user) {
         });
 
 
-        macroListRef.on("child_added", function (snapshot) {
+        macroListRef.on("child_added", function(snapshot) {
             var copy = macroEntry + " ";
             var val = snapshot.val();
 
-            function dothings() {
-                copy = copy.replaceAll("{{id}}", val.id);
-                copy = copy.replaceAll("{{name}}", val.name);
-                copy = copy.replaceAll("{{command}}", val.command);
-                copy = copy.replaceAll("{{border}}", val.color);
 
-                $("#macro-list-container").append(copy);
-                $(`.macro-name[data-target="${val.id}"`).trigger('onload');
-                $(`.macro-command[data-target="${val.id}"`).trigger('onload');
-
-                setMacroButtonsTargets(val)
-
+            copy = copy.replaceAll("{{id}}", val.id);
+            copy = copy.replaceAll("{{name}}", val.name);
+            copy = copy.replaceAll("{{command}}", val.command);
+            copy = copy.replaceAll("{{border}}", val.color);
+            var categories = val.categories;
+            var categoryString = "";
+            if (categories) {
+                
+                categories.forEach((category) => {
+                    newCategory(category);
+                    categoryString += category +" ";
+                });
             }
-            dothings();
+            copy = copy.replaceAll("{{categories}}", categoryString)
+            $("#macro-list-all").append(copy);
+            $(`.macro-name[data-target="${val.id}"`).trigger('onload');
+            $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
-            // if (val.encrypted) {
-            //     decryptMacro(snapshot.ref.getKey()).then((decrypted) => {
-            //         val = decrypted;
-            //     })
-            // } else {
-            //     dothings();
-            // }
+            setMacroButtonsTargets(val);
         });
-        macroListRef.on("child_removed", function (snapshot) {
+        macroListRef.on("child_removed", function(snapshot) {
             id = snapshot.ref.getKey();
             document.querySelector(`.macro-list-entry[data-target="${id}"]`).remove();
             document.querySelectorAll(`.macro-button[data-target="${id}"]`).forEach(realClear)
-
         });
 
-        macroListRef.on("child_changed", function (snapshot) {
+        macroListRef.on("child_changed", function(snapshot) {
             val = snapshot.val();
+
             function dothings() {
                 number = val.set;
                 old = document.querySelector(`.macro-button[data-target="${val.id}"]`);
@@ -259,13 +255,13 @@ firebase.auth().onAuthStateChanged(function (user) {
 
                 //change entry element
                 macroEntryElemName = document.querySelector(`.macro-list-entry[data-target="${val.id}"]`);
-                macroEntryElemName.innerHTML= val.name;
+                macroEntryElemName.innerHTML = val.name;
             }
             dothings();
 
         });
 
-        setTimeout(function () { $("#preloader").fadeOut() }, 750);
+        setTimeout(function() { $("#preloader").fadeOut() }, 750);
         if (electron) {
             electron(user);
         }
@@ -276,6 +272,22 @@ firebase.auth().onAuthStateChanged(function (user) {
 
     }
 });
+
+var categories = [];
+
+function newCategory(name) {
+    if (!categories.includes(name)) {
+        categories.push(name);
+    }
+}
+
+function setCategory(category){
+    $( ".macro-list-entry" ).filter( (element) => {
+        var categories = $(this).data("categories");
+        console.log(categories);
+    }).css( "background-color", "red" );
+
+}
 
 function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
     macroDashboardsRef.child(ID()).set({
@@ -290,7 +302,7 @@ function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
 function changeMacroButtonColor(element, color) {
     if (color) {
         var oldColor;
-        $(element).get(0).classList.forEach(function (e) {
+        $(element).get(0).classList.forEach(function(e) {
             if (e.endsWith("border")) {
                 oldColor = e;
             }
@@ -302,12 +314,12 @@ function changeMacroButtonColor(element, color) {
 }
 
 function logout() {
-    firebase.auth().signOut().then(function () {
+    firebase.auth().signOut().then(function() {
         // Sign-out successful.
         console.log("signed out");
         redirect("./login.html");
         deleteCookie('passphrase')
-    }, function (error) {
+    }, function(error) {
         // An error happened.
     });
 }
@@ -326,13 +338,13 @@ let target = "";
 var macroDevices = null
 
 function ripple(element) {
-  
+
     var rect = element.getBoundingClientRect();
-    console.log(rect)
-    const xPos = rect.left + rect.width/2,
-        yPos = rect.top + rect.height/2,
+    // console.log(rect)
+    const xPos = rect.left + rect.width / 2,
+        yPos = rect.top + rect.height / 2,
         elWavesRipple = document.createElement('div');
-    console.log(xPos)
+    // console.log(xPos)
     elWavesRipple.className = 'waves-ripple';
     elWavesRipple.style.left = xPos + 'px';
     elWavesRipple.style.top = yPos + 'px';
@@ -350,7 +362,7 @@ function ripple(element) {
             duration: 750
         },
         easing: 'easeOutSine',
-        complete: function () {
+        complete: function() {
             const newElm = document.getElementsByClassName('waves-ripple')[0]
             newElm.remove();
         }
@@ -360,12 +372,14 @@ function ripple(element) {
 
 function macro(element) {
     hideLongMenu();
+
     if (!set) {
         if (!dontMacro) {
             t = element.dataset.target;
             if (cuser && macroQueueRef && t && t.length > 0) {
-                macroListRef.child(t).once("value", function (snapshot) {
+                macroListRef.child(t).once("value", function(snapshot) {
                     var macro = snapshot.val();
+
                     function dostuff() {
                         ripple(element)
                         snackbar(`Running <span class="${macro.color}-font">` + macro.name + `</span>`)
@@ -373,7 +387,7 @@ function macro(element) {
                         if (macro.micros) {
                             cmdTarget = macro.micros.length;
                             macroDevices = macro.devices;
-                            macro.micros.forEach(function (micro) {
+                            macro.micros.forEach(function(micro) {
 
                                 getCommand(micro, condense);
 
@@ -381,7 +395,7 @@ function macro(element) {
                         }
                         macroDevices = null;
                     }
-                    if (typeof (macro.micros) == "string") {
+                    if (typeof(macro.micros) == "string") {
                         decryptMacro(t).then((decrypted) => {
                             macro = decrypted;
                             dostuff();
@@ -419,6 +433,7 @@ function macro(element) {
 var cmdTemp = "";
 var cmds = 0;
 var cmdTarget = 0;
+
 function condense(c) {
     cmdTemp += c + " & ";
     cmds++;
@@ -436,7 +451,9 @@ function runCommand(command) {
             deviceRef.child(device).once("value", (snapshot) => {
                 if (snapshot.val() && snapshot.val().online) {
                     if (macroDevices[device].checked == "true") {
-                        macroQueueRef.set({ [device]: command });
+                        macroQueueRef.set({
+                            [device]: command
+                        });
 
                     }
                 }
@@ -458,7 +475,7 @@ function editMacro(element) {
         switchView("edit")
         var val = snapshot.val();
         console.log(id)
-        if (typeof (val.micros) == "string") {
+        if (typeof(val.micros) == "string") {
             decryptMacro(id).then((decrypted) => {
                 generateMacroHTML(decrypted);
                 $("#wizard-action-name").val(decrypted.name)
@@ -477,6 +494,7 @@ function editMacro(element) {
 function saveMacro() {
     var macro = getMacroFromHTML();
     macro.encrypted = false;
+    macro.categories = ['home', 'work'];
     macroListRef.child(macro.id).update(macro);
 }
 
@@ -502,13 +520,14 @@ function setNewMacroID() {
     var newID = ID();
     $('#wizard-area').get(0).dataset.target = newID;
 }
+
 function setMacro(element) {
     hideLongMenu();
 
     id = element.dataset.target;
     set = true;
     target = id;
-   switchView("dashboard");
+    switchView("dashboard");
     document.querySelector("#cancel-button").style.display = "inline-block";
 
 }
@@ -537,37 +556,37 @@ function clearMacro(element) {
 }
 
 var pressTimer;
-$('.macro-button')
+$('.macro-list-entry')
     .on({
-        'touchend': function (e) {
+        'touchend': function(e) {
             clearTimeout(pressTimer);
 
         }
     })
     .on({
-        'touchstart': function (e) {
+        'touchstart': function(e) {
             var macroButton = this;
-            pressTimer = window.setTimeout(function () {
+            pressTimer = window.setTimeout(function() {
                 //clearMacro(macroButton);
                 longPress(macroButton, e);
             }, 500);
 
         }
     });
-$(window).contextmenu(function (e) {
+$(window).contextmenu(function(e) {
     e.preventDefault();
-    if ($(e.target).hasClass('macro-button')) {
+    if ($(e.target).hasClass('macro-list-entry')) {
         longPress(e.target, e)
     }
 });
 
-$(document).mousedown(function (e) {
+$(document).mousedown(function(e) {
 
     var container = $("#long-menu, #entry-menu");
     var drawer = $("#drawer, #entry-menu");
     var toolbar = $(".tool-bar");
     var snackbar = $(".snack-bar")
-    // if the target of the click isn't the container nor a descendant of the container
+        // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
     }
@@ -583,10 +602,8 @@ function longPress(macroButton, e) {
 
 function selectColor(element) {
     $("#action-colors [data-color-selected='true']").get(0).dataset.colorSelected = false;
-    $("#long-menu [data-color-selected='true']").get(0).dataset.colorSelected = false;
     var color = $(element).get(0).classList[1];
     $("#action-colors ." + color).get(0).dataset.colorSelected = true;
-    $("#long-menu ." + color).get(0).dataset.colorSelected = true;
 }
 
 function getColor() {
@@ -598,12 +615,13 @@ function setColor(color) {
 }
 
 var selectedMacroButton;
+
 function showLongMenuFor(macroButton, e) {
     var id = $(macroButton).get(0).dataset.target;
 
     if (!id) return;
 
-    macroListRef.child(`/${id}`).once("value", function (snapshot) {
+    macroListRef.child(`/${id}`).once("value", function(snapshot) {
         var color = snapshot.val().color;
         if (!color) color = "blue";
         clearActionList();
@@ -681,13 +699,12 @@ function editSelectedMacroButton() {
     hideLongMenu()
 }
 
-$(document.body).on("mousedown touchstart", function () {
-});
+$(document.body).on("mousedown touchstart", function() {});
 
 function showEntryMenu(element) {
     var popper = new Popper(element, $("#entry-menu").get(0), {
         placements: 'auto'
     });
-    $("#entry-menu").get(0).dataset.target =  element.dataset.target;
+    $("#entry-menu").get(0).dataset.target = element.dataset.target;
     $("#entry-menu").css('visibility', 'visible')
 }

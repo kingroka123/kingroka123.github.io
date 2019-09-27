@@ -7,6 +7,7 @@ function moveUp(elem) {
         elem.insertBefore(above);
     }
 }
+
 function moveDown(elem) {
     var parent = $(elem).parent();
     var index = elem.index();
@@ -66,15 +67,17 @@ function clearActionList() {
 }
 var views = ["edit", "list", "settings", "edit-micro", "dashboard", "device-manager"];
 var viewHistory = [];
-var lastView = "", currentView;
-function swapDrawerContent(newView, history=true) {
+var lastView = "",
+    currentView;
+
+function swapDrawerContent(newView, history = true) {
     if (history && currentView && currentView != viewHistory[viewHistory.length - 1]) {
         viewHistory.push(currentView);
     }
 
     currentView = newView;
 
-    views.forEach(function (view) {
+    views.forEach(function(view) {
         $("#" + view).hide();
     });
     $("#" + newView).show();
@@ -95,15 +98,14 @@ function openDrawer(callback) {
 
 
 function switchView(view) {
-
     swapDrawerContent(view);
 }
 
-switchView("dashboard");
+switchView("list");
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     //  closeToolbar();
 }
-$(window).resize(function () {
+$(window).resize(function() {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
     } else {
@@ -115,7 +117,7 @@ function isDrawerOpen() {
     return !$("#drawer").is(":hidden");
 }
 
-$("#macro-preset-search").on('input', function () {
+$("#macro-preset-search").on('input', function() {
     updateSearch()
 });
 
@@ -124,20 +126,20 @@ function updateSearch() {
     if (val.startsWith("tag:")) {
         val = val.substring(4);
     }
-    $(`.micro-button-container`).filter(function () {
+    $(`.micro-button-container`).filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1 || $(this).data("tag").toLowerCase().indexOf(val) > -1)
     });
 
 }
 
-$("#macro-list-search").on('input', function () {
+$("#macro-list-search").on('input', function() {
     updateMacroSearch();
 });
 
 function updateMacroSearch() {
     var val = $("#macro-list-search").val().toLowerCase();
 
-    $(`.macro-list-entry`).filter(function () {
+    $(`.macro-list-entry`).filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1)
     });
 }
@@ -226,6 +228,7 @@ function showFileDialog(elem) {
         alert("Browse only available on desktop version of Macro.")
     }
 }
+
 function showDirectoryDialog(elem) {
     if (dialog) {
         var file = dialog.showOpenDialog({ properties: ['openDirectory'] })
@@ -276,8 +279,7 @@ function Macro(id, name, color, micros, devices) {
 var keyboardMicroTemplate = new MicroTemplate("keymicro",
     "Keyboard",
     `powershell "$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys('#keys');" & timeout #timeout`,
-    "red", "common",
-    [
+    "red", "common", [
         new MicroTemplateInput("input", "keys", "enter name"),
         new MicroTemplateInput("input", "timeout", "timeout"),
 
@@ -285,40 +287,37 @@ var keyboardMicroTemplate = new MicroTemplate("keymicro",
 var fileMicroTemplate = new MicroTemplate("filemicro",
     "File",
     "explorer #file",
-    "yellow", "common",
-    [
+    "yellow", "common", [
         new MicroTemplateInput("input", "file", "file path"),
     ]);
 var webMicroTemplate = new MicroTemplate("websitemicro",
     "Website",
     "explorer #website",
-    "green", "common",
-    [
+    "green", "common", [
         new MicroTemplateInput("input", "website", "website url (with https://)"),
     ]);
 
 var appMicroTemplate = new MicroTemplate("appmicro",
     "App",
     "start #app #arguments",
-    "blue", "common",
-    [
+    "blue", "common", [
         new MicroTemplateInput("input", "app", "path to application"),
         new MicroTemplateInput("input", "arguments", "arguments")
     ]);
 var yeetMicroTemplate = new MicroTemplate("yeetmicro",
     "YEET",
     "start #app #arguments",
-    "blue", "common",
-    [
+    "blue", "common", [
         new MicroTemplateInput("input", "app", "path to application"),
         new MicroTemplateInput("input", "arguments", "arguments")
     ]);
+
 function getMicroFromHTML(element) {
     element = $(element);
 
     var template = element.data("template");
     inputs = []
-    element.find(".micro-input").each(function () {
+    element.find(".micro-input").each(function() {
         var input = { tag: $(this).data("tag"), value: $(this).val().replaceAll("&quot;", `"`) }
         inputs.push(input);
 
@@ -338,7 +337,7 @@ function addPersonalMicro(templateID) {
 
 
 function generateGlobalMicroHTML(templateID, micro = null) {
-    microTemplatesRef.child(templateID).once("value", function (snapshot) {
+    microTemplatesRef.child(templateID).once("value", function(snapshot) {
         var template = snapshot.val();
         if (template) {
             $("#action-list").append(microTemplateToHtml(template, micro));
@@ -349,7 +348,7 @@ function generateGlobalMicroHTML(templateID, micro = null) {
 }
 
 function generatePersonalMicroHTML(templateID, micro = null) {
-    personalMicroTemplatesRef.child(templateID).once("value", function (snapshot) {
+    personalMicroTemplatesRef.child(templateID).once("value", function(snapshot) {
         var template = snapshot.val();
         if (template) {
             $("#action-list").append(microTemplateToHtml(template, micro));
@@ -358,13 +357,14 @@ function generatePersonalMicroHTML(templateID, micro = null) {
         }
     });
 }
+
 function microTemplateToHtml(template, micro = null) {
     var iTemp = microTemplate.replaceAll("{{title}}", template.title)
         .replaceAll("{{command}}", template.command)
         .replaceAll("{{border}}", template.border).replace("{{id}}", template.id);
     var element = $($.parseHTML(iTemp));
 
-    template.inputs.forEach(function (input) {
+    template.inputs.forEach(function(input) {
         var temp = "";
         if (input.type == "input") {
             temp = inputTemplate + "";
@@ -377,10 +377,10 @@ function microTemplateToHtml(template, micro = null) {
         }
         var val = "";
         if (micro) {
-            micro.values.forEach(function (v) {
+            micro.values.forEach(function(v) {
                 if (v.tag == input.tag) {
                     val = v.value;
-                    if (typeof (val) == "string") {
+                    if (typeof(val) == "string") {
                         val = val.replaceAll(`"`, "&quot;")
                     }
                 }
@@ -395,23 +395,23 @@ function microTemplateToHtml(template, micro = null) {
     return (element);
 }
 
-function getCommand(micro, callback = function (command) { console.log(command) }) {
+function getCommand(micro, callback = function(command) { console.log(command) }) {
     var templateID = micro.templateID;
-    microTemplatesRef.child(templateID).once("value", function (snapshot) {
+    microTemplatesRef.child(templateID).once("value", function(snapshot) {
         var template = snapshot.val();
         if (template) {
             var command = template.command + "";
-            micro.values.forEach(function (v) {
+            micro.values.forEach(function(v) {
                 command = command.replaceAll("#" + v.tag, v.value);
             });
 
             callback(command);
         } else {
-            personalMicroTemplatesRef.child(templateID).once("value", function (snapshot) {
+            personalMicroTemplatesRef.child(templateID).once("value", function(snapshot) {
                 var template = snapshot.val();
                 if (template) {
                     var command = template.command + "";
-                    micro.values.forEach(function (v) {
+                    micro.values.forEach(function(v) {
                         command = command.replaceAll("#" + v.tag, v.value);
                     });
 
@@ -446,10 +446,10 @@ function saveMicroTemplatePersonal(template) {
 function getMacroFromHTML() {
     microList = $("#action-list");
     micros = [];
-    microList.children().each(function () {
+    microList.children().each(function() {
         micro = getMicroFromHTML(this);
         console.log(micro)
-        micro.values.forEach(function (value, i) {
+        micro.values.forEach(function(value, i) {
             micro.values[i] = value;
         })
         micros.push(micro);
@@ -469,7 +469,7 @@ function generateMacroHTML(macro) {
                 }
             }
         }
-        macro.micros.forEach(function (micro) {
+        macro.micros.forEach(function(micro) {
             generateGlobalMicroHTML(micro.templateID, micro)
         });
     }
@@ -519,7 +519,7 @@ function addInputToForm(type = "input", tag = "", purpose = "") {
 
 function getInputsFromForm() {
     var inputs = [];
-    $("#edit-micro-inputs").find(".edit-micro-input").each(function (input) {
+    $("#edit-micro-inputs").find(".edit-micro-input").each(function(input) {
         var i = new MicroTemplateInput(
             $(this).find(".edit-template-input-type").val(),
             $(this).find(".edit-template-input-tag").val(),
@@ -531,14 +531,14 @@ function getInputsFromForm() {
 }
 
 function editMicroTemplate(template) {
-    hideMicroManager(function () {
+    hideMicroManager(function() {
         $("#edit-micro-inputs").empty();
         $("#edit-template-name").val(template.title);
         $("#edit-template-tags").val(template.tags);
         $("#edit-template-id").val(template.id);
         $("#edit-template-command").val(template.command);
         if (template.inputs) {
-            template.inputs.forEach(function (input) {
+            template.inputs.forEach(function(input) {
                 addInputToForm(input.type, input.tag, input.purpose);
             });
         }
@@ -557,8 +557,9 @@ function clearMicroTemplateForm() {
 
     setTemplateColor("red")
 }
+
 function editPersonalMicroTemplate(templateID) {
-    personalMicroTemplatesRef.child(templateID).once("value", function (snapshot) {
+    personalMicroTemplatesRef.child(templateID).once("value", function(snapshot) {
         var template = snapshot.val();
         if (template) {
             editMicroTemplate(template);
@@ -578,13 +579,15 @@ function showMicroManager(callback) {
     switchView("edit-micro")
     if (callback) { callback(); }
 }
+
 function hideMicroManager(callback) {
     switchView("edit");
     if (callback) { callback(); }
 
 }
+
 function editGlobalMicroTemplate(templateID) {
-    microTemplatesRef.child(templateID).once("value", function (snapshot) {
+    microTemplatesRef.child(templateID).once("value", function(snapshot) {
         var template = snapshot.val();
         if (template) {
             editMicroTemplate(template);
@@ -606,8 +609,8 @@ function deleteSelectedTemplate() {
     template = getTemplateFromEditForm()
     if (template.id) {
         if (confirm("Warning! Deleting a Micro Template will break every Macro that uses it. Still continue with deletion?")) {
-            console.log("deleteing...")
-            personalMicroTemplatesRef.child(template.id).remove(function (snapshot) {
+            //console.log("deleteing...")
+            personalMicroTemplatesRef.child(template.id).remove(function(snapshot) {
                 clearMicroTemplateForm();
             });
         }
@@ -657,23 +660,22 @@ Sortable.create(el, {
 });
 
 function toolTips() {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    }
-    $(".tool-tip").each(function () {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {}
+    $(".tool-tip").each(function() {
         var tip = $(this);
         var target = $(tip.data("target"));
         var y = target.position().top - 2;
         tip.css({ top: y + "px" })
-        target.hover(function () { tip.css({ visibility: "visible" }) }, function () { tip.css({ visibility: "hidden" }) })
+        target.hover(function() { tip.css({ visibility: "visible" }) }, function() { tip.css({ visibility: "hidden" }) })
     });
     $(".macro-button[data-number=2]").addClass("expose")
-    $('.expose').click(function (e) {
+    $('.expose').click(function(e) {
         $(this).css('z-index', '99999');
         $('#overlay').fadeIn(300);
     });
 
-    $('#overlay').click(function (e) {
-        $('#overlay').fadeOut(300, function () {
+    $('#overlay').click(function(e) {
+        $('#overlay').fadeOut(300, function() {
             $('.expose').removeClass("expose")
         });
     });
@@ -701,6 +703,7 @@ function getSelectedDevices() {
     console.log(devices)
     return devices;
 }
+
 function hideSnackBars() {
     anime({
         targets: '.snack-bar',
@@ -727,6 +730,7 @@ var snackbarTemplate =
     | {{message}}
 </div>
 `
+
 function snackbar(message = "command executed", action = "dismiss", func = "hideSnackBars()") {
     var bar = snackbarTemplate
         .replaceAll("{{message}}", message)
@@ -741,4 +745,6 @@ function expose(selector) {
     $("#overlay").fadeIn();
 }
 
+$(window).ready(() => {
 
+});
