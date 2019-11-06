@@ -19,41 +19,6 @@ function moveDown(elem) {
     }
 }
 
-
-var actionTop =
-    `
-    <div>
-        <button class=" handle text-button material-icons no-outline left-side"
-        onclick="">reorder</button>
-        <button class="right-side text-button material-icons no-outline"
-        onclick="$(this).parent().parent().parent().parent().remove()">close</button>
-        <br>
-        <br>
-    </div>
-`;
-
-class ActionTop extends HTMLElement {
-    constructor() {
-        super();
-        this.innerHTML = actionTop + "";
-    }
-}
-window.customElements.define('action-top', ActionTop);
-
-var checkbox =
-    `
-<div class="text-button toggle-button" onclick="this.setAttribute('data-checked', !(this.getAttribute('data-checked')=='true'))" data-checked="false"></div>
-
-`
-
-class Checkbox extends HTMLElement {
-    constructor() {
-        super();
-        this.innerHTML = checkbox + "";
-    }
-}
-window.customElements.define('check-box', Checkbox);
-
 function clearActionList() {
     $("#action-list").empty();
     $("#wizard-action-name").val("")
@@ -154,66 +119,7 @@ function clearSearch() {
     $("#macro-preset-search").val("");
     updateSearch()
 }
-var inputTemplate = `
-<div class="form-area" style="margin-top: 15px;">
-    <div class="text-label">{{purpose}}</div>
-    <input autocomplete="new-password" autocapitalize="none" type="text"
-    class="text-field text-field-sm micro-input" data-tag="{{tag}}"
-    placeholder="" data-purpose="{{purpose}}" value="{{value}}" data-type="input"></input>
-</div>`
 
-var textareaTemplate = `
-<div class="form-area" style="margin-top: 15px;">
-    <div class="text-label">{{purpose}}</div>
-    <textarea autocomplete="new-password" autocapitalize="none" type="text"
-    class="text-field commit-message micro-input" data-tag="{{tag}}" data-type="textarea" 
-    placeholder="" data-purpose="{{purpose}}">{{value}}</textarea>
-</div>`
-
-var fileInputTemplate = `
-<div class="form-area" style="margin-top: 15px;">
-    <div class="text-label">{{purpose}}</div>
-    <div class="input-container">
-        <button class="text-button browse-btn file-button electron-visible" onclick="showFileDialog(this)">
-            Browse 
-        </button>
-        <input autocomplete="new-password" autocapitalize="none" type="text"
-        class="text-field text-field-sm micro-input" data-tag="{{tag}}"
-        placeholder="" data-purpose="{{purpose}}" value="{{value}}" data-type="input"></input>
-    </div>
-    
-</div>
-<script>
-electronUI(isElectron)
-</script>
-`
-
-var directoryInputTemplate = `
-<div class="form-area" style="margin-top: 15px;">
-    <div class="text-label">{{purpose}}</div>
-    <div class="input-container">
-        <button class="text-button browse-btn file-button electron-visible" onclick="showDirectoryDialog(this)">
-            Browse 
-        </button>
-        <input autocomplete="new-password" autocapitalize="none" type="text"
-        class="text-field text-field-sm micro-input" data-tag="{{tag}}"
-        placeholder="" data-purpose="{{purpose}}" value="{{value}}" data-type="input"></input>
-    </div>
-</div>
-<script>
-electronUI(isElectron)
-</script>
-`
-
-var microTemplate =
-    `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" id="micro-test">
-        <div>
-            <action-top></action-top>
-            <br>
-            <span style="display: none" class="command">{{command}}</span>
-            <h5 class="title">{{title}}</h5>
-        </div>
-    </div>`;
 
 
 function showFileDialog(elem) {
@@ -319,7 +225,6 @@ function getMicroFromHTML(element) {
     element.find(".micro-input").each(function() {
         var input = { tag: $(this).data("tag"), value: $(this).val().replaceAll("&quot;", `"`) }
         inputs.push(input);
-
     });
 
     newMicro = new Micro(template, inputs)
@@ -479,36 +384,7 @@ function generateMacroHTML(macro) {
 }
 
 
-var templateInputFormTemplate = `
-    <div class="edit-micro-input">
-        <span class="material-icons handle"
-            style="vertical-align: middle; margin-right: 5px; cursor: pointer;">reorder</span>
-        <div class="form-area inline" style="margin-top: 15px">
-            <div class="text-label">Type</div>
-            <select  autocomplete="new-password" autocapitalize="none"
-                type="text" class="text-button edit-template-input-type">
-                <option value="input">Line</option>
-                <option value="textarea">Area</option>
-                <option value="file">File</option>
-                <option value="dir">Folder</option>
 
-            </select>
-        </div>
-       
-        <div class="form-area inline" style="margin-top: 15px; width:20%">
-            <div class="text-label">Variable</div>
-            <input  autocomplete="new-password" autocapitalize="none"
-                type="text" class=" edit-template-input-tag text-field text-field-sm">
-        </div>
-        <div class="form-area inline" style="margin-top: 15px; width: 30%">
-            <div class="text-label">Purpose</div>
-            <input  autocomplete="new-password" autocapitalize="none"
-                type="text" class="text-field text-field-sm edit-template-input-purpose">
-        </div>
-        <span class="material-icons" style="vertical-align: middle; cursor: pointer;"
-            onclick="$(this).parent().remove()">close</span>
-    </div>
-`;
 
 function addInputToForm(type = "input", tag = "", purpose = "") {
     var input = $($.parseHTML(templateInputFormTemplate));
@@ -682,14 +558,7 @@ function toolTips() {
     });
 }
 
-$("#page-number-input").change(() => {
-    setPage($("#page-number-input").val() - 1);
-})
 
-function setPageNumberField() {
-    $("#page-number-input").val(getPage() + 1);
-}
-setPageNumberField()
 $(window).ready(toolTips);
 
 
@@ -724,13 +593,7 @@ function showSnackBars() {
     });
 }
 
-var snackbarTemplate =
-    `
-<div class="snack-bar">
-    <button class="text-button no-outline" onclick="{{actionfunc}}">{{action}}</button>
-    | {{message}}
-</div>
-`
+
 
 function snackbar(message = "command executed", action = "dismiss", func = "hideSnackBars()") {
     var bar = snackbarTemplate
@@ -749,3 +612,36 @@ function expose(selector) {
 $(window).ready(() => {
 
 });
+
+function ripple(element) {
+
+    var rect = element.getBoundingClientRect();
+    // console.log(rect)
+    const xPos = rect.left + rect.width / 2,
+        yPos = rect.top + rect.height / 2,
+        elWavesRipple = document.createElement('div');
+    // console.log(xPos)
+    elWavesRipple.className = 'waves-ripple';
+    elWavesRipple.style.left = xPos + 'px';
+    elWavesRipple.style.top = yPos + 'px';
+
+    const rippleElm = document.querySelector("body").appendChild(elWavesRipple);
+
+    anime({
+        targets: '.waves-ripple',
+        scale: {
+            value: 40,
+            duration: 750,
+        },
+        opacity: {
+            value: 0,
+            duration: 750
+        },
+        easing: 'easeOutSine',
+        complete: function () {
+            const newElm = document.getElementsByClassName('waves-ripple')[0]
+            newElm.remove();
+        }
+    });
+
+}
