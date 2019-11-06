@@ -1,0 +1,131 @@
+/************************ index.html ************************/
+#navigation {
+    position: fixed;
+    width: 100vw;
+    z-index: 1;
+    background: var(--main-bg-color);
+    padding: 5px;
+  }
+  
+  #navigation button {
+    font-size: 0.9rem;
+  }
+  
+  #cta {
+    height: 300px;
+    padding-top: calc(50vh - 250px);
+  }
+  
+  #top {
+    height: 100vh;
+  }
+  
+  #logo {
+    margin-bottom: calc(-0.01 * 100vw);
+  }
+  
+  .drop {
+    box-shadow: 0 0px 18px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+  
+  .space {
+    padding: 30px;
+  }
+  
+  h4 {
+    color: #8eacbb;
+  }
+  
+  .mleft {
+    text-align: left;
+  }
+  
+  .mright {
+    text-align: right;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  
+  a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  .fleft {
+    display: none;
+  }
+  
+  
+  h5 {
+    font-size: 1.2rem;
+  }
+  
+  
+  #description {
+    background: white;
+    color: black;
+    clip-path: polygon(0 0, 100vw 100px, 100vw 100%, 0% 100%);
+    -webkit-clip-path: polygon(0 0, 100vw 100px, 100vw 100%, 0% 100%);
+    width: 100%;
+    min-height: 120px;
+    padding-top: 50px;
+    margin-top: calc(-50vh + 150px);
+  }
+  
+  #description h1 {
+    color: #404044;
+  }
+  
+  #description h2 {
+    color: #404044;
+  }
+  
+  #description * {
+    color: black;
+  }
+  
+  .feature-icon {
+    margin: 15px;
+    font-size: 48px !important;
+    border-radius: 50%;
+    background: rgba(204, 206, 216, 0.945);
+    padding: 30px;
+    color: #404044 !important;
+  }
+  
+  .feature {
+    margin: 30px 0;
+  }
+  
+  .feature h3 {
+    font-size: 22px;
+  }
+  
+  .feature h4 {
+    font-size: 18px;
+  }
+  
+  .row {
+    width: 100% !important;
+    margin: 0px;
+  }
+  
+  option {
+    background: var(--main-bg-color);
+    border: solid 2px white;
+  }
+  
+  select::-ms-expand {
+    display: none;
+  }

@@ -231,7 +231,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             $(`.macro-name[data-target="${val.id}"`).trigger('onload');
             $(`.macro-command[data-target="${val.id}"`).trigger('onload');
 
-            setMacroButtonsTargets(val);
+          //  setMacroButtonsTargets(val);
         });
         macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.ref.getKey();

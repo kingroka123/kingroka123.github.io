@@ -1,0 +1,441 @@
+/************************ app.html ************************/
+#topbar {
+    height: 56px;
+    text-align: right;
+    padding: 15px;
+  }
+  
+  .content {
+    width: 60%;
+    margin: auto;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  #edit-form {
+    background: var(--main-bg-color);
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    display: none;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    overflow: auto;
+  }
+  
+  .macro-entry {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  
+  #exit-fullscreen {
+    position: fixed;
+    padding: 10px;
+    z-index: 3;
+    margin: 0;
+    cursor: pointer;
+    display: none;
+    color: white;
+  }
+  
+  
+  #wizard-area {
+    width: 95%;
+  }
+  
+  .macro-preset:hover {
+    background: none !important;
+    color: white;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.45);
+  }
+  
+  .macro-list-item {
+    max-width: 450px;
+    padding: 25px;
+    border: 2px solid white;
+    margin: auto;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 8px;
+    border-width: 4px;
+  }
+  
+  
+  .macro-list-item h5 {
+    margin: 0px;
+  }
+  
+  .macro-list-item-top {
+    margin-right: -15px;
+    margin-top: -15px;
+    width: 50%;
+    display: inline-block;
+  }
+  
+  #macro-list {
+    text-align: left;
+  }
+  
+  #preloader {
+    background: var(--main-bg-color) !important;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 6;
+  }
+  
+  #preloader-content {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  #entry-menu {
+    box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.45);
+    padding: 10px;
+    border-radius: 4px;
+    position: fixed;
+    z-index: 5;
+    top: 50px;
+    border: solid 2px;
+    background: var(--main-bg-color) !important;
+    visibility: hidden;
+    text-align: center;
+    transform-origin: left top;
+  }
+  
+  
+  .tool-bar {
+    height: 100vh;
+    position: fixed;
+    width: var(--toolbar-width);
+    left: 0px !important;
+    z-index: 4;
+    text-align: center;
+    padding-left: 0;
+    padding-top: 5px;
+    min-width: 0px;
+    background: var(--toolbar-bg-color);
+    top: 0px;
+    overflow: auto;
+  }
+  
+  .tool-bar div {
+    width: var(--toolbar-width);
+    height: var(--toolbar-width);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: rgb(167, 167, 167);
+  }
+  
+  .tool-tip {
+    position: fixed;
+    height: var(--toolbar-width);
+    left: calc(5px + var(--toolbar-width));
+    top: 0px;
+    z-index: 3;
+    border-left: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding-right: 15px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    text-overflow: clip;
+    visibility: hidden;
+    color: white;
+  }
+  
+  .tool-bar div:hover {
+    color: white !important;
+  }
+  
+  .tool-bar .bottom {
+    position: absolute;
+    bottom: 0px;
+  }
+  
+  .tool-bar i {
+    padding-top: calc((var(--toolbar-width) / 2) - 1rem);
+    font-size: 2rem;
+    color: inherit;
+  }
+  
+  .sidebar-content {
+    margin-left: var(--toolbar-width);
+    padding: 0 15px;
+  }
+  
+  .context-menu {
+    box-shadow: 0 0px 6px 3px rgba(0, 0, 0, 0.45);
+    padding: 15px 0px;
+  
+    position: fixed;
+    z-index: 5;
+    top: 50px;
+    background: var(--main-bg-color);
+    visibility: hidden;
+    text-align: center;
+    transform-origin: left top;
+    width: 300px;
+  }
+  
+  .context-menu hr {
+    border-color: rgb(167, 167, 167);
+    width: 90%;
+    border-width: 1px;
+  }
+  
+  .text-button.context-menu-item {
+    width: 100%;
+    padding-left: 30px;
+    text-align: left;
+    font-size: 18px;
+    border-radius: 0px;
+  }
+  
+  .view {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .settings-item {
+    padding-left: 25px;
+    margin-bottom: 25px;
+  }
+  
+  
+  
+  .device-entry {
+    width: 200px;
+    text-align: left;
+    margin: auto;
+    margin-bottom: 15px;
+  }
+  
+  .snack-bar {
+    position: fixed;
+    bottom: -3rem;
+    height: var(--snackbar-height);
+    font-size: 1rem;
+    color: white;
+    background: #000a12;
+    padding: 0.5rem 0;
+    padding-left: calc(25px + var(--toolbar-width));
+    z-index: 5;
+    width: 100%;
+  }
+  
+  .snack-bar .text-button {
+    font-size: inherit !important;
+    font-weight: bolder !important;
+    color: #ffb300 !important;
+  }
+  
+  .snack-bar .text-button:hover {
+    background: none !important;
+    color: white !important;
+  }
+  
+  .waves-ripple {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    z-index: 4;
+  }
+  
+  .expose {
+    position: relative !important;
+    z-index: 99999;
+  }
+  
+  #overlay {
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99998;
+  }
+  
+  .text-button.macro-list-entry {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    border-width: 4px;
+  }
+  
+  .text-button.macro-list-entry:hover {
+    background: none;
+    border-color: white;
+    color: white;
+  }
+  
+  .macro-list-container {
+    padding-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 1em;
+    /* grid-template-columns: 150px 150px 150px 150px 150px 150px 150px 150px; */
+    /* grid-gap: 10px; */
+    margin-bottom: 100px;
+  }
+  
+  .view-topbar {
+    width: calc(100% - var(--toolbar-width));
+    background-color: #0a171d;
+    height: 55px;
+    position: fixed;
+    top: 0px;
+    left: var(--toolbar-width);
+    text-align: left;
+    margin-bottom: 30px;
+    padding-left: 20px;
+    line-height: 55px;
+  }
+  
+  .dialog .view-topbar {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+  
+  }
+  
+  .view-topbar h1 {
+    font-size: 25px;
+    margin: 0;
+    position: absolute;
+    right: 45px;
+  }
+  
+  .view-topbar * {
+    display: inline;
+    vertical-align: middle;
+  }
+  
+  .view-content {
+    margin-top: 65px;
+  }
+  
+  #device-list {
+    padding-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    grid-auto-rows: minmax(120px, auto);
+    grid-gap: 1em;
+  }
+  
+  .text-button.device-item:hover {
+    background: none;
+    border-color: #afafaf;
+  }
+  
+  .text-button.device-item {
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    border-width: 4px;
+    border-radius: 6px;
+  }
+  
+  .device-item i {
+    margin-top: 5px;
+    font-size: 68px;
+  }
+  
+  .device-content {
+    vertical-align: middle;
+  }
+  
+  /* #Micros */
+  #micros {
+    margin: auto;
+    border-radius: 8px;
+    text-align: center;
+    padding-bottom: 4px;
+  }
+  
+  #micros input {
+    margin-bottom: 15px;
+  }
+  
+  #micros select {
+    margin-bottom: 2px;
+    box-shadow: none;
+  }
+  
+  #micro-presets {
+    margin: auto;
+    text-align: left;
+    padding: 10px 0;
+    font-size: 0px;
+    display: inline-grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-gap: 20px;
+  }
+  
+  .macro-preset {
+    width: 100px;
+    height: 100px;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0;
+    display: block;
+  }
+  
+  
+  .micro-input {
+    margin: 4px 0px !important;
+  }
+  
+  #edit-micro {
+    display: none;
+  }
+  
+  .little-icon-button {
+    padding: 0 !important;
+    width: 30px;
+    height: 30px;
+    min-width: 0px;
+    font-size: 8px;
+    background: black;
+    border: none;
+    clip-path: circle(50% at 50% 50%);
+    position: relative;
+    left: calc(115px - 30px);
+    top: -115px;
+    cursor: pointer;
+    z-index: 2;
+    text-align: center;
+  }
+  
+  .little-icon-button i {
+    font-size: 18px;
+    position: relative;
+    top: calc(50% - 9px);
+    /* 50% - 3/4 of icon height */
+  }
+  
+  .micro-button-container {
+    height: 100px;
+  }

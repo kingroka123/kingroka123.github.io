@@ -43,6 +43,8 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="./themes/theme.css">
+    <link rel="stylesheet" type="text/css" href="./themes/appTheme.css">
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -69,10 +71,6 @@
     <button id="cancel-button" class="text-button red-border red"
         style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
         onclick="cancelSet();">cancel</button>
-
-
-
-
     <div class="tool-tip electron-shift" id="name-display" data-target="#logout"></div>
 
 
@@ -86,44 +84,42 @@
         <div onclick="switchView('settings')" id="settings_macro_toolbar"><i class="material-icons">settings</i></div>
         <div onclick="logout()" class="bottom"><i class="material-icons">exit_to_app</i></div>
     </div>
-    <div id="drawer" class="side-bar electron-shift">
+    <div id="drawer" class="electron-shift">
         <div class="sidebar-content">
-            <div id="dashboard" class="view">
-                <div id="macro-grid">
-                    <div id="overlay"></div>
+            <div id="list" class="content view  electron-shift">
+                <div class="view-topbar">
+                    <h1>Macros</h1>
+                    <button class="text-button material-icons" onclick="newMacro()">create</button>
+                    <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
+                        placeholder="search">
                 </div>
-                <div id="page-number">
-                    <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
-                    <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input"
-                            type="number" class="text-field text-field-sm  no-outline" placeholder="#"
-                            style="width: 25px;"></input>
-                    </div>
-                    <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
+                <div class="view-content">
+                    <div id="macro-list">
+                         <button class="text-button white-border" disabled>Category:</button>
+                        <select id="macro-category-select" class="text-button white-border" onchange="setCategory($(this).val())">
+                            <option value="">All</option>
+                        </select>
+                        <div id="macro-list-all" class="macro-list-container">
 
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div id="edit" class="content view electron-shift">
                 <div id="wizard-area" class="content" data-target="">
                     <div class="view-topbar">
                         <button class="text-button material-icons" onclick="goBack()">arrow_back</button>
-
-
                         <button class="text-button" onclick="newMacro()">new</button>
                         <button id="new-macro-button" class="text-button green-border"
                             onclick="saveMacro(); goBack();">save and exit</button>
                         <h1>Wizard</h1>
-
                     </div>
 
-
                     <div class="view-content">
-
                         <br>
                         <br>
-
                         <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none"
-                            id="new-macro-name" type="text" class="text-field text-field-sm text-field-medium"
+                            id="new-macro-name" type="text" class="text-field text-field-sm text-field-long"
                             placeholder="Name">
                         <div id="action-colors">
                             <div class="color-button red" onclick="selectColor(this)" data-color-selected="true"></div>
@@ -132,7 +128,6 @@
                             <div class="color-button green" onclick="selectColor(this)"></div>
                             <div class="color-button blue" onclick="selectColor(this)"></div>
                             <div class="color-button purple" onclick="selectColor(this)"></div>
-
                         </div>
                         <h2> Devices </h2>
                         <div id="devices">
@@ -196,27 +191,7 @@
                         micro</button>
                 </div>
             </div>
-
-
-            <div id="list" class="content view  electron-shift">
-                <div class="view-topbar">
-                    <h1>Macros</h1>
-                    <button class="text-button material-icons" onclick="newMacro()">create</button>
-                    <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
-                        placeholder="search">
-                </div>
-                <div class="view-content">
-                    <div id="macro-list">
-                         <button class="text-button white-border" disabled>Category:</button>
-                        <select id="macro-category-select" class="text-button white-border" onchange="setCategory($(this).val())">
-                            <option value="">All</option>
-                        </select>
-                        <div id="macro-list-all" class="macro-list-container">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
             <div id="device-manager" class="content view">
                 <div class="view-topbar">
                     <h1> Device Manager </h1>
@@ -265,13 +240,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div id="open-toolbar" class="material-icons toolbar-controls" onclick="openToolbar()">
-        chevron_right
-    </div>
-    <div id="close-toolbar" class="material-icons toolbar-controls" onclick="closeToolbar()">
-        chevron_left
-    </div> -->
     <div id="long-menu" class="context-menu">
         <button class="text-button no-outline context-menu-item" onclick="editSelectedMacroButton()">Edit</button>
         <br>
@@ -325,87 +293,8 @@
 <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
 <script src="scripts/client.min.js"></script>
 <script src="scripts/utils.js"></script>
-<script>
-    var scale;
-    var contextScale;
-    var buttonSize = 1;
-    var buttonsInRow = 5;
-    var buttonsInCol = 4;
-    var totalButtons = buttonsInRow * buttonsInCol;
-    var macroButtonTemplate =
-        `
-    <button class="text-button macro-button macro-button-empty blue-border" 
-            onclick="macro(this)" 
-            data-number="{{num}}" 
-            data-target=""
-            ></button>
-    `;
-    var viewPortHeight = $(window).height();
-    console.log(viewPortHeight);
-    for (i = 0; i < totalButtons; i++) {
-        copy = macroButtonTemplate + "";
-        copy = copy.replaceAll("{{num}}", i);
-        document.querySelector("#macro-grid").insertAdjacentHTML('beforeend', copy);
-    }
 
-    function setDashboard() {
-        var bw = 150;
-        var bh = 120;
-        var dw = (bw + 10) * (buttonsInRow);
-        var dh = (bh + 10) * totalButtons / (buttonsInRow);
-        var macroButtons = document.querySelectorAll(".macro-button");
-        macroButtons.forEach(function (button) {
-
-            button.style.width = bw + "px";
-            button.style.height = bh + "px";
-        });
-        var list = document.querySelector("#macro-grid");
-        list.style.width = dw + "px";
-        list.style.height = dh + "px";
-
-        scale = window.innerWidth / dw;
-        var paddingFactor = .90;
-        if (dh * scale > window.innerHeight) {
-            scale = window.innerHeight / dh;
-        }
-        var toolbarWidth = $(".tool-bar").width();
-        scale *= paddingFactor;
-        list.style.transform = "scale(" + scale + ")";
-        list.style.left = ((window.innerWidth - toolbarWidth - dw * scale) / 2 + toolbarWidth) + "px";
-        list.style.top = ((window.innerHeight - dh * scale) / 2) + "px";
-
-        contextScale = window.innerWidth / 1920;
-        contextScale = contextScale.clamp(.8, 1)
-        var longmenu = document.querySelector("#long-menu");
-        longmenu.style.transform = "scale(" + contextScale + ")";
-    }
-
-    setDashboard();
-
-    function exitFull() {
-        controls = document.querySelector("#controls");
-
-        exitF = document.querySelector("#exit-fullscreen");
-        $(exitF).fadeOut(function () {
-            $(controls).fadeIn();
-        });
-    }
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-
-        setTimeout(function () {
-            var viewwidth = $(window).width();
-            var viewport = $("meta[name=viewport]");
-            viewport.attr("content", "height=" + viewPortHeight + "px, width=" +
-                viewwidth + "px, initial-scale=1.0, user-scalable: no");
-        }, 300);
-    } else {
-        $(window).resize(setDashboard);
-
-    }
-    var electron = null;
-
-    $(document).ready(setDashboard)
-</script>
+    
 <script type="text/javascript">
     //This is the "Offline copy of pages" service worker
 

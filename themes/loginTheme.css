@@ -1,0 +1,22 @@
+/************************ login.html ************************/
+.login-area {
+    max-width: 300px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    padding: 5px;
+  }
+  
+  #sign-up-form {
+    padding-top: 65px;
+  }
+  
+  .form-area {
+    margin-bottom: 15px;
+    text-align: left;
+  }
