@@ -1,5 +1,5 @@
 var macroEntry = `
-<button class="macro-list-entry text-button white-border" data-target="{{id}}" 
+<button class="macro-list-entry text-button  {{border}}-border" data-target="{{id}}" 
 onclick="macro(this)" data-categories="{{categories}}"> {{name}} </button>
 `;
 
@@ -85,10 +85,14 @@ electronUI(isElectron)
 var microTemplate =
     `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" id="micro-test">
         <div>
-            <action-top></action-top>
-            <br>
+            <div class="action-top">
+                <button class=" handle text-button material-icons no-outline left-side"
+                onclick="">reorder</button>
+                <h3 class="title">{{title}}</h3>
+                <button class="right-side text-button material-icons no-outline"
+                onclick="$(this).parent().parent().parent().remove()">close</button>
+            </div>
             <span style="display: none" class="command">{{command}}</span>
-            <h5 class="title">{{title}}</h5>
         </div>
     </div>`;
 
@@ -134,26 +138,6 @@ var snackbarTemplate =
 var categoryTemplate = `<option value="{{category}}">{{category}}</option>`;
 
 
-/* ************************ */
-var actionTop =
-    `
-    <div>
-        <button class=" handle text-button material-icons no-outline left-side"
-        onclick="">reorder</button>
-        <button class="right-side text-button material-icons no-outline"
-        onclick="$(this).parent().parent().parent().parent().remove()">close</button>
-        <br>
-        <br>
-    </div>
-`;
-
-class ActionTop extends HTMLElement {
-    constructor() {
-        super();
-        this.innerHTML = actionTop + "";
-    }
-}
-window.customElements.define('action-top', ActionTop);
 
 var checkbox =
     `

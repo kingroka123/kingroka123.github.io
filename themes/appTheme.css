@@ -439,3 +439,21 @@
   .micro-button-container {
     height: 100px;
   }
+
+  
+  .action-top h3{
+    display: inline;
+    vertical-align: middle;
+    line-height: 40px;
+  }
+
+  .action-top{
+    margin-bottom: 30px;
+  }
+
+  .action-top .text-button{
+    padding: 0px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }

@@ -73,8 +73,6 @@ firebase.auth().onAuthStateChanged(function (user) {
                 .replaceAll("{{templateBorder}}", template.border)
                 .replaceAll("{{templateTags}}", template.tags);
             $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
-
-
         });
 
         personalMicroTemplatesRef.on("child_removed", function (snapshot) {
@@ -127,25 +125,13 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         macroListRef.on("child_changed", function (snapshot) {
             val = snapshot.val();
-
-            function dothings() {
-                number = val.set;
-                old = document.querySelector(`.macro-button[data-target="${val.id}"]`);
-                // oldColor = 
-                // remove from old macro button
-
-                if (old) {
-                    old.dataset.target = "";
-                    old.innerHTML = " ";
-                    $(old).addClass("macro-button-empty");
-                }
-
-                //change entry element
-                macroEntryElemName = document.querySelector(`.macro-list-entry[data-target="${val.id}"]`);
-                macroEntryElemName.innerHTML = val.name;
-            }
-            dothings();
-
+            var copy = macroEntry + " ";
+            copy = copy.replaceAll("{{id}}", val.id);
+            copy = copy.replaceAll("{{name}}", val.name);
+            copy = copy.replaceAll("{{command}}", val.command);
+            copy = copy.replaceAll("{{border}}", val.color);
+            macroEntryElemName = document.querySelector(`.macro-list-entry[data-target="${val.id}"]`);
+            $(macroEntryElemName).replaceWith(copy);
         });
 
         setTimeout(function () {
@@ -338,7 +324,7 @@ function editMacro(element) {
 function saveMacro() {
     var macro = getMacroFromHTML();
     macro.encrypted = false;
-   // macro.categories = ['home', 'work'];
+    macro.categories = [];
     macroListRef.child(macro.id).update(macro);
 }
 

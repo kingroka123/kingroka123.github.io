@@ -470,7 +470,7 @@ textarea.text-field {
 .text-button:hover {
   background: white;
   color: var(--main-bg-color);
-  border-color: white;
+  border-color: white !important;
 }
 
 .text-button:disabled {
