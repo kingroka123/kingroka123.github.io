@@ -16,6 +16,10 @@
   --snackbar-height: 2rem;
 }
 
+.template {
+  display: none !important;
+}
+
 * {
   font-family: "Courier New", Courier, monospace;
   color: white;
@@ -417,8 +421,8 @@ textarea.text-field {
   display: inline-block;
 }
 
-#macro-list-area {
-  margin-bottom: 100px;
+#macro-list {
+  text-align: left;
 }
 
 .right-side {
@@ -666,11 +670,13 @@ textarea.text-field {
   transform-origin: left top;
   width: 300px;
 }
-.context-menu hr{
+
+.context-menu hr {
   border-color: rgb(167, 167, 167);
   width: 90%;
   border-width: 1px;
 }
+
 .text-button.context-menu-item {
   width: 100%;
   padding-left: 30px;
@@ -706,7 +712,7 @@ textarea.text-field {
   text-align: center;
 }
 
-.spinner > div {
+.spinner>div {
   width: 15px;
   height: 15px;
   background-color: white;
@@ -727,23 +733,27 @@ textarea.text-field {
 }
 
 @-webkit-keyframes sk-bouncedelay {
+
   0%,
   80%,
   100% {
     -webkit-transform: scale(0);
   }
+
   40% {
     -webkit-transform: scale(1);
   }
 }
 
 @keyframes sk-bouncedelay {
+
   0%,
   80%,
   100% {
     -webkit-transform: scale(0);
     transform: scale(0);
   }
+
   40% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -802,8 +812,7 @@ h4 {
   text-align: center;
 }
 
-#media-col {
-}
+#media-col {}
 
 a {
   text-decoration: none;
@@ -821,8 +830,7 @@ a:visited {
   display: none;
 }
 
-#info {
-}
+#info {}
 
 h5 {
   font-size: 1.2rem;
@@ -834,12 +842,15 @@ h5 {
   #screenshot {
     width: 90vw !important;
   }
+
   #navigation {
     text-align: center;
   }
+
   h1 {
     font-size: 1.5rem;
   }
+
   #navigation button {
     font-size: 0.9rem;
   }
@@ -851,12 +862,15 @@ h5 {
   .fleft {
     display: block;
   }
+
   .fright {
     display: none;
   }
+
   #cta {
     padding-top: calc(50vh - 125px);
   }
+
   .text-button {
     font-size: 0.8rem;
   }
@@ -872,11 +886,9 @@ h5 {
 
 /* Extra large devices (large desktops, 1200px and up) */
 
-@media (min-width: 1200px) {
-}
+@media (min-width: 1200px) {}
 
-.vertical-center {
-}
+.vertical-center {}
 
 #description {
   background: white;
@@ -1209,6 +1221,13 @@ input[type="file"] {
   line-height: 55px;
 }
 
+.dialog .view-topbar{
+  width: 100%;
+  position: absolute;
+  left: 0px;
+
+}
+
 .view-topbar h1 {
   font-size: 25px;
   margin: 0;
@@ -1253,4 +1272,33 @@ input[type="file"] {
 
 .device-content {
   vertical-align: middle;
+}
+
+.dialog {
+  position: fixed;
+  width: 80%;
+  height: 70%;
+  z-index: 8;
+  top: 15%;
+  left: 10%;
+
+
+}
+
+.dialog-content {
+  width:100%;
+  height: 100%;
+  background: var(--main-bg-color);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
+}
+
+.dialog .overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  width: 100vw;
+  height: 100vw;
+
+  background: rgba(0, 0, 0, .2);
 }

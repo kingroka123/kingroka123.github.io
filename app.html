@@ -14,7 +14,8 @@
     <title>Macro</title>
     <link rel="icon" type="image/ico" href="./favicon.ico">
     <link rel="manifest" href="./img/icons/manifest.json">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ddfd7a5a4c.js"></script>
@@ -60,11 +61,14 @@
 
     <div id="topper">
         <div class="window-bar electron-visible">
-            <button id="close-button" class="text-button no-outline material-icons" onclick="hideWindow()">close</button>
+            <button id="close-button" class="text-button no-outline material-icons"
+                onclick="hideWindow()">close</button>
         </div>
     </div>
     <div id="exit-fullscreen" class=" material-icons electron-shift" onclick="exitFull()">arrow_back </div>
-    <button id="cancel-button" class="text-button red-border red" style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;" onclick="cancelSet();">cancel</button>
+    <button id="cancel-button" class="text-button red-border red"
+        style="position: fixed; width: 150px; top: 15px; left:calc(50vw - 75px);  display: none; z-index: 100;"
+        onclick="cancelSet();">cancel</button>
 
 
 
@@ -73,7 +77,8 @@
 
 
     <div class="side-bar tool-bar electron-shift electron-height">
-        <div id="logout"><img style="vertical-align: middle; " src="./img/icons/apple-touch-icon-152x152.png" width="44"></div>
+        <div id="logout"><img style="vertical-align: middle; " src="./img/icons/apple-touch-icon-152x152.png"
+                width="44"></div>
         <!-- <div onclick="switchView('dashboard')" id="add_macro_toolbar"><i class="material-icons">dashboard</i>
         </div> -->
         <div onclick="switchView('list')" id="add_macro_toolbar"><i class="material-icons">dashboard</i></div>
@@ -89,7 +94,9 @@
                 </div>
                 <div id="page-number">
                     <button class="text-button no-outline material-icons" onclick="previousPage()">chevron_left</button>
-                    <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input" type="number" class="text-field text-field-sm  no-outline" placeholder="#" style="width: 25px;"></input>
+                    <div style="display: inline; text-align: center"> <span>pg. </span> <input id="page-number-input"
+                            type="number" class="text-field text-field-sm  no-outline" placeholder="#"
+                            style="width: 25px;"></input>
                     </div>
                     <button class="text-button  no-outline material-icons" onclick="nextPage()">chevron_right</button>
 
@@ -103,7 +110,8 @@
 
 
                         <button class="text-button" onclick="newMacro()">new</button>
-                        <button id="new-macro-button" class="text-button green-border" onclick="saveMacro(); goBack();">save and exit</button>
+                        <button id="new-macro-button" class="text-button green-border"
+                            onclick="saveMacro(); goBack();">save and exit</button>
                         <h1>Wizard</h1>
 
                     </div>
@@ -114,7 +122,9 @@
                         <br>
                         <br>
 
-                        <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none" id="new-macro-name" type="text" class="text-field text-field-sm text-field-medium" placeholder="Name">
+                        <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none"
+                            id="new-macro-name" type="text" class="text-field text-field-sm text-field-medium"
+                            placeholder="Name">
                         <div id="action-colors">
                             <div class="color-button red" onclick="selectColor(this)" data-color-selected="true"></div>
                             <div class="color-button orange" onclick="selectColor(this)"></div>
@@ -131,17 +141,8 @@
                         <h2>Micros</h2>
                         <div id="action-list">
                         </div>
-
-                        <div id="micros">
-                            <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button" onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
-                            <br>
-                            <input autocomplete="new-password" autocapitalize="none" id="macro-preset-search" type="text" class="text-field text-field-sm text-field-medium deletable" placeholder="search">
-                            <span id="search-clear-button" class=" material-icons no-outline" onclick="clearSearch()" style="vertical-align: middle; cursor: pointer;">clear</span>
-                            <br>
-                            <div id="micro-presets" class="">
-
-                            </div>
-                        </div>
+                        <button class="text-button" onclick="showDialog('micro');">Add Micro</button>
+                        
 
                     </div>
                 </div>
@@ -152,7 +153,8 @@
                 <div class="view-topbar">
                     <h1>Micro Manager</h1>
                     <button class="text-button orange-border" onclick="goBack()">cancel</button>
-                    <button id="new-macro-button" class="text-button green-border" onclick="savePersonalTemplate();goBack()">save and exit</button>
+                    <button id="new-macro-button" class="text-button green-border"
+                        onclick="savePersonalTemplate();goBack()">save and exit</button>
                 </div>
                 <div class="view-content">
                     <div id="template-color">
@@ -167,15 +169,18 @@
                     <div class="text-field-xlong" style="margin:auto;">
                         <div class="form-area " style="margin-top: 15px;">
                             <div class="text-label">Micro Name</div>
-                            <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text" class="text-field text-field-sm">
+                            <input id="edit-template-name" autocomplete="new-password" autocapitalize="none" type="text"
+                                class="text-field text-field-sm">
                         </div>
                         <div class="form-area" style="margin-top: 15px;">
                             <div class="text-label">TMicro Tags</div>
-                            <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text" class="text-field text-field-sm">
+                            <input id="edit-template-tags" autocomplete="new-password" autocapitalize="none" type="text"
+                                class="text-field text-field-sm">
                         </div>
                         <div class="form-area" style="margin-top: 15px;">
                             <div class="text-label">Micro Command</div>
-                            <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none" type="text" class="text-field"></textarea>
+                            <textarea id="edit-template-command" autocomplete="new-password" autocapitalize="none"
+                                type="text" class="text-field"></textarea>
                         </div>
                     </div>
                     <h2>Inputs</h2>
@@ -185,7 +190,9 @@
                     <button class="text-button no-outline material-icons" onclick="addInputToForm()">
                         add</button>
                     <br>
-                    <button id="new-macro-button" class="text-button red-border" style="margin-top: 50px; margin-bottom: 30px;" onclick="deleteSelectedTemplate();switchView('edit')">delete
+                    <button id="new-macro-button" class="text-button red-border"
+                        style="margin-top: 50px; margin-bottom: 30px;"
+                        onclick="deleteSelectedTemplate();switchView('edit')">delete
                         micro</button>
                 </div>
             </div>
@@ -195,10 +202,15 @@
                 <div class="view-topbar">
                     <h1>Macros</h1>
                     <button class="text-button material-icons" onclick="newMacro()">create</button>
-                    <input id="macro-list-search" class="text-field text-field-medium text-field-sm" placeholder="search">
+                    <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
+                        placeholder="search">
                 </div>
                 <div class="view-content">
                     <div id="macro-list">
+                         <button class="text-button white-border" disabled>Category:</button>
+                        <select id="macro-category-select" class="text-button white-border" onchange="setCategory($(this).val())">
+                            <option value="">All</option>
+                        </select>
                         <div id="macro-list-all" class="macro-list-container">
 
                         </div>
@@ -266,7 +278,8 @@
         <button class="text-button no-outline context-menu-item" onclick="setSelectedMacroButton()">Duplicate</button>
         <br>
         <hr>
-        <button class="text-button no-outline context-menu-item red-font" onclick="clearSelectedMacroButton()">Delete</button>
+        <button class="text-button no-outline context-menu-item red-font"
+            onclick="clearSelectedMacroButton()">Delete</button>
         <br>
     </div>
 
@@ -275,6 +288,27 @@
         <button class="text-button yellow-border" onclick="editMacro($('#entry-menu').get(0))">edit</button>
         <button class="text-button blue-border" onclick="setMacro($('#entry-menu').get(0))">place</button>
     </div>
+
+    <div id="micro-dialog" class = "dialog" style="display: none;">
+        <div class="overlay" onclick="hideDialog($(this).parent().attr('id'))"></div>
+        <div class="dialog-content">
+            <div id="micros">
+                <button style="margin-top: 30px; margin-bottom: 30px;" class="text-button"
+                    onclick="clearMicroTemplateForm(); showMicroManager();">New Micro</button>
+                <br>
+                <input autocomplete="new-password" autocapitalize="none" id="macro-preset-search"
+                    type="text" class="text-field text-field-sm text-field-medium deletable"
+                    placeholder="search">
+                <span id="search-clear-button" class=" material-icons no-outline" onclick="clearSearch()"
+                    style="vertical-align: middle; cursor: pointer;">clear</span>
+                <br>
+                <div id="micro-presets" class="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 <script>
@@ -284,7 +318,8 @@
     }
 </script>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="anime.min.js"></script>
 <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
@@ -319,7 +354,7 @@
         var dw = (bw + 10) * (buttonsInRow);
         var dh = (bh + 10) * totalButtons / (buttonsInRow);
         var macroButtons = document.querySelectorAll(".macro-button");
-        macroButtons.forEach(function(button) {
+        macroButtons.forEach(function (button) {
 
             button.style.width = bw + "px";
             button.style.height = bh + "px";
@@ -351,13 +386,13 @@
         controls = document.querySelector("#controls");
 
         exitF = document.querySelector("#exit-fullscreen");
-        $(exitF).fadeOut(function() {
+        $(exitF).fadeOut(function () {
             $(controls).fadeIn();
         });
     }
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
-        setTimeout(function() {
+        setTimeout(function () {
             var viewwidth = $(window).width();
             var viewport = $("meta[name=viewport]");
             viewport.attr("content", "height=" + viewPortHeight + "px, width=" +
@@ -381,13 +416,15 @@
         //Register the ServiceWorker
         navigator.serviceWorker.register('pwabuilder-sw.js', {
             scope: './'
-        }).then(function(reg) {
+        }).then(function (reg) {
             console.log('Service worker has been registered for scope:' + reg.scope);
         });
     }
 </script>
 <script src="renderer.js"></script>
 <script src="db.js"></script>
+<script src="dialog.js"></script>
+
 <script src="ui.js"></script>
 <script>
     if (window.module) module = window.module;

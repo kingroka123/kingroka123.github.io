@@ -13,12 +13,14 @@ personalMicroTemplatesRef = null;
 var dontMacro = false;
 var dashboardPage = 0;
 var macroEntry = `
-<button class="macro-list-entry text-button {{border}}-border" data-target="{{id}}" onclick="macro(this)" data-categories="{{categories}}"> {{name}} </button>
+<button class="macro-list-entry text-button white-border" data-target="{{id}}" 
+onclick="macro(this)" data-categories="{{categories}}"> {{name}} </button>
 `;
 
 var globalMicroButton = `
 <span data-templateID="{{templateID}}" data-tag="{{templateTags}}" class="micro-button-container">
-    <button class="text-button macro-preset {{templateBorder}}-border" data-templateID="{{templateID}}" onclick="addGlobalMicro('{{templateID}}')"
+    <button class="text-button macro-preset {{templateBorder}}-border" 
+    data-templateID="{{templateID}}" onclick="addGlobalMicro('{{templateID}}')"
     data-tag="{{templateTags}}">{{templateName}}</button>
 </span>
 `;
@@ -109,7 +111,7 @@ function realClear(button) {
     $(button).addClass("macro-button-empty");
 }
 
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         var email = user.email;
         var emailVerified = user.emailVerified
@@ -147,7 +149,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
         /* global mircos */
-        microTemplatesRef.on("child_changed", function(snapshot) {
+        microTemplatesRef.on("child_changed", function (snapshot) {
             var template = snapshot.val();
             var elem = globalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -158,13 +160,13 @@ firebase.auth().onAuthStateChanged(function(user) {
             $(`.micro-button-container[data-templateID='${template.id}']`).replaceWith(elem);
         });
 
-        microTemplatesRef.on("child_removed", function(snapshot) {
+        microTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
 
             $(`.micro-button-container[data-templateID='${template.id}']`).remove();
         });
 
-        microTemplatesRef.on("child_added", function(snapshot) {
+        microTemplatesRef.on("child_added", function (snapshot) {
             var template = snapshot.val();
             var elem = globalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -176,7 +178,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         /* personal micros */
 
-        personalMicroTemplatesRef.on("child_changed", function(snapshot) {
+        personalMicroTemplatesRef.on("child_changed", function (snapshot) {
             var template = snapshot.val();
             var elem = personalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -188,14 +190,14 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         });
 
-        personalMicroTemplatesRef.on("child_removed", function(snapshot) {
+        personalMicroTemplatesRef.on("child_removed", function (snapshot) {
             var template = snapshot.val();
 
             $(`.micro-button-container[data-templateID='${template.id}']`).remove();
 
         });
 
-        personalMicroTemplatesRef.on("child_added", function(snapshot) {
+        personalMicroTemplatesRef.on("child_added", function (snapshot) {
             var template = snapshot.val();
             var elem = personalMicroButton
                 .replaceAll("{{templateID}}", template.id)
@@ -206,7 +208,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         });
 
 
-        macroListRef.on("child_added", function(snapshot) {
+        macroListRef.on("child_added", function (snapshot) {
             var copy = macroEntry + " ";
             var val = snapshot.val();
 
@@ -218,10 +220,10 @@ firebase.auth().onAuthStateChanged(function(user) {
             var categories = val.categories;
             var categoryString = "";
             if (categories) {
-                
+
                 categories.forEach((category) => {
                     newCategory(category);
-                    categoryString += category +" ";
+                    categoryString += category + " ";
                 });
             }
             copy = copy.replaceAll("{{categories}}", categoryString)
@@ -231,13 +233,13 @@ firebase.auth().onAuthStateChanged(function(user) {
 
             setMacroButtonsTargets(val);
         });
-        macroListRef.on("child_removed", function(snapshot) {
+        macroListRef.on("child_removed", function (snapshot) {
             id = snapshot.ref.getKey();
             document.querySelector(`.macro-list-entry[data-target="${id}"]`).remove();
             document.querySelectorAll(`.macro-button[data-target="${id}"]`).forEach(realClear)
         });
 
-        macroListRef.on("child_changed", function(snapshot) {
+        macroListRef.on("child_changed", function (snapshot) {
             val = snapshot.val();
 
             function dothings() {
@@ -261,7 +263,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         });
 
-        setTimeout(function() { $("#preloader").fadeOut() }, 750);
+        setTimeout(function () {
+            $("#preloader").fadeOut()
+        }, 750);
         if (electron) {
             electron(user);
         }
@@ -274,19 +278,26 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 var categories = [];
+var categoryTemplate = `<option value="{{category}}">{{category}}</option>`;
 
 function newCategory(name) {
     if (!categories.includes(name)) {
         categories.push(name);
+        var copy = categoryTemplate + "";
+        copy = copy.replaceAll("{{category}}", name);
+        $("#macro-category-select").append(copy);
     }
 }
 
-function setCategory(category){
-    $( ".macro-list-entry" ).filter( (element) => {
-        var categories = $(this).data("categories");
-        console.log(categories);
-    }).css( "background-color", "red" );
-
+function setCategory(category) {
+    $(".macro-list-entry").filter((index, element) => {
+        var categories = $(element).data("categories");
+        return !(!category | categories.includes(category));
+    }).hide();
+    $(".macro-list-entry").filter((index, element) => {
+        var categories = $(element).data("categories");
+        return !category | categories.includes(category);
+    }).show();
 }
 
 function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
@@ -294,7 +305,10 @@ function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
         name: name,
         cols: cols,
         rows: rows,
-        buttons: [{ index: 0, id: "sasdasd" }]
+        buttons: [{
+            index: 0,
+            id: "sasdasd"
+        }]
     })
 }
 
@@ -302,7 +316,7 @@ function newDashboard(name = "new dashboard", cols = 5, rows = 4) {
 function changeMacroButtonColor(element, color) {
     if (color) {
         var oldColor;
-        $(element).get(0).classList.forEach(function(e) {
+        $(element).get(0).classList.forEach(function (e) {
             if (e.endsWith("border")) {
                 oldColor = e;
             }
@@ -314,12 +328,12 @@ function changeMacroButtonColor(element, color) {
 }
 
 function logout() {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function () {
         // Sign-out successful.
         console.log("signed out");
         redirect("./login.html");
         deleteCookie('passphrase')
-    }, function(error) {
+    }, function (error) {
         // An error happened.
     });
 }
@@ -362,7 +376,7 @@ function ripple(element) {
             duration: 750
         },
         easing: 'easeOutSine',
-        complete: function() {
+        complete: function () {
             const newElm = document.getElementsByClassName('waves-ripple')[0]
             newElm.remove();
         }
@@ -377,7 +391,7 @@ function macro(element) {
         if (!dontMacro) {
             t = element.dataset.target;
             if (cuser && macroQueueRef && t && t.length > 0) {
-                macroListRef.child(t).once("value", function(snapshot) {
+                macroListRef.child(t).once("value", function (snapshot) {
                     var macro = snapshot.val();
 
                     function dostuff() {
@@ -387,7 +401,7 @@ function macro(element) {
                         if (macro.micros) {
                             cmdTarget = macro.micros.length;
                             macroDevices = macro.devices;
-                            macro.micros.forEach(function(micro) {
+                            macro.micros.forEach(function (micro) {
 
                                 getCommand(micro, condense);
 
@@ -395,7 +409,7 @@ function macro(element) {
                         }
                         macroDevices = null;
                     }
-                    if (typeof(macro.micros) == "string") {
+                    if (typeof (macro.micros) == "string") {
                         decryptMacro(t).then((decrypted) => {
                             macro = decrypted;
                             dostuff();
@@ -475,7 +489,7 @@ function editMacro(element) {
         switchView("edit")
         var val = snapshot.val();
         console.log(id)
-        if (typeof(val.micros) == "string") {
+        if (typeof (val.micros) == "string") {
             decryptMacro(id).then((decrypted) => {
                 generateMacroHTML(decrypted);
                 $("#wizard-action-name").val(decrypted.name)
@@ -558,35 +572,35 @@ function clearMacro(element) {
 var pressTimer;
 $('.macro-list-entry')
     .on({
-        'touchend': function(e) {
+        'touchend': function (e) {
             clearTimeout(pressTimer);
 
         }
     })
     .on({
-        'touchstart': function(e) {
+        'touchstart': function (e) {
             var macroButton = this;
-            pressTimer = window.setTimeout(function() {
+            pressTimer = window.setTimeout(function () {
                 //clearMacro(macroButton);
                 longPress(macroButton, e);
             }, 500);
 
         }
     });
-$(window).contextmenu(function(e) {
+$(window).contextmenu(function (e) {
     e.preventDefault();
     if ($(e.target).hasClass('macro-list-entry')) {
         longPress(e.target, e)
     }
 });
 
-$(document).mousedown(function(e) {
+$(document).mousedown(function (e) {
 
     var container = $("#long-menu, #entry-menu");
     var drawer = $("#drawer, #entry-menu");
     var toolbar = $(".tool-bar");
     var snackbar = $(".snack-bar")
-        // if the target of the click isn't the container nor a descendant of the container
+    // if the target of the click isn't the container nor a descendant of the container
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         hideLongMenu();
     }
@@ -621,7 +635,7 @@ function showLongMenuFor(macroButton, e) {
 
     if (!id) return;
 
-    macroListRef.child(`/${id}`).once("value", function(snapshot) {
+    macroListRef.child(`/${id}`).once("value", function (snapshot) {
         var color = snapshot.val().color;
         if (!color) color = "blue";
         clearActionList();
@@ -691,7 +705,9 @@ function setSelectedMacroButton() {
 function setSelectedColor() {
     var id = $(selectedMacroButton).get(0).dataset.target;
     var c = getColor();
-    macroListRef.child(`/${id}`).update({ color: c });
+    macroListRef.child(`/${id}`).update({
+        color: c
+    });
 }
 
 function editSelectedMacroButton() {
@@ -699,7 +715,7 @@ function editSelectedMacroButton() {
     hideLongMenu()
 }
 
-$(document.body).on("mousedown touchstart", function() {});
+$(document.body).on("mousedown touchstart", function () {});
 
 function showEntryMenu(element) {
     var popper = new Popper(element, $("#entry-menu").get(0), {

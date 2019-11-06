@@ -25,9 +25,7 @@ var actionTop =
     <div>
         <button class=" handle text-button material-icons no-outline left-side"
         onclick="">reorder</button>
-
-
-        <button class="right-side text-button material-icons red-border"
+        <button class="right-side text-button material-icons no-outline"
         onclick="$(this).parent().parent().parent().parent().remove()">close</button>
         <br>
         <br>
@@ -210,12 +208,12 @@ electronUI(isElectron)
 var microTemplate =
     `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" id="micro-test">
         <div>
+            <action-top></action-top>
+            <br>
             <span style="display: none" class="command">{{command}}</span>
             <h5 class="title">{{title}}</h5>
-            <br>
-            <action-top></action-top>
         </div>
-    </div>`
+    </div>`;
 
 
 function showFileDialog(elem) {
@@ -267,12 +265,13 @@ function MicroTemplateInput(type, tag, purpose) {
     this.purpose = purpose;
 }
 
-function Macro(id, name, color, micros, devices) {
+function Macro(id, name, color, micros, devices, categories) {
     this.id = id;
     this.name = name;
     this.color = color;
     this.micros = micros;
     this.devices = devices;
+    this.categories = categories;
 }
 
 
@@ -328,11 +327,13 @@ function getMicroFromHTML(element) {
 }
 
 function addGlobalMicro(templateID) {
-    generateGlobalMicroHTML(templateID)
+    generateGlobalMicroHTML(templateID);
+    hideDialog('micro');
 }
 
 function addPersonalMicro(templateID) {
-    generatePersonalMicroHTML(templateID)
+    generatePersonalMicroHTML(templateID);
+    hideDialog('micro');
 }
 
 
