@@ -83,7 +83,7 @@ electronUI(isElectron)
 `
 
 var microTemplate =
-    `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" id="micro-test">
+    `<div data-template={{id}} data-border="{{border}}" class="macro-list-item {{border}}-border" >
         <div>
             <div class="action-top">
                 <button class=" handle text-button material-icons no-outline left-side"

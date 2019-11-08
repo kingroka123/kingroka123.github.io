@@ -359,8 +359,8 @@ input[type="file"] {
 /* #Text Field */
 .text-field {
   -webkit-appearance: none !important;
-  border-radius: 4px;
-  height: 30px;
+  border-radius: 18px;
+  height: 36px;
   border: 2px solid rgba(255, 255, 255, 1);
   padding: 12px 16px 14px;
   font-size: 1.3rem;
@@ -453,7 +453,7 @@ textarea.text-field {
   cursor: pointer;
   border: 2px solid white;
   color: white;
-  border-radius: 4px;
+  border-radius: 18px;
   padding: 0 14px;
   font-size: 1.1rem;
   font-weight: bold;
