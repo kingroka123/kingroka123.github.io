@@ -1,6 +1,6 @@
 /************************ #System ************************/
 :root {
-  --main-bg-color: #263238;
+  --main-bg-color: #0a171d;
   --drawer-bg-color: #000a12;
   --toolbar-bg-color: #102027;
   --macro-bg-color: transparent;
@@ -12,7 +12,6 @@
   --color-green: #4caf50;
   --color-yellow: #ffeb3b;
   --color-orange: #ff8f00;
-  --toolbar-width: 3.5rem;
   --window-bar-height: 25px;
   --snackbar-height: 2rem;
 }
@@ -43,6 +42,10 @@ html {
   width: 100%;
   left: 0;
   z-index: 4;
+}
+
+.left-align{
+  text-align: left;
 }
 
 .window-bar {
@@ -411,6 +414,10 @@ input[type="file"] {
 
 .text-field-xlong {
   width: 400px;
+}
+
+.text-field-adaptive{
+  width: calc(100% - 20px);
 }
 
 textarea.text-field {

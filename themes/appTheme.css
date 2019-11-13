@@ -7,7 +7,11 @@ body {
   height: 100%;
   overflow: auto;
 }
+:root {
 
+  --toolbar-width: 3.5rem;
+
+}
 /************************ app.html ************************/
 h1{
   text-transform: uppercase;
@@ -237,7 +241,6 @@ h1{
   .device-entry {
     width: 200px;
     text-align: left;
-    margin: auto;
     margin-bottom: 15px;
   }
   
@@ -326,6 +329,7 @@ h1{
     margin-bottom: 30px;
     padding-left: 20px;
     line-height: 55px;
+    z-index: 5;
   }
   
   .dialog .view-topbar {
@@ -350,6 +354,27 @@ h1{
   .view-content {
     margin-top: 65px;
     margin-bottom: 65px;
+
+  }
+
+  .view-content .half-split{
+    position: fixed;
+    overflow-y: scroll;
+    height: calc(100vh - 55px);
+    top: 55px;
+    padding: 20px;
+
+  }
+
+  .view-content .half-split.left{
+    left: var(--toolbar-width);
+    border-right: 1px solid black;
+    width: min(400px, calc(50vw - var(--toolbar-width)));
+
+  }
+  .view-content .half-split.right{
+    right: 0px;
+    width: calc((((100vw - var(--toolbar-width)) - 80px) - min(400px, calc(50vw - var(--toolbar-width)))));
 
   }
   
