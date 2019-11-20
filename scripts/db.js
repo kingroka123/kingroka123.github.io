@@ -351,6 +351,10 @@ function setNewMacroID() {
     $('#wizard-area').get(0).dataset.target = newID;
 }
 
+function newMicro(){
+    clearMicroTemplateForm(); showMicroManager();
+}
+
 function cancelSet() {
     target = "";
     set = false;

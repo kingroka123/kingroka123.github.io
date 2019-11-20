@@ -1,8 +1,8 @@
 /************************ #System ************************/
 :root {
-  --main-bg-color: #0a171d;
+  --main-bg-color: #102027;
   --drawer-bg-color: #000a12;
-  --toolbar-bg-color: #102027;
+  --toolbar-bg-color: #000a12;
   --macro-bg-color: transparent;
   --macro-font-color: white;
   --macro-empty-border: #546e7a;

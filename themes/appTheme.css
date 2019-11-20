@@ -10,6 +10,7 @@ body {
 :root {
 
   --toolbar-width: 3.5rem;
+  --ctx-menu-bg-color: #37464f;
 
 }
 /************************ app.html ************************/
@@ -205,7 +206,7 @@ h1{
     position: fixed;
     z-index: 5;
     top: 50px;
-    background: var(--main-bg-color);
+    background: var(--ctx-menu-bg-color);
     visibility: hidden;
     text-align: center;
     transform-origin: left top;
@@ -297,7 +298,7 @@ h1{
     width: 100%;
     height: 100px;
     overflow: hidden;
-    border-width: 4px;
+    border-width: 5px;
     box-shadow: 0px 0px 8px var(--toolbar-bg-color);
   }
   

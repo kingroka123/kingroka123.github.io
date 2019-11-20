@@ -28,7 +28,7 @@ function clearActionList() {
     })
     setNewMacroID()
 }
-var views = ["edit", "list", "settings", "edit-micro", "dashboard", "device-manager"];
+var views = ["edit", "list", "settings", "edit-micro", "dashboard", "device-manager", "micro-manager"];
 var viewHistory = [];
 var lastView = "",
     currentView;

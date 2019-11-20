@@ -81,6 +81,8 @@
         <!-- <div onclick="switchView('dashboard')" id="add_macro_toolbar"><i class="material-icons">dashboard</i>
         </div> -->
         <div onclick="switchView('list')" id="add_macro_toolbar"><i class="material-icons">dashboard</i></div>
+        <div onclick="switchView('micro-manager')" id="add_micro_toolbar"><i class="material-icons">dashboard</i></div>
+
         <div onclick="switchView('device-manager')" id="device_toolbar"><i class="material-icons">devices</i></div>
         <div onclick="switchView('settings')" id="settings_macro_toolbar"><i class="material-icons">settings</i></div>
         <div onclick="logout()" class="bottom"><i class="material-icons">exit_to_app</i></div>
@@ -89,8 +91,8 @@
         <div class="sidebar-content">
             <div id="list" class="content view  electron-shift">
                 <div class="view-topbar">
-                    <h1>Macros</h1>
-                    <button class="text-button material-icons" onclick="newMacro()">create</button>
+                    <h1>Macro Manager</h1>
+                    <button class="text-button" onclick="newMacro()">new</button>
                     <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
                         placeholder="search">
                 </div>
@@ -107,6 +109,22 @@
                     </div>
                 </div>
             </div>
+            <div id="micro-manager" class="content view  electron-shift">
+                    <div class="view-topbar">
+                        <h1>Micro Manager</h1>
+                        <button class="text-button" onclick="newMicro()">new</button>
+                        <input id="macro-list-search" class="text-field text-field-medium text-field-sm"
+                            placeholder="search">
+                    </div>
+                    <div class="view-content">
+                        <div id="micro-list">
+                            
+                            <div id="micro-list-all" class="micro-list-container">
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div id="edit" class="content view electron-shift">
                 <div id="wizard-area" class="content" data-target="">
                     <div class="view-topbar">
@@ -114,14 +132,18 @@
                         <button class="text-button" onclick="newMacro()">new</button>
                         <button id="new-macro-button" class="text-button green-border"
                             onclick="saveMacro(); goBack();">save and exit</button>
-                        <h1>Wizard</h1>
+                        
                     </div>
 
                     <div class="view-content">
                             <div class="half-split left left-align">
+                                <h2> Name </h2>
+
                                 <input id="wizard-action-name" autocomplete="new-password" autocapitalize="none"
                                     id="new-macro-name" type="text" class="text-field"
-                                    placeholder="Name">
+                                    placeholder="">
+                                    <h2> Color </h2>
+
                                 <div id="action-colors">
                                     <div class="color-button red" onclick="selectColor(this)"
                                         data-color-selected="true">
