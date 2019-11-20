@@ -48,7 +48,9 @@ function swapDrawerContent(newView, history = true) {
 
 function goBack() {
     if (viewHistory.length > 0) {
-        swapDrawerContent(viewHistory.pop(), false);
+        var b = "";
+        while((b = viewHistory.pop()) == currentView);
+        swapDrawerContent(b, false);
     }
 }
 
